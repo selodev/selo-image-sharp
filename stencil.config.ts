@@ -32,5 +32,6 @@ export const config: Config = {
     ],
   },
   nodeResolve: { preferBuiltins: true, browser: true },
+  extras: { dynamicImportShim: true, shadowDomShim: true },
   devServer: { openBrowser: false, port: 4444, logRequests: true },
 };

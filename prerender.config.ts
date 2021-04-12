@@ -8,7 +8,6 @@ export const config: PrerenderConfig = {
     return {
       runtimeLogging: true,
       prettyHtml: true,
-      constrainTimeouts: true,
     };
   },
 };

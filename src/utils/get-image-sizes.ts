@@ -1,6 +1,6 @@
 import { Sharp } from 'sharp';
 
-export const getImageSizes = async (src: string): Promise<any[]> => {
+export const getImageSizes2 = async (src: string): Promise<any[]> => {
   try {
     const { resolve, join } = (await import('path')).default;
     const imageSrcPath = resolve(join('src', src));

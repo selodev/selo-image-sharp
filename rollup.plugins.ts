@@ -1,4 +1,4 @@
-export const externalModules = ['sharp', 'fs', 'path', 'worker_threads'].map(module => ({
+export const externalModules = ['sharp', 'fs', 'path'].map(module => ({
   name: module,
   resolveId(source) {
     if (source === module) {

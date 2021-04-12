@@ -18,7 +18,7 @@
   },
   "include": [
     "src"
-  ],
+, "src/sharp.worker.ts"  ],
   "exclude": [
     "node_modules"
   ]

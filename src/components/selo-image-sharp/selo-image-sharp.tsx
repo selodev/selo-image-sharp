@@ -1,7 +1,6 @@
 import { Component, Host, h, Build, Prop } from '@stencil/core';
 import { getImageInformation } from '../../utils/get-image-information';
-import { getImageSizes } from '../../utils/get-image-sizes';
-import { resizeFormatImageToFile } from '../../utils/resize-format-image-to-file';
+import { resizeFormatImages, getImageSizes } from '../../sharp.worker';
 
 @Component({
   tag: 'selo-image-sharp',
@@ -16,30 +15,11 @@ export class SeloImageSharp {
   formats: string[] = ['avif', 'webp'];
   quality: number = 75;
 
-  async componentDidLoad() {
-    if (!Build.isBrowser && this.src) {
-      await this.resizeFormatImages(this.src, this.quality);
+  async connectedCallback() {
+    if (!Build.isBrowser) {
+      const images = await resizeFormatImages(this.src, this.quality, this.formats);
+      console.log(images);
     }
-  }
-
-  async resizeFormatImages(src: string, quality: number) {
-    const sizes = await getImageSizes(src);
-    let promises = [];
-    this.formats.forEach(async format => {
-      promises = [
-        ...promises,
-        ...sizes.map(({ width, height }) =>
-          resizeFormatImageToFile({
-            src,
-            width,
-            height,
-            format,
-            quality,
-          }),
-        ),
-      ];
-    });
-    return await Promise.all(promises);
   }
 
   async getSrcset(formats: string[], src: string) {
@@ -70,7 +50,7 @@ export class SeloImageSharp {
     return (
       <Host>
         <selo-image src={this.src} alt={this.alt}>
-          {!Build.isBrowser && this.src && this.getSrcset(this.formats, this.src)}
+          {this.src && this.getSrcset(this.formats, this.src)}
         </selo-image>
         <slot></slot>
       </Host>
