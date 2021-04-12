@@ -1,7 +1,16 @@
 {
   "name": "selo-image-sharp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Stencil Component Starter",
+  "author": {
+    "name": "Selahattin Toprak",
+    "email": "selahattin47usa@hotmail.com",
+    "url": "https://selo.dev"
+  },
+  "repository": {
+    "url": "https://github.com/selodev/selo-image-sharp",
+    "type": "Javascript"
+  },
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",
   "es2015": "dist/esm/index.mjs",
@@ -24,8 +33,12 @@
   },
   "dependencies": {
     "@stencil/core": "^2.0.1",
+    "@types/node": "^14.14.37",
     "@types/sharp": "^0.28.0",
     "sharp": "^0.28.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "rollup-plugin-node-polyfills": "^0.2.1"
+  }
 }

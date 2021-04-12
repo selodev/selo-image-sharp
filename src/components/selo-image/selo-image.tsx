@@ -3,7 +3,7 @@ import { Component, Host, h, Element, Prop, State, Watch, EventEmitter, Event, B
 @Component({
   tag: 'selo-image',
   styleUrl: 'selo-image.css',
-  shadow: true,
+  shadow: false,
 })
 export class SeloImage {
   private io?: IntersectionObserver;

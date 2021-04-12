@@ -6,7 +6,7 @@ import { resizeFormatImageToFile } from '../../utils/resize-format-image-to-file
 @Component({
   tag: 'selo-image-sharp',
   styleUrl: 'selo-image-sharp.css',
-  shadow: true,
+  shadow: false,
 })
 export class SeloImageSharp {
   @Prop() alt?: string;
@@ -14,28 +14,27 @@ export class SeloImageSharp {
   @Prop() width: number;
   @Prop() height: number;
   formats: string[] = ['avif', 'webp'];
-  quality: number = 85;
+  quality: number = 75;
 
-  async componentWillLoad() {
+  async componentDidLoad() {
     if (!Build.isBrowser && this.src) {
-      console.log(Build.isDev);
-      await this.resizeFormatImages();
+      await this.resizeFormatImages(this.src, this.quality);
     }
   }
 
-  async resizeFormatImages() {
-    const sizes = getImageSizes({ width: this.width, height: this.height });
+  async resizeFormatImages(src: string, quality: number) {
+    const sizes = await getImageSizes(src);
     let promises = [];
     this.formats.forEach(async format => {
       promises = [
         ...promises,
         ...sizes.map(({ width, height }) =>
           resizeFormatImageToFile({
-            src: this.src,
+            src,
             width,
             height,
             format,
-            quality: this.quality,
+            quality,
           }),
         ),
       ];
@@ -43,29 +42,35 @@ export class SeloImageSharp {
     return await Promise.all(promises);
   }
 
-  getSrcset(formats) {
-    let sizes = getImageSizes({ width: this.width, height: this.height });
-    return formats.map(format => {
-      return sizes.map(size => {
-        const { width, height } = size;
-        const { formattedImageName } = getImageInformation({
-          src: this.src,
-          width,
-          height,
-          format,
-          quality: this.quality,
-        });
-        const media = width && `(min-width: ${Math.round(width)}px)`;
-        return media ? <source media={media} srcSet={formattedImageName} /> : <source srcSet={formattedImageName} />;
-      });
+  async getSrcset(formats: string[], src: string) {
+    let sizes = await getImageSizes(src);
+    let srcSets = [];
+    formats.forEach(format => {
+      srcSets = [
+        ...srcSets,
+        ...sizes.map(size => {
+          const { width, height } = size;
+          const { formattedImageName, srcPath } = getImageInformation({
+            src,
+            width,
+            height,
+            format,
+          });
+
+          const imageSrcset = `${srcPath}formats/${format}/${formattedImageName}`;
+          const media = width && `(min-width: ${Math.round(width)}px)`;
+          return media ? <source media={media} srcSet={imageSrcset} /> : <source srcSet={imageSrcset} />;
+        }),
+      ];
     });
+    return srcSets;
   }
 
   render() {
     return (
       <Host>
         <selo-image src={this.src} alt={this.alt}>
-          {this.src && this.getSrcset(this.formats)}
+          {!Build.isBrowser && this.src && this.getSrcset(this.formats, this.src)}
         </selo-image>
         <slot></slot>
       </Host>

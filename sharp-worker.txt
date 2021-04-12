@@ -1,26 +1,21 @@
-import { Sharp } from 'sharp';
-import { getImageInformation } from './get-image-information';
-import { ImageParams } from '../models/models';
-
-export const resizeFormatImageToFile = async ({ src, width, height, format, quality }: ImageParams) => {
-  const { file, srcPath, formattedImageName } = getImageInformation({
-    src,
-    width,
-    height,
-    format,
-  });
+async function run() {
   try {
+    const { parentPort, workerData } = await import('worker_threads');
+    let { quality, width, height, format, formattedImageName, file, srcPath } = workerData;
     const { default: fs } = await import('fs');
     const { resolve, join } = (await import('path')).default;
     const imageSrcPath = resolve(join('src', ...srcPath.split('/'), `${file}`));
     const imageDestPath = resolve(join('src', ...srcPath.split('/'), 'formats', format));
-    const absoluteDest = resolve(join(imageDestPath, formattedImageName));
-
+    const absoluteDest = resolve(imageDestPath, formattedImageName);
+    if (fs.existsSync(absoluteDest)) {
+      return;
+    }
     if (!fs.existsSync(imageDestPath)) {
       fs.mkdirSync(imageDestPath, { recursive: true });
     }
     const { default: sharp } = await import('sharp');
-    const pipeline: Sharp = sharp(imageSrcPath);
+    sharp.cache(false);
+    const pipeline = sharp(imageSrcPath);
     const { width: metaDataWidth, height: metaDataHeight } = await pipeline.metadata();
     if (metaDataWidth && metaDataHeight) {
       width = width && metaDataWidth >= width ? width : null;
@@ -30,15 +25,17 @@ export const resizeFormatImageToFile = async ({ src, width, height, format, qual
       pipeline.resize(width, height, { fit: 'outside' });
     }
     if (format == 'avif') {
-      pipeline.avif({ quality, speed: 8 });
+      pipeline.avif({ quality });
     } else if (format == 'webp') {
       pipeline.webp({ quality });
     } else {
       throw new Error('Imagee format is not supported.');
     }
+    parentPort.postMessage('outputPath');
+
     return await pipeline.toFile(absoluteDest);
   } catch (error) {
     console.log(error);
-    throw new Error(error);
   }
-};
+}
+await run();

@@ -1,4 +1,6 @@
 import { Config } from '@stencil/core';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
+
 import { externalModules } from './rollup.plugins';
 
 export const config: Config = {
@@ -7,6 +9,7 @@ export const config: Config = {
     {
       type: 'dist',
       esmLoaderPath: '../loader',
+      //copy: [{ src: 'sharp-worker.js', warn: true }],
     },
     {
       type: 'dist-custom-elements-bundle',
@@ -18,15 +21,16 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null, // disable service workers,
       baseUrl: 'http://test.com',
+      prerenderConfig: './prerender.config.ts',
     },
   ],
   rollupPlugins: {
     before: [...externalModules],
     after: [
       // Plugins injected after commonjs()
-      //nodePolyfills(),
+      nodePolyfills(),
     ],
   },
-  nodeResolve: { preferBuiltins: true, browser: false },
-  devServer: { openBrowser: false },
+  nodeResolve: { preferBuiltins: true, browser: true },
+  devServer: { openBrowser: false, port: 4444, logRequests: true },
 };

@@ -3,5 +3,5 @@ export interface ImageParams {
   width?: number;
   height?: number;
   format: string;
-  quality: number;
+  quality?: number;
 }
