@@ -1,6 +1,7 @@
 import { Component, Host, h, Build, Prop } from '@stencil/core';
-import { getImageInformation } from '../../utils/get-image-information';
-import { resizeFormatImages, getImageSizes } from '../../sharp.worker';
+import { getImageInformation } from '../../utils/ex/get-image-information';
+import { getImageSizes } from '../../utils/ex/get-image-sizes';
+import { resizeFormatImageToFile } from '../../utils/resize-format-image-to-file';
 
 @Component({
   tag: 'selo-image-sharp',
@@ -12,14 +13,32 @@ export class SeloImageSharp {
   @Prop() src?: string;
   @Prop() width: number;
   @Prop() height: number;
-  formats: string[] = ['avif', 'webp'];
+  formats: string[] = ['auto', 'avif', 'webp'];
   quality: number = 75;
 
-  async connectedCallback() {
+  async componentWillLoad() {
     if (!Build.isBrowser) {
-      const images = await resizeFormatImages(this.src, this.quality, this.formats);
-      console.log(images);
+      await this.resizeFormatImages(this.src, this.quality, this.formats);
     }
+  }
+  async resizeFormatImages(src: string, quality: number, formats: string[]) {
+    const sizes = await getImageSizes(src);
+    let promises = [];
+    formats.forEach(async format => {
+      promises = [
+        ...promises,
+        ...sizes.map(({ width, height }) =>
+          resizeFormatImageToFile({
+            src,
+            width,
+            height,
+            format,
+            quality,
+          }),
+        ),
+      ];
+    });
+    await Promise.all(promises);
   }
 
   async getSrcset(formats: string[], src: string) {
@@ -36,10 +55,10 @@ export class SeloImageSharp {
             height,
             format,
           });
-
+          const type = `image/${format}`;
           const imageSrcset = `${srcPath}formats/${format}/${formattedImageName}`;
           const media = width && `(min-width: ${Math.round(width)}px)`;
-          return media ? <source media={media} srcSet={imageSrcset} /> : <source srcSet={imageSrcset} />;
+          return <source type={type} media={media} srcSet={imageSrcset} />;
         }),
       ];
     });
@@ -50,7 +69,7 @@ export class SeloImageSharp {
     return (
       <Host>
         <selo-image src={this.src} alt={this.alt}>
-          {this.src && this.getSrcset(this.formats, this.src)}
+          {!Build.isBrowser && this.src && this.getSrcset(this.formats, this.src)}
         </selo-image>
         <slot></slot>
       </Host>

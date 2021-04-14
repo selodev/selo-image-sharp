@@ -1,13 +1,9 @@
-import { Sharp } from 'sharp';
+import { getMetadata } from './utils';
 
-export const getImageSizes2 = async (src: string): Promise<any[]> => {
+export const getImageSizes = async (src: string): Promise<any[]> => {
   try {
-    const { resolve, join } = (await import('path')).default;
-    const imageSrcPath = resolve(join('src', src));
-    const { default: sharp } = await import('sharp');
-    const pipeline: Sharp = sharp(imageSrcPath);
-    const { width, height } = await pipeline.metadata();
-    console.log(imageSrcPath, width, height);
+    const { width, height } = await getMetadata(src);
+
     let sizes = [];
     if (width > 320 && width <= 576) {
       sizes = getDimensions([0.5], width, height);
@@ -21,7 +17,6 @@ export const getImageSizes2 = async (src: string): Promise<any[]> => {
     sizes = [...sizes, { width: null, height: null }];
     return sizes;
   } catch (error) {
-    console.log(error);
     throw new Error(error);
   }
 };

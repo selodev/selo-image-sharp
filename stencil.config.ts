@@ -5,6 +5,7 @@ import { externalModules } from './rollup.plugins';
 
 export const config: Config = {
   namespace: 'selo-image-sharp',
+  taskQueue: 'async',
   outputTargets: [
     {
       type: 'dist',

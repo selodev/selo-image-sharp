@@ -24,12 +24,13 @@
     "loader/"
   ],
   "scripts": {
-    "prerender": "stencil build --prerender",
+    "prerender": "rm -rf www dist loader & stencil build --prerender",
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "generate": "stencil generate"
+    "generate": "stencil generate",
+    "serve": "serve www"
   },
   "dependencies": {
     "@stencil/core": "^2.0.1",
@@ -39,6 +40,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "rollup-plugin-node-polyfills": "^0.2.1"
+    "rollup-plugin-node-polyfills": "^0.2.1",
+    "serve": "^11.3.2"
   }
 }

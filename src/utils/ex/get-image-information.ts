@@ -1,4 +1,4 @@
-import { ImageParams } from '../models/models';
+import { ImageParams } from '../../models/models';
 
 export const getImageInformation = ({ src, width, height, format }: ImageParams) => {
   const file = src.split('/').pop();
