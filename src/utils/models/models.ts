@@ -1,4 +1,4 @@
-import { AvifOptions, JpegOptions, PngOptions, WebpOptions } from 'sharp';
+import { AvifOptions, JpegOptions, PngOptions, ResizeOptions, WebpOptions } from 'sharp';
 
 export type Fit = 'cover' | 'fill' | 'inside' | 'outside' | 'contain';
 export type Layout = 'fixed' | 'fullWidth' | 'constrained';
@@ -6,8 +6,9 @@ export type ImageFormat = 'jpg' | 'png' | 'webp' | 'avif' | 'auto' | '';
 
 export interface ISharpImageArgs {
   layout?: Layout;
-  formats?: Array<ImageFormat>;
+  formats?: Set<ImageFormat>;
   placeholder?: 'tracedSVG' | 'dominantColor' | 'blurred' | 'none';
+  file: any;
   src: string;
   dest: string;
   width?: number;
@@ -22,10 +23,7 @@ export interface ISharpImageArgs {
   breakpoints?: Array<number>;
   fit?: Fit;
   // Options to pass to sharp to control cropping and other image manipulations.
-  transformOptions?: {
-    fit?: Fit;
-    cropFocus?: number | string;
-  };
+  resizeOptions:ResizeOptions
   // Options for the low-resolution placeholder image. Ignored unless placeholder is blurred.
   blurredOptions?: { width?: number; toFormat?: ImageFormat };
   backgroundColor?: string;
@@ -34,9 +32,7 @@ export interface ISharpImageArgs {
   sourceMetadata?: { width: number; height: number; format: ImageFormat };
   // Options to pass to sharp when images.
   jpgOptions?: JpegOptions;
-  jpegProgressive: boolean;
   pngOptions?: PngOptions;
-  pngCompressionLevel: number;
   webpOptions?: WebpOptions;
   avifOptions?: AvifOptions;
 }
@@ -46,20 +42,19 @@ export interface IImageSizeArgs {
   width?: number;
   height?: number;
   layout?: Layout;
-  filename: string;
+  filename?: string;
   pixelDensities?: Array<number>;
   breakpoints?: Array<number>;
   fit?: Fit;
-  sourceMetadata: { width: number; height: number };
-  imgDimensions: any;
+  sourceMetadata?: { width: number; height: number };
 }
 
 export interface IImageSizes {
-  sizes?: Array<number>;
-  presentationWidth?: number;
-  presentationHeight?: number;
-  aspectRatio?: number;
-  unscaledWidth?: number;
+  sizes: Array<number>;
+  presentationWidth: number;
+  presentationHeight: number;
+  aspectRatio: number;
+  unscaledWidth: number;
 }
 
 export interface IImage {
