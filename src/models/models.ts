@@ -8,7 +8,7 @@ import {
 
 export interface ImageParams {
   src: string;
-  dest: string;
+  dest?: string;
   width?: number;
   height?: number;
   format: string;

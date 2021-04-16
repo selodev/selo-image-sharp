@@ -1,16 +1,27 @@
-export const getDimensionsAndAspectRatio = (
-  actualImageDimensions,
-  definedImageDimensions,
+interface DimensionAspectRatio {
+  sourceMetadata?: any;
+  width: number;
+  height?: number;
+  fit?: string;
+}
+
+export const getDimensionsAndAspectRatio = ({
+  sourceMetadata,
+  width,
+  height,
   fit,
-): { width: number; height: number; aspectRatio: number } => {
+}: DimensionAspectRatio): {
+  width: number;
+  height: number;
+  aspectRatio: number;
+} => {
   // Calculate the eventual width/height of the image.
-  const imageAspectRatio = actualImageDimensions.width / actualImageDimensions.height;
-  let { width, height } = definedImageDimensions;
+  const imageAspectRatio = sourceMetadata.width / sourceMetadata.height;
 
   switch (fit) {
     case `fill`: {
-      width = width ?? actualImageDimensions.width;
-      height = height ?? actualImageDimensions.height;
+      width = width ?? sourceMetadata.width;
+      height = height ?? sourceMetadata.height;
       break;
     }
     case `inside`: {
@@ -32,7 +43,7 @@ export const getDimensionsAndAspectRatio = (
       height = height ?? width ? Math.round(width / imageAspectRatio) : null;
     }
   }
-  
+
   return {
     width,
     height,

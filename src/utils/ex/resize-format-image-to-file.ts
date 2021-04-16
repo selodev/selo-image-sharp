@@ -1,10 +1,14 @@
 import { Sharp } from 'sharp';
-import { ImageParams } from '../../models/models';
-import { getImageInformation } from './get-image-information';
+import { ISharpImageArgs } from '../models';
 
 export const resizeFormatImageToFile = async ({
-  src,
-  dest,
+  srcPath,
+  srcPathPrefix,
+  destPath,
+  destPathPrefix,
+  digestDirPrefix,
+  inputFile,
+  outputFile,
   width,
   height,
   format,
@@ -14,25 +18,20 @@ export const resizeFormatImageToFile = async ({
   pngOptions,
   webpOptions,
   avifOptions,
-}: ImageParams) => {
-  const { file, srcPath, formattedImageName } = getImageInformation({
-    src,
-    dest,
-    width,
-    height,
-    format,
-  });
+}: ISharpImageArgs) => {
   try {
     const { default: fs } = await import('fs');
     const { resolve, join } = (await import('path')).default;
-    const imageSrcPath = resolve(join('src', ...srcPath.split('/'), `${file}`));
-    const imageDestPath = resolve(
-      join('src', ...srcPath.split('/'), 'formats', format),
+    const imageSrcPath = resolve(
+      join(srcPathPrefix, ...srcPath.split('/'), `${inputFile}`),
     );
-    const absoluteDest = resolve(join(imageDestPath, formattedImageName));
+    const imageDestPath = resolve(
+      join(destPathPrefix, ...destPath.split('/'), digestDirPrefix),
+    );
+    const absoluteDest = resolve(join(imageDestPath, outputFile));
     if (fs.existsSync(absoluteDest)) {
-      console.log('File exists ', file);
-      return 'File exists ' + file;
+      console.log('File exists ', inputFile);
+      return 'File exists ' + inputFile;
     }
     if (!fs.existsSync(imageDestPath)) {
       fs.mkdirSync(imageDestPath, { recursive: true });

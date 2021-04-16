@@ -1,61 +1,66 @@
-import { DEFAULT_FLUID_WIDTH, DEFAULT_PIXEL_DENSITIES } from '../constants';
-import { getDimensionsAndAspectRatio } from '../image-utils/getDimensionsAndAspectRatio';
-import { IImageSizeArgs, IImageSizes } from '../models/models';
-import { dedupeAndSortDensities, sortNumeric } from '../image-utils/utils';
+import { DEFAULT_FLUID_WIDTH, DEFAULT_PIXEL_DENSITIES } from './constants';
+import { getDimensionsAndAspectRatio } from './getDimensionsAndAspectRatio';
+import { IImageSizes, ISharpImageArgs } from './models';
+import { dedupeAndSortDensities, sortNumeric } from './utils';
 
 export const responsiveImageSizes = ({
-  sourceMetadata: imgDimensions,
+  sourceMetadata: sourceMetadata,
   width,
   height,
   fit = `cover`,
   pixelDensities = DEFAULT_PIXEL_DENSITIES,
   breakpoints,
   layout,
-}: IImageSizeArgs): IImageSizes => {
-  let aspectRatio = imgDimensions.width / imgDimensions.height;
+}: ISharpImageArgs): IImageSizes => {
+  let aspectRatio = sourceMetadata.width / sourceMetadata.height;
 
   // If both are provided then we need to check the fit
   if (width && height) {
-    const calculated = getDimensionsAndAspectRatio(
-      imgDimensions,
-      {
-        width,
-        height,
-      },
+    const calculated = getDimensionsAndAspectRatio({
+      sourceMetadata,
+      width,
+      height,
       fit,
-    );
+    });
     width = calculated.width;
     height = calculated.height;
     aspectRatio = calculated.aspectRatio;
   }
   // Neither width or height were passed in, use default size
-  width = width ?? height ? Math.round(height * aspectRatio) : DEFAULT_FLUID_WIDTH;
+  width =
+    width ?? height ? Math.round(height * aspectRatio) : DEFAULT_FLUID_WIDTH;
   height = height ?? Math.round(width / aspectRatio);
 
   // width and height were passed in, make sure it isn't larger than the actual image
-  width = Math.round(Math.min(width, imgDimensions.width));
-  height = Math.round(Math.min(height, imgDimensions.height));
+  width = Math.round(Math.min(width, sourceMetadata.width));
+  height = Math.round(Math.min(height, sourceMetadata.height));
 
   const originalWidth = width;
-  const isTopSizeOverriden = imgDimensions.width < width || imgDimensions.height < height;
+  const isTopSizeOverriden =
+    sourceMetadata.width < width || sourceMetadata.height < height;
   if (isTopSizeOverriden) {
-    width = imgDimensions.width;
-    height = imgDimensions.height;
+    width = sourceMetadata.width;
+    height = sourceMetadata.height;
   }
   let sizes;
   // Sort, dedupe and ensure there's a 1
   const densities = dedupeAndSortDensities(pixelDensities);
 
   if (breakpoints?.length > 0) {
-    sizes = breakpoints.filter(breakpoint => breakpoint <= imgDimensions.width);
+    sizes = breakpoints.filter(
+      breakpoint => breakpoint <= sourceMetadata.width,
+    );
 
     // If a larger breakpoint has been filtered-out, add the actual image width instead
-    if (sizes.length < breakpoints.length && !sizes.includes(imgDimensions.width)) {
-      sizes.push(imgDimensions.width);
+    if (
+      sizes.length < breakpoints.length &&
+      !sizes.includes(sourceMetadata.width)
+    ) {
+      sizes.push(sourceMetadata.width);
     }
   } else {
     sizes = densities.map(density => Math.round(density * width));
-    sizes = sizes.filter(size => size <= imgDimensions.width);
+    sizes = sizes.filter(size => size <= sourceMetadata.width);
   }
 
   // ensure that the size passed in is included in the final output

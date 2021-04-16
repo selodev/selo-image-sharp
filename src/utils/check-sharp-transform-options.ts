@@ -1,7 +1,7 @@
-export const checkSharpTransformOptions = (sharpTransformOptions, file) => {
+/* export const checkSharpTransformOptions = (sharpTransformOptions, file) => {
   const {
     fit = `cover`,
-    cropFocus: "sharp.strategy.intention",
+    cropFocus: "sharp.strategy.intention1,
     duotone: { heighlight, shadow },
   } = sharpTransformOptions;
 
@@ -14,3 +14,4 @@ export const checkSharpTransformOptions = (sharpTransformOptions, file) => {
     );
   return fit;
 };
+ */

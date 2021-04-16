@@ -1,8 +1,4 @@
-import { IImage, Layout } from '../models/models';
-
-const warn = (message: string): void => console.warn(message);
-
-export const sortNumeric = (a: number, b: number): number => a - b;
+import { IImage, Layout } from './models';
 
 export const getSizes = (width: number, layout: Layout): string | undefined => {
   switch (layout) {
@@ -26,6 +22,3 @@ export const getSizes = (width: number, layout: Layout): string | undefined => {
 
 export const getSrcSet = (images: Array<IImage>): string =>
   images.map(image => `${image.src} ${image.width}w`).join(`,\n`);
-
-export const dedupeAndSortDensities = (values: Array<number>): Array<number> =>
-  Array.from(new Set([1, ...values])).sort(sortNumeric);

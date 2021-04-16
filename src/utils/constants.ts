@@ -1,4 +1,4 @@
-import { ImageFormat } from './models/models';
+import { ImageFormat } from './models';
 
 export const DEFAULT_PIXEL_DENSITIES = [0.25, 0.5, 1, 2];
 export const DEFAULT_BREAKPOINTS = [750, 1080, 1366, 1920];

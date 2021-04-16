@@ -1,16 +1,36 @@
-import { AvifOptions, JpegOptions, PngOptions, ResizeOptions, WebpOptions } from 'sharp';
+import {
+  AvifOptions,
+  JpegOptions,
+  PngOptions,
+  ResizeOptions,
+  WebpOptions,
+} from 'sharp';
 
 export type Fit = 'cover' | 'fill' | 'inside' | 'outside' | 'contain';
 export type Layout = 'fixed' | 'fullWidth' | 'constrained';
 export type ImageFormat = 'jpg' | 'png' | 'webp' | 'avif' | 'auto' | '';
+//type Optional<T> = { [P in keyof T]?: T[P] };
+
+export interface SourceMetadata {
+  width: number;
+  height: number;
+  format: string;
+  dominantColor: string;
+}
 
 export interface ISharpImageArgs {
   layout?: Layout;
   formats?: Set<ImageFormat>;
+  format?: string;
   placeholder?: 'tracedSVG' | 'dominantColor' | 'blurred' | 'none';
-  file: any;
-  src: string;
-  dest: string;
+  src?: string;
+  srcPath?: string;
+  srcPathPrefix?: string;
+  inputFile?: string;
+  destPath?: string;
+  destPathPrefix?: string;
+  digestDirPrefix?: string;
+  outputFile?: string;
   width?: number;
   height?: number;
   aspectRatio?: number;
@@ -23,13 +43,13 @@ export interface ISharpImageArgs {
   breakpoints?: Array<number>;
   fit?: Fit;
   // Options to pass to sharp to control cropping and other image manipulations.
-  resizeOptions:ResizeOptions
+  resizeOptions?: ResizeOptions;
   // Options for the low-resolution placeholder image. Ignored unless placeholder is blurred.
   blurredOptions?: { width?: number; toFormat?: ImageFormat };
   backgroundColor?: string;
   // Choose the style of temporary image shown while the full image loads.
   placeholderURL?: string;
-  sourceMetadata?: { width: number; height: number; format: ImageFormat };
+  sourceMetadata?: SourceMetadata;
   // Options to pass to sharp when images.
   jpgOptions?: JpegOptions;
   pngOptions?: PngOptions;
@@ -47,6 +67,7 @@ export interface IImageSizeArgs {
   breakpoints?: Array<number>;
   fit?: Fit;
   sourceMetadata?: { width: number; height: number };
+  aspectRatio?: number;
 }
 
 export interface IImageSizes {

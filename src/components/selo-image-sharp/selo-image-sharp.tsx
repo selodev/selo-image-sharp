@@ -1,7 +1,7 @@
 import { Component, Host, h, Build, Prop } from '@stencil/core';
 import { getImageInformation } from '../../utils/ex/get-image-information';
 import { getImageSizes } from '../../utils/ex/get-image-sizes';
-import { resizeFormatImageToFile } from '../../utils/resize-format-image-to-file';
+import { resizeFormatImageToFile } from '../../utils/ex/resize-format-image-to-file';
 
 @Component({
   tag: 'selo-image-sharp',
@@ -49,14 +49,14 @@ export class SeloImageSharp {
         ...srcSets,
         ...sizes.map(size => {
           const { width, height } = size;
-          const { formattedImageName, srcPath } = getImageInformation({
+          const { formattedFileName, srcPath } = getImageInformation({
             src,
             width,
             height,
             format,
           });
           const type = `image/${format}`;
-          const imageSrcset = `${srcPath}formats/${format}/${formattedImageName}`;
+          const imageSrcset = `${srcPath}formats/${format}/${formattedFileName}`;
           const media = width && `(min-width: ${Math.round(width)}px)`;
           return <source type={type} media={media} srcSet={imageSrcset} />;
         }),
@@ -69,7 +69,9 @@ export class SeloImageSharp {
     return (
       <Host>
         <selo-image src={this.src} alt={this.alt}>
-          {!Build.isBrowser && this.src && this.getSrcset(this.formats, this.src)}
+          {!Build.isBrowser &&
+            this.src &&
+            this.getSrcset(this.formats, this.src)}
         </selo-image>
         <slot></slot>
       </Host>

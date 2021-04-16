@@ -1,7 +1,7 @@
-import { DEFAULT_FIXED_WIDTH, DEFAULT_PIXEL_DENSITIES } from '../constants';
+import { DEFAULT_FIXED_WIDTH, DEFAULT_PIXEL_DENSITIES } from './constants';
 import { getDimensionsAndAspectRatio } from './getDimensionsAndAspectRatio';
-import { dedupeAndSortDensities } from '../image-utils/utils';
-import { IImageSizeArgs } from '../models/models';
+import { dedupeAndSortDensities } from './utils';
+import { ISharpImageArgs } from './models';
 
 export const fixedImageSizes = ({
   src,
@@ -10,28 +10,28 @@ export const fixedImageSizes = ({
   fit = `cover`,
   pixelDensities = DEFAULT_PIXEL_DENSITIES,
   sourceMetadata,
-}: IImageSizeArgs) => {
+}: ISharpImageArgs) => {
   let aspectRatio = sourceMetadata.width / sourceMetadata.height;
 
   // If both are provided then we need to check the fit
   if (width && height) {
-    const calculated = getDimensionsAndAspectRatio(
+    const calculated = getDimensionsAndAspectRatio({
       sourceMetadata,
-      {
-        width,
-        height,
-      },
+      width,
+      height,
       fit,
-    );
+    });
     width = calculated.width;
     height = calculated.height;
     aspectRatio = calculated.aspectRatio;
   }
-  width = width ?? height ? Math.round(height * aspectRatio) : DEFAULT_FIXED_WIDTH;
+  width =
+    width ?? height ? Math.round(height * aspectRatio) : DEFAULT_FIXED_WIDTH;
   height = height ?? Math.round(width / aspectRatio);
 
   const originalWidth = width; // will use this for presentationWidth, don't want to lose it
-  const isTopSizeOverriden = sourceMetadata.width < width || sourceMetadata.height < height;
+  const isTopSizeOverriden =
+    sourceMetadata.width < width || sourceMetadata.height < height;
 
   // If the image is smaller than requested, warn the user that it's being processed as such
   // print out this message with the necessary information before we overwrite it for sizing
