@@ -1,18 +1,16 @@
-import { DEFAULT_PIXEL_DENSITIES } from './constants';
+import { DEFAULT_FIXED_WIDTH, DEFAULT_FLUID_WIDTH } from './constants';
 import { getDimensionsAndAspectRatio } from './getDimensionsAndAspectRatio';
-import { IImageSizeArgs, IImageSizes } from './models';
-import { getSizesByBreakpoints } from './get-sizes-by-breakpoints';
+import { CalculatedDimensions, CalculateWithHeightRatio } from './models';
 
-export const fixedResponsiveImageSizes = ({
+export const calculateWithHieghtRatio = ({
   sourceMetadata,
   width,
   height,
-  fit = `cover`,
-  pixelDensities = DEFAULT_PIXEL_DENSITIES,
-  breakpoints,
-  layout,
   aspectRatio,
-}: IImageSizeArgs): IImageSizes => {
+  fit,
+  layout,
+  allowOversizedDimensions,
+}: CalculateWithHeightRatio): CalculatedDimensions => {
   // Calculate the eventual width/height of the image.
   aspectRatio = sourceMetadata.width / sourceMetadata.height;
   if (aspectRatio) {
@@ -25,7 +23,6 @@ export const fixedResponsiveImageSizes = ({
       aspectRatio = aspectRatio;
     }
   }
-
   // If both are provided then we need to check the fit
   if (width && height) {
     ({ width, height, aspectRatio } = getDimensionsAndAspectRatio({
@@ -35,17 +32,26 @@ export const fixedResponsiveImageSizes = ({
       fit,
     }));
   }
-  // Neither width or height were passed in, use default size
-  width =
-    width ?? height ? Math.round(height * aspectRatio) : sourceMetadata.width;
+  // If Neither width or height were passed in, use default size
+  let defaultWith;
+  if (layout) {
+    defaultWith =
+      layout == 'fullWidth' || 'constrain'
+        ? DEFAULT_FLUID_WIDTH
+        : layout == 'fixed'
+        ? DEFAULT_FIXED_WIDTH
+        : sourceMetadata.width;
+  } else {
+    defaultWith = sourceMetadata.width;
+  }
+  width = width ?? height ? Math.round(height * aspectRatio) : defaultWith;
   height = height ?? Math.round(width / aspectRatio);
 
-  const requestedWidth = width;
-  const isTopSizeOverriden =
+  const isActualImageSmallerThanRequested =
     sourceMetadata.width < width || sourceMetadata.height < height;
   // If the image is smaller than requested, warn the user that it's being processed as such
   // print out this message with the necessary information before we overwrite it for sizing
-  if (isTopSizeOverriden) {
+  if (isActualImageSmallerThanRequested && !allowOversizedDimensions) {
     const dimensionBy = sourceMetadata.width < width ? `width` : `height`;
     console.warn(`
     The requested ${dimensionBy} "${
@@ -55,21 +61,12 @@ export const fixedResponsiveImageSizes = ({
     }px. If possible, replace the current image with a larger one.`);
     // width and height were passed in, make sure it isn't larger than the actual image
     width = Math.round(Math.min(width, sourceMetadata.width));
-    height = Math.round(Math.min(height, sourceMetadata.height));
+    height = Math.round(width / aspectRatio);
   }
-  let sizes = getSizesByBreakpoints({
-    breakpoints,
-    width,
-    layout,
-    pixelDensities,
-    sourceMetadata,
-  });
 
   return {
-    sizes,
+    width,
+    height,
     aspectRatio,
-    presentationWidth: requestedWidth,
-    presentationHeight: Math.round(requestedWidth / aspectRatio),
-    unscaledWidth: width,
   };
 };

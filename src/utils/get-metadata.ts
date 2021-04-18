@@ -1,11 +1,15 @@
 import { Sharp } from 'sharp';
-import { SourceMetadata } from '../models';
+import { SourceMetadata } from './models';
 
-export const getMetadataStats = async (
-  src: string,
-): Promise<SourceMetadata> => {
+export const getMetadataStats = async ({
+  srcPath,
+  srcPathPrefix,
+  srcFileName,
+}): Promise<SourceMetadata> => {
   const { resolve, join } = (await import('path')).default;
-  const imageSrcPath = resolve(join('src', src));
+  const imageSrcPath = resolve(
+    join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),
+  );
   const { default: sharp } = await import('sharp');
   const pipeline: Sharp = sharp(imageSrcPath);
   const { width, height, format } = await pipeline.metadata();
@@ -14,6 +18,7 @@ export const getMetadataStats = async (
   const dominantColor = dominant
     ? rgbToHex(dominant.r, dominant.g, dominant.b)
     : `#000000`;
+  console.log(width, height, format);
   return { width, height, format, dominantColor };
 };
 

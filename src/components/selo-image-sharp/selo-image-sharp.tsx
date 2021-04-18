@@ -1,7 +1,7 @@
 import { Component, Host, h, Build, Prop } from '@stencil/core';
-import { getImageInformation } from '../../utils/ex/get-image-information';
-import { getImageSizes } from '../../utils/ex/get-image-sizes';
-import { resizeFormatImageToFile } from '../../utils/ex/resize-format-image-to-file';
+import { generateImageData } from '../../utils/generarte-image-data';
+import { HTMLImageAttributes, ImageOptions } from '../../utils/models';
+import { imageOptions } from '../../utils/plugin-options';
 
 @Component({
   tag: 'selo-image-sharp',
@@ -9,70 +9,35 @@ import { resizeFormatImageToFile } from '../../utils/ex/resize-format-image-to-f
   shadow: false,
 })
 export class SeloImageSharp {
-  @Prop() alt?: string;
-  @Prop() src?: string;
-  @Prop() width: number;
-  @Prop() height: number;
-  formats: string[] = ['auto', 'avif', 'webp'];
-  quality: number = 75;
+  @Prop() imageAttributes: HTMLImageAttributes = {
+    src: 'assets/images/lucas-benjamin-wQLAGv4_OYs-unsplash.jpg',
+    alt: 'unsplash',
+    width: 400,
+    height: 400,
+  };
+  @Prop({ mutable: true }) options: ImageOptions | any = Build.isBrowser
+    ? {}
+    : imageOptions;
 
   async componentWillLoad() {
+    console.log('in c');
     if (!Build.isBrowser) {
-      await this.resizeFormatImages(this.src, this.quality, this.formats);
+      this.options.outputOptions.destFileName = this.options.inputOptions.srcFileName = this.imageAttributes.src
+        .split('/')
+        .pop();
+      console.log('in b');
+      console.log(this.options)
+      await generateImageData(this.options);
     }
-  }
-  async resizeFormatImages(src: string, quality: number, formats: string[]) {
-    const sizes = await getImageSizes(src);
-    let promises = [];
-    formats.forEach(async format => {
-      promises = [
-        ...promises,
-        ...sizes.map(({ width, height }) =>
-          resizeFormatImageToFile({
-            src,
-            width,
-            height,
-            format,
-            quality,
-          }),
-        ),
-      ];
-    });
-    await Promise.all(promises);
-  }
-
-  async getSrcset(formats: string[], src: string) {
-    let sizes = await getImageSizes(src);
-    let srcSets = [];
-    formats.forEach(format => {
-      srcSets = [
-        ...srcSets,
-        ...sizes.map(size => {
-          const { width, height } = size;
-          const { formattedFileName, srcPath } = getImageInformation({
-            src,
-            width,
-            height,
-            format,
-          });
-          const type = `image/${format}`;
-          const imageSrcset = `${srcPath}formats/${format}/${formattedFileName}`;
-          const media = width && `(min-width: ${Math.round(width)}px)`;
-          return <source type={type} media={media} srcSet={imageSrcset} />;
-        }),
-      ];
-    });
-    return srcSets;
   }
 
   render() {
     return (
       <Host>
-        <selo-image src={this.src} alt={this.alt}>
-          {!Build.isBrowser &&
-            this.src &&
-            this.getSrcset(this.formats, this.src)}
-        </selo-image>
+        <selo-image
+          src={this.imageAttributes.src}
+          alt={this.imageAttributes.alt}
+        ></selo-image>
         <slot></slot>
       </Host>
     );

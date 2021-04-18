@@ -24,7 +24,7 @@
     "loader/"
   ],
   "scripts": {
-    "prerender": "rm -rf www dist loader & stencil build --prerender",
+    "prerender": "rm -rf www dist src/assets/images/formats loader & stencil build --prerender",
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",

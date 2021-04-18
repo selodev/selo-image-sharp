@@ -1,28 +1,45 @@
-// Plugin options are loaded onPreBootstrap in gatsby-node
-const pluginDefaults = {
-  base64Width: 20,
-  forceBase64Format: ``, // valid formats: png,jpg,webp
-  useMozJpeg: process.env.SELO_JPEG_ENCODER === `MOZJPEG`,
-  stripMetadata: true,
-  lazyImageGeneration: true,
-  defaultQuality: 50,
-  failOnError: true, // matches default of the sharp api constructor (https://sharp.pixelplumbing.com/api-constructor)
-};
-const generalArgs = {
-  quality: 50,
-  jpegQuality: null,
-  pngQuality: null,
-  webpQuality: null,
-  jpegProgressive: true,
-  pngCompressionLevel: 9,
-  // default is 4 (https://github.com/kornelski/pngquant/blob/4219956d5e080be7905b5581314d913d20896934/rust/bin.rs#L61)
-  pngCompressionSpeed: 4,
-  base64: true,
-  grayscale: false,
-  duotone: false,
-  pathPrefix: ``,
-  toFormat: ``,
-  toFormatBase64: ``,
-  sizeByPixelDensity: false,
-  rotate: 0,
+import { ImageOptions } from '.';
+
+export const imageOptions: ImageOptions = {
+  inputOptions: {
+    srcPath: 'assets/images',
+    srcPathPrefix: 'src',
+    srcFileName: 'lucas-benjamin-wQLAGv4_OYs-unsplash.jpg',
+  },
+  outputOptions: {
+    destPath: 'assets/images',
+    destPathPrefix: 'src',
+    digestDirPrefix: 'formats',
+    destFileName: 'lucas-benjamin-wQLAGv4_OYs-unsplash',
+  },
+  // Options to pass to sharp to control cropping and other image manipulations.
+  resizeOptions: {
+    breakpoints: [
+      320,
+      654,
+      768,
+      1024,
+      1366,
+      1600,
+      1920,
+      2048,
+      2560,
+      3440,
+      3840,
+      4096,
+    ],
+    pixelDensities: [1, 1.5, 2],
+    width: 600,
+    height: 800,
+    layout: 'fullWidth',
+    fluidWidth: 800,
+    fixedWidth: 800,
+    aspectRatio: 4 / 3,
+    formats: ['jpg', 'avif', 'webp'],
+  },
+  // Options to pass to sharp when images.
+  jpgOptions: { quality: 85, mozjpeg: true },
+  pngOptions: { quality: 85, compressionLevel: 9 },
+  webpOptions: { quality: 85, nearLossless: true },
+  avifOptions: { quality: 85, lossless: false },
 };

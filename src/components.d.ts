@@ -5,16 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { HTMLImageAttributes, ImageOptions } from "./utils/models";
 export namespace Components {
     interface SeloImage {
         "alt"?: string;
         "src"?: string;
     }
     interface SeloImageSharp {
-        "alt"?: string;
-        "height": number;
-        "src"?: string;
-        "width": number;
+        "imageAttributes": HTMLImageAttributes;
+        "options": ImageOptions | any;
     }
 }
 declare global {
@@ -53,10 +52,8 @@ declare namespace LocalJSX {
         "src"?: string;
     }
     interface SeloImageSharp {
-        "alt"?: string;
-        "height"?: number;
-        "src"?: string;
-        "width"?: number;
+        "imageAttributes"?: HTMLImageAttributes;
+        "options"?: ImageOptions | any;
     }
     interface IntrinsicElements {
         "selo-image": SeloImage;

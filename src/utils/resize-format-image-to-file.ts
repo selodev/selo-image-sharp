@@ -1,37 +1,38 @@
 import { Sharp } from 'sharp';
-import { ISharpImageArgs } from '../models';
+import { ImageOptions } from './models';
 
 export const resizeFormatImageToFile = async ({
-  srcPath,
-  srcPathPrefix,
-  destPath,
-  destPathPrefix,
-  digestDirPrefix,
-  inputFile,
-  outputFile,
-  width,
-  height,
-  format,
-  fit,
-  quality,
+  inputOptions,
+  outputOptions,
+  resizeOptions,
   jpgOptions,
   pngOptions,
   webpOptions,
   avifOptions,
-}: ISharpImageArgs) => {
+}: ImageOptions) => {
   try {
     const { default: fs } = await import('fs');
     const { resolve, join } = (await import('path')).default;
+    const { srcPath, srcPathPrefix, srcFileName } = inputOptions;
+    console.log(srcPath,srcPathPrefix,srcFileName)
+
     const imageSrcPath = resolve(
-      join(srcPathPrefix, ...srcPath.split('/'), `${inputFile}`),
+      join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),
     );
+    const {
+      destPath,
+      destPathPrefix,
+      digestDirPrefix,
+      destFileName,
+    } = outputOptions;
+    let { width, height, fit, format } = resizeOptions;
     const imageDestPath = resolve(
-      join(destPathPrefix, ...destPath.split('/'), digestDirPrefix),
+      join(destPathPrefix, ...destPath.split('/'), digestDirPrefix, format),
     );
-    const absoluteDest = resolve(join(imageDestPath, outputFile));
+    const absoluteDest = resolve(join(imageDestPath, destFileName));
     if (fs.existsSync(absoluteDest)) {
-      console.log('File exists ', inputFile);
-      return 'File exists ' + inputFile;
+      console.log('File exists ', imageSrcPath);
+      return 'File exists ' + imageSrcPath;
     }
     if (!fs.existsSync(imageDestPath)) {
       fs.mkdirSync(imageDestPath, { recursive: true });
@@ -46,19 +47,18 @@ export const resizeFormatImageToFile = async ({
       width = width && metaDataWidth >= width ? width : null;
       height = height && metaDataHeight >= height ? height : null;
     }
-
     if (width || height) {
-      pipeline.resize(width, height, { fit });
+      pipeline.resize(width, null, { fit });
     }
 
     if (format == 'jpg') {
-      pipeline.jpeg({ quality, ...jpgOptions });
+      pipeline.jpeg({ ...jpgOptions });
     } else if (format == 'png') {
-      pipeline.png({ quality, ...pngOptions });
+      pipeline.png({ ...pngOptions });
     } else if (format == 'avif') {
-      pipeline.avif({ quality, ...avifOptions });
+      pipeline.avif({ ...avifOptions });
     } else if (format == 'webp') {
-      pipeline.webp({ quality, ...webpOptions });
+      pipeline.webp({ ...webpOptions });
     } else {
       throw new Error('Image format is not supported.');
     }

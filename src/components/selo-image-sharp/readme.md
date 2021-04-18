@@ -7,12 +7,10 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type     | Default     |
-| -------- | --------- | ----------- | -------- | ----------- |
-| `alt`    | `alt`     |             | `string` | `undefined` |
-| `height` | `height`  |             | `number` | `undefined` |
-| `src`    | `src`     |             | `string` | `undefined` |
-| `width`  | `width`   |             | `number` | `undefined` |
+| Property          | Attribute | Description | Type                  | Default                                                                                                                         |
+| ----------------- | --------- | ----------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `imageAttributes` | --        |             | `HTMLImageAttributes` | `{     src: 'assets/images/lucas-benjamin-wQLAGv4_OYs-unsplash.jpg',     alt: 'unsplash',     width: 400,     height: 400,   }` |
+| `options`         | `options` |             | `any`                 | `Build.isBrowser     ? {}     : imageOptions`                                                                                   |
 
 
 ## Dependencies
