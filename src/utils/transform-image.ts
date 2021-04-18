@@ -44,7 +44,6 @@ export const transformImage = async (options: ImageOptions, sizes) => {
       (previosValue, currentValue) => previosValue.concat(currentValue),
       [],
     );
-  console.log(transforms);
 
   const prorcessTransforms = transforms.map((transform: ImageOptions) =>
     resizeFormatImageToFile(transform),

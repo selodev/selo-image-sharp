@@ -31,10 +31,9 @@ export const calculateImageSizes = async (
     ...resizeOptions,
   });
 
-  let sizes: any;
+  let sizes: any = [];
 
-  const dimensionBy =
-    (width || height) && width ? 'width' : 'height' || 'width';
+  const dimensionBy = (width || height) && width ? 'width' : 'height' || 'width';
 
   let sourceImageDimensions = calculateWithHieghtRatio({
     sourceMetadata,
@@ -52,17 +51,12 @@ export const calculateImageSizes = async (
 
   if (breakpoints.length > 0 && layout == 'fullWidth') {
     if (!allowOversizedDimensions) {
-      sizes = breakpoints.filter(
-        breakpoint => breakpoint <= sourceMetadata.width,
-      );
+      sizes = breakpoints.filter(breakpoint => breakpoint <= sourceMetadata.width);
     } else {
-      sizes = breakpoints;
+      sizes = [...breakpoints];
     }
     // If a larger breakpoint has been filtered-out, add the actual image width instead
-    if (
-      sizes.length < breakpoints.length &&
-      !sizes.includes(sourceMetadata.width)
-    ) {
+    if (sizes.length < breakpoints.length && !sizes.includes(sourceMetadata.width)) {
       sizes.push(sourceMetadata.width);
     }
   } else if (pixelDensities && layout == 'fixed') {
@@ -78,19 +72,19 @@ export const calculateImageSizes = async (
     sizes.push(width);
   }
 
-  const calculatedDimensions: Array<CalculatedDimensions> = sizes
+  const calculatedDimensions: Array<CalculatedDimensions> = [...sizes]
     .sort(sortNumeric)
-    .map(width =>
+    .map(sortedWidth =>
       calculateWithHieghtRatio({
         sourceMetadata,
-        width,
-        height,
+        width: sortedWidth,
         aspectRatio,
-        layout,
         fit,
+        layout,
         allowOversizedDimensions,
       }),
     );
+  console.log('calculatedDimensions', calculatedDimensions);
 
   return { sourceImageDimensions, requestedDimensions, calculatedDimensions };
 };

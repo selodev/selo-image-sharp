@@ -1,14 +1,9 @@
 import { calculateImageSizes } from './calculate-image-sizes';
-import {
-  getHtmlImageSizesAttribute,
-  getHtmlImageSrcsetAttribute,
-} from './generate-attributes';
+import { getHtmlImageSizesAttribute, getHtmlImageSrcsetAttribute } from './generate-attributes';
 import { transformImage } from './transform-image';
 import { imageOptions, ImageOptions } from '.';
 
-export const generateImageData = async (
-  options: ImageOptions = imageOptions,
-) => {
+export const generateImageData = async (options: ImageOptions = imageOptions) => {
   const {
     resizeOptions: { width, height, layout },
     inputOptions: { srcPath, srcFileName },
@@ -22,15 +17,9 @@ export const generateImageData = async (
   const transformImages = transformImage(options, calculatedDimensions);
   console.log(transformImages);
 
-  console.log(calculatedDimensions);
-  const htmlImageSrcsetAttribute = getHtmlImageSrcsetAttribute(
-    calculatedDimensions,
-  );
+  const htmlImageSrcsetAttribute = getHtmlImageSrcsetAttribute(calculatedDimensions);
 
-  const htmlImageSizesAttribute = getHtmlImageSizesAttribute(
-    sourceImageDimensions.width,
-    layout,
-  );
+  const htmlImageSizesAttribute = getHtmlImageSizesAttribute(sourceImageDimensions.width, layout);
 
   const imageProps = {
     layout,
@@ -60,8 +49,7 @@ export const generateImageData = async (
 
     case `constrained`:
       imageProps.width = width || sourceImageDimensions.width || 1;
-      imageProps.height =
-        (imageProps.width || 1) / sourceImageDimensions.aspectRatio;
+      imageProps.height = (imageProps.width || 1) / sourceImageDimensions.aspectRatio;
   }
   return imageProps;
 };

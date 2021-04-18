@@ -11,6 +11,7 @@ export const calculateWithHieghtRatio = ({
   layout,
   allowOversizedDimensions,
 }: CalculateWithHeightRatio): CalculatedDimensions => {
+  console.log('wid', width, height, sourceMetadata.width);
   // Calculate the eventual width/height of the image.
   aspectRatio = sourceMetadata.width / sourceMetadata.height;
   if (aspectRatio) {
@@ -44,7 +45,7 @@ export const calculateWithHieghtRatio = ({
   } else {
     defaultWith = sourceMetadata.width;
   }
-  width = width ?? height ? Math.round(height * aspectRatio) : defaultWith;
+  width = width ?? (height ? Math.round(height * aspectRatio) : defaultWith);
   height = height ?? Math.round(width / aspectRatio);
 
   const isActualImageSmallerThanRequested =
