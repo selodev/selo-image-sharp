@@ -13,10 +13,17 @@ export const resizeFormatImageToFile = async ({
   try {
     const { default: fs } = await import('fs');
     const { resolve, join } = (await import('path')).default;
-    const { srcPath, srcPathPrefix, srcFileName } = inputOptions;
+    const {
+      srcPath,
+      srcPathPrefix,
+      srcFileName,
+      sourceMetadata: { width: metadataWidth, height: metadataHeight },
+    } = inputOptions;
     console.log(srcPath, srcPathPrefix, srcFileName);
 
-    const imageSrcPath = resolve(join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`));
+    const imageSrcPath = resolve(
+      join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),
+    );
     const { destPath, destPathPrefix, digestDirPrefix, destFileName } = outputOptions;
     let { width, height, fit, format } = resizeOptions;
     const imageDestPath = resolve(
@@ -32,10 +39,9 @@ export const resizeFormatImageToFile = async ({
     }
     const { default: sharp } = await import('sharp');
     const pipeline: Sharp = sharp(imageSrcPath);
-    const { width: metaDataWidth, height: metaDataHeight } = await pipeline.metadata();
-    if (metaDataWidth && metaDataHeight) {
-      width = width && metaDataWidth >= width ? width : null;
-      height = height && metaDataHeight >= height ? height : null;
+    if (metadataWidth && metadataHeight) {
+      width = width && metadataWidth >= width ? width : null;
+      height = height && metadataHeight >= height ? height : null;
     }
     if (width || height) {
       pipeline.resize(width, height, { fit });

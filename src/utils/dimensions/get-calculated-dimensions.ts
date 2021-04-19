@@ -1,11 +1,14 @@
 import { calculateWithHieghtRatio } from './get-calculated-with-hight-ratio';
-import { CalculatedDimension, ResizingOptions, sourceMetadata } from '../models';
-import { getWidthsByDensitisOrBreakpoints } from './get-Witdths-by-densities-breakpoints';
+import { CalculatedDimension } from '../models';
+import { getWidthsByDensitisOrBreakpoints } from './get-witdths-by-densities-breakpoints';
+import { ImageOptions } from '..';
 
-export const getCalculatedDimensions = async (
-  sourceMetadata: sourceMetadata,
-  resizeOptions: ResizingOptions,
-) => {
+export const getCalculatedDimensions = async (options: ImageOptions) => {
+  const {
+    inputOptions: { sourceMetadata },
+    resizeOptions,
+  } = options;
+
   const {
     width,
     height,
@@ -31,7 +34,7 @@ export const getCalculatedDimensions = async (
     ...resizeOptions,
   });
 
-  let widths: any = getWidthsByDensitisOrBreakpoints({
+  let widths: number[] = getWidthsByDensitisOrBreakpoints({
     breakpoints,
     width,
     layout,

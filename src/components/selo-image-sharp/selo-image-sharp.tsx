@@ -1,5 +1,5 @@
 import { Component, Host, h, Build, Prop, Watch } from '@stencil/core';
-import { generateImageData } from '../../utils/image-data/generarte-image-data';
+import { generateImageData } from '../../utils/image-data/generate-image-data';
 import { HTMLImageAttributes, ImageOptions } from '../../utils/models';
 import { imageOptions } from '../../utils/plugin-options';
 
@@ -15,13 +15,11 @@ export class SeloImageSharp {
     width: 400,
     height: 400,
   };
-  @Prop({ mutable: true }) options: ImageOptions | any = !Build.isDev ? {} : imageOptions;
+  @Prop({ mutable: true }) options: ImageOptions | any = !Build.isBrowser ? {} : imageOptions;
 
   async componentWillLoad() {
-    console.log('in c');
     if (Build.isBrowser) {
-      console.log('in b');
-      console.log(this.options);
+   
       await generateImageData(this.options);
     }
   }

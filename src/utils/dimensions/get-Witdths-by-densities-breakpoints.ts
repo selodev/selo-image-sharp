@@ -6,7 +6,7 @@ export const getWidthsByDensitisOrBreakpoints = ({
   layout,
   pixelDensities,
   sourceMetadata,
-}) => {
+}): number[] => {
   let widths: number[] = [];
 
   if (breakpoints?.length > 0 && layout != 'fixed') {
