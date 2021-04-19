@@ -1,12 +1,12 @@
 interface DimensionAspectRatio {
-  sourceMetadata?: any;
+  srcMetadata?: any;
   width: number;
   height?: number;
   fit?: string;
 }
 
 export const getDimensionsAndAspectRatio = ({
-  sourceMetadata,
+  srcMetadata,
   width,
   height,
   fit,
@@ -16,12 +16,12 @@ export const getDimensionsAndAspectRatio = ({
   aspectRatio: number;
 } => {
   // Calculate the eventual width/height of the image.
-  const imageAspectRatio = sourceMetadata.width / sourceMetadata.height;
+  const imageAspectRatio = srcMetadata.width / srcMetadata.height;
 
   switch (fit) {
     case `fill`: {
-      width = width ?? sourceMetadata.width;
-      height = height ?? sourceMetadata.height;
+      width = width ?? srcMetadata.width;
+      height = height ?? srcMetadata.height;
       break;
     }
     case `inside`: {

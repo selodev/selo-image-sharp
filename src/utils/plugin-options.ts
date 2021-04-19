@@ -5,6 +5,7 @@ export const imageOptions: ImageOptions = {
     srcPath: 'assets/images',
     srcPathPrefix: 'src',
     srcFileName: 'lucas-benjamin-wQLAGv4_OYs-unsplash.jpg',
+    srcMetadata: { width: 6720, height: 4420, format: 'jpg' },
   },
   outputOptions: {
     destPath: 'assets/images',

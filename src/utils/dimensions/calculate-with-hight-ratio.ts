@@ -1,19 +1,19 @@
-import { DEFAULT_FIXED_WIDTH, DEFAULT_FLUID_WIDTH } from './constants';
+import { DEFAULT_FIXED_WIDTH, DEFAULT_FLUID_WIDTH } from '../constants';
 import { getDimensionsAndAspectRatio } from './getDimensionsAndAspectRatio';
-import { CalculatedDimensions, CalculateWithHeightRatio } from './models';
+import { CalculatedDimension, CalculateWithHeightRatio } from '../models';
 
 export const calculateWithHieghtRatio = ({
-  sourceMetadata,
+  srcMetadata,
   width,
   height,
   aspectRatio,
   fit,
   layout,
   allowOversizedDimensions,
-}: CalculateWithHeightRatio): CalculatedDimensions => {
-  console.log('wid', width, height, sourceMetadata.width);
+}: CalculateWithHeightRatio): CalculatedDimension => {
+  console.log('wid', width, height, srcMetadata.width);
   // Calculate the eventual width/height of the image.
-  aspectRatio = sourceMetadata.width / sourceMetadata.height;
+  aspectRatio = srcMetadata.width / srcMetadata.height;
   if (aspectRatio) {
     if (width && height) {
       console.warn(
@@ -27,7 +27,7 @@ export const calculateWithHieghtRatio = ({
   // If both are provided then we need to check the fit
   if (width && height) {
     ({ width, height, aspectRatio } = getDimensionsAndAspectRatio({
-      sourceMetadata,
+      srcMetadata,
       width,
       height,
       fit,
@@ -41,27 +41,27 @@ export const calculateWithHieghtRatio = ({
         ? DEFAULT_FLUID_WIDTH
         : layout == 'fixed'
         ? DEFAULT_FIXED_WIDTH
-        : sourceMetadata.width;
+        : srcMetadata.width;
   } else {
-    defaultWith = sourceMetadata.width;
+    defaultWith = srcMetadata.width;
   }
   width = width ?? (height ? Math.round(height * aspectRatio) : defaultWith);
   height = height ?? Math.round(width / aspectRatio);
 
   const isActualImageSmallerThanRequested =
-    sourceMetadata.width < width || sourceMetadata.height < height;
+    srcMetadata.width < width || srcMetadata.height < height;
   // If the image is smaller than requested, warn the user that it's being processed as such
   // print out this message with the necessary information before we overwrite it for sizing
   if (isActualImageSmallerThanRequested && !allowOversizedDimensions) {
-    const dimensionBy = sourceMetadata.width < width ? `width` : `height`;
+    const dimensionBy = srcMetadata.width < width ? `width` : `height`;
     console.warn(`
     The requested ${dimensionBy} "${
       dimensionBy === `width` ? width : height
     }px" for the image ${'src'} was larger than the actual image ${dimensionBy} of ${
-      sourceMetadata[dimensionBy]
+      srcMetadata[dimensionBy]
     }px. If possible, replace the current image with a larger one.`);
     // width and height were passed in, make sure it isn't larger than the actual image
-    width = Math.round(Math.min(width, sourceMetadata.width));
+    width = Math.round(Math.min(width, srcMetadata.width));
     height = Math.round(width / aspectRatio);
   }
 

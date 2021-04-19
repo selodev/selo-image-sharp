@@ -1,11 +1,11 @@
 import { Sharp } from 'sharp';
-import { SourceMetadata } from './models';
+import { srcMetadata } from '../models';
 
 export const getMetadataStats = async ({
   srcPath,
   srcPathPrefix,
   srcFileName,
-}): Promise<SourceMetadata> => {
+}): Promise<srcMetadata> => {
   const { resolve, join } = (await import('path')).default;
   const imageSrcPath = resolve(
     join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),

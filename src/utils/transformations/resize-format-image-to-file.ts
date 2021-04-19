@@ -1,5 +1,5 @@
 import { Sharp } from 'sharp';
-import { ImageOptions } from './models';
+import { ImageOptions } from '../models';
 
 export const resizeFormatImageToFile = async ({
   inputOptions,
@@ -14,17 +14,10 @@ export const resizeFormatImageToFile = async ({
     const { default: fs } = await import('fs');
     const { resolve, join } = (await import('path')).default;
     const { srcPath, srcPathPrefix, srcFileName } = inputOptions;
-    console.log(srcPath,srcPathPrefix,srcFileName)
+    console.log(srcPath, srcPathPrefix, srcFileName);
 
-    const imageSrcPath = resolve(
-      join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),
-    );
-    const {
-      destPath,
-      destPathPrefix,
-      digestDirPrefix,
-      destFileName,
-    } = outputOptions;
+    const imageSrcPath = resolve(join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`));
+    const { destPath, destPathPrefix, digestDirPrefix, destFileName } = outputOptions;
     let { width, height, fit, format } = resizeOptions;
     const imageDestPath = resolve(
       join(destPathPrefix, ...destPath.split('/'), digestDirPrefix, format),
@@ -39,16 +32,13 @@ export const resizeFormatImageToFile = async ({
     }
     const { default: sharp } = await import('sharp');
     const pipeline: Sharp = sharp(imageSrcPath);
-    const {
-      width: metaDataWidth,
-      height: metaDataHeight,
-    } = await pipeline.metadata();
+    const { width: metaDataWidth, height: metaDataHeight } = await pipeline.metadata();
     if (metaDataWidth && metaDataHeight) {
       width = width && metaDataWidth >= width ? width : null;
       height = height && metaDataHeight >= height ? height : null;
     }
     if (width || height) {
-      pipeline.resize(width, null, { fit });
+      pipeline.resize(width, height, { fit });
     }
 
     if (format == 'jpg') {
@@ -62,8 +52,7 @@ export const resizeFormatImageToFile = async ({
     } else {
       throw new Error('Image format is not supported.');
     }
-    const data = await pipeline.toFile(absoluteDest);
-    return data;
+    return await pipeline.toFile(absoluteDest);
   } catch (error) {
     throw new Error(error);
   }

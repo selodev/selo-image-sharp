@@ -1,7 +1,7 @@
 import { calculateImageSizes } from './calculate-image-sizes';
 import { getHtmlImageSizesAttribute, getHtmlImageSrcsetAttribute } from './generate-attributes';
-import { transformImage } from './transform-image';
-import { imageOptions, ImageOptions } from '.';
+//import { transformImage } from './transform-image';
+import { imageOptions, ImageOptions } from '..';
 
 export const generateImageData = async (options: ImageOptions = imageOptions) => {
   const {
@@ -14,8 +14,8 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
     calculatedDimensions,
   } = await calculateImageSizes(options.resizeOptions, options.inputOptions);
 
-  const transformImages = transformImage(options, calculatedDimensions);
-  console.log(transformImages);
+  console.log(calculateImageSizes);
+
 
   const htmlImageSrcsetAttribute = getHtmlImageSrcsetAttribute(calculatedDimensions);
 
@@ -36,6 +36,7 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
     width,
     height,
   };
+  calculatedDimensions.forEach(dimension => imageProps.images.sources.push({ src: '' }));
   switch (layout) {
     case `fixed`:
       imageProps.width = requestedDimensions.width;

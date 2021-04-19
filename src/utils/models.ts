@@ -17,11 +17,11 @@ export interface ImageMetadata {
   density?: number;
   dominantColor?: string;
 }
-export interface SourceMetadata {
+export interface srcMetadata {
   width: number;
   height: number;
   format: string;
-  dominantColor: string;
+  dominantColor?: string;
 }
 export interface HTMLImageAttributes {
   // The <img> sizes attribute, passed to the img tag.
@@ -33,7 +33,7 @@ export interface HTMLImageAttributes {
   srcset?: string;
 }
 export interface CalculateWithHeightRatio {
-  sourceMetadata?: any;
+  srcMetadata?: any;
   width?: number;
   height?: number;
   aspectRatio?: number;
@@ -41,7 +41,7 @@ export interface CalculateWithHeightRatio {
   layout?: string;
   allowOversizedDimensions?: boolean;
 }
-export interface CalculatedDimensions {
+export interface CalculatedDimension {
   width: number;
   height: number;
   aspectRatio: number;
@@ -63,6 +63,7 @@ export interface inputOptions {
   srcPath?: string;
   srcPathPrefix?: string;
   srcFileName?: string;
+  srcMetadata?: srcMetadata;
 }
 export interface outputOptions {
   destPath?: string;
@@ -110,7 +111,7 @@ export interface ISharpImageArgs {
   backgroundColor?: string;
   // Choose the style of temporary image shown while the full image loads.
   placeholderURL?: string;
-  sourceMetadata?: SourceMetadata;
+  srcMetadata?: srcMetadata;
   // Options to pass to sharp when images.
   jpgOptions?: JpegOptions;
   pngOptions?: PngOptions;
@@ -127,7 +128,7 @@ export interface IImageSizeArgs {
   pixelDensities?: Array<number>;
   breakpoints?: Array<number>;
   fit?: Fit;
-  sourceMetadata?: { width: number; height: number };
+  srcMetadata?: { width: number; height: number };
   aspectRatio?: number;
 }
 

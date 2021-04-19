@@ -1,4 +1,4 @@
-import { Layout } from './models';
+import { Layout } from '../models';
 
 export const getHtmlImageSizesAttribute = (
   width: number,
