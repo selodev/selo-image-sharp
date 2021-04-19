@@ -1,9 +1,6 @@
 import { Layout } from '../models';
 
-export const getHtmlImageSizesAttribute = (
-  width: number,
-  layout: Layout,
-): string | undefined => {
+export const getSizesAttribute = (width: number, layout: Layout): string | undefined => {
   switch (layout) {
     // If screen is wider than the max size, image width is the max size,
     // otherwise it's the width of the screen
@@ -23,5 +20,5 @@ export const getHtmlImageSizesAttribute = (
   }
 };
 
-export const getHtmlImageSrcsetAttribute = (images: Array<any>): string =>
+export const getSrcsetAttribute = (images: Array<any>): string =>
   images.map(image => `${image.src} ${image.width}w`).join(`,\n`);

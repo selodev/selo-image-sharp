@@ -1,9 +1,9 @@
-import { calculateWithHieghtRatio } from './calculate-with-hight-ratio';
-import { CalculatedDimension, ResizingOptions, srcMetadata } from '../models';
-import { getWidthsByDensitisOrBreakpoints } from './getWitdths-by-densities-breakpoints';
+import { calculateWithHieghtRatio } from './get-calculated-with-hight-ratio';
+import { CalculatedDimension, ResizingOptions, sourceMetadata } from '../models';
+import { getWidthsByDensitisOrBreakpoints } from './get-Witdths-by-densities-breakpoints';
 
 export const getCalculatedDimensions = async (
-  srcMetadata: srcMetadata,
+  sourceMetadata: sourceMetadata,
   resizeOptions: ResizingOptions,
 ) => {
   const {
@@ -12,24 +12,22 @@ export const getCalculatedDimensions = async (
     fit,
     aspectRatio,
     layout,
-    allowOversizedDimensions,
     pixelDensities,
     breakpoints,
   } = resizeOptions;
 
   const dimensionBy = (width || height) && width ? 'width' : 'height' || 'width';
 
-  let sourceDimensions = calculateWithHieghtRatio({
-    srcMetadata,
-    [dimensionBy]: srcMetadata[dimensionBy],
+  let sourceDimensions: CalculatedDimension = calculateWithHieghtRatio({
+    sourceMetadata,
+    [dimensionBy]: sourceMetadata[dimensionBy],
     aspectRatio,
     fit,
     layout,
-    allowOversizedDimensions,
   });
 
-  const requestedDimensions = calculateWithHieghtRatio({
-    srcMetadata,
+  const requestedDimensions: CalculatedDimension = calculateWithHieghtRatio({
+    sourceMetadata,
     ...resizeOptions,
   });
 
@@ -38,20 +36,19 @@ export const getCalculatedDimensions = async (
     width,
     layout,
     pixelDensities,
-    srcMetadata,
-    allowOversizedDimensions,
+    sourceMetadata,
   });
-  const resizeDimensions: Array<CalculatedDimension> = [...widths].map(sortedWidth =>
+
+  const layoutDimensions: Array<CalculatedDimension> = [...widths].map(sortedWidth =>
     calculateWithHieghtRatio({
-      srcMetadata,
+      sourceMetadata,
       width: sortedWidth,
       aspectRatio,
       fit,
       layout,
-      allowOversizedDimensions,
     }),
   );
-  console.log('calculatedDimensions', resizeDimensions);
+  console.log('calculatedDimensions', layoutDimensions);
 
-  return { sourceDimensions, requestedDimensions, resizeDimensions };
+  return { sourceDimensions, requestedDimensions, layoutDimensions };
 };

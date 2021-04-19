@@ -1,12 +1,15 @@
 import { ImageOptions } from '..';
 import { getCalculatedDimensions } from './get-calculated-dimensions';
-import { checkSetDimensions } from './check-set-dimensions';
+import { checkSetGetDimensions } from './check-set-get-dimensions';
 
-export default (options: ImageOptions) => {
+export default async (options: ImageOptions) => {
   const {
+    resizeOptions,
     resizeOptions: { width, height },
     inputOptions,
   } = options;
-  const { srcMetadata } = checkSetDimensions({ width, height, inputOptions })
-  return getCalculatedDimensions({})
+  //const widthsByDensitiesOrBreakpoints = getWidthsByDensitisOrBreakpoints({ ...inputOptions });
+
+  const { sourceMetadata } = await checkSetGetDimensions({ width, height, inputOptions });
+  return getCalculatedDimensions(sourceMetadata, resizeOptions);
 };

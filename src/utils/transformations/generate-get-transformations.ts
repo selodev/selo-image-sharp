@@ -1,7 +1,7 @@
 import { ImageOptions } from '..';
 import { prepareImageInformation } from '../image-data/prepare-image-metadata';
 
-export const generateTransformations  (options: ImageOptions, imageFormats, sizes) => {
+export const generateGetTransformations = (options: ImageOptions, imageFormats, sizes) => {
   const { inputOptions, outputOptions, resizeOptions } = options;
   // Output Options
 

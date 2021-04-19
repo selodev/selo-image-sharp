@@ -1,11 +1,11 @@
 import { Sharp } from 'sharp';
-import { srcMetadata } from '../models';
+import { sourceMetadata } from '../models';
 
 export const getMetadataStats = async ({
   srcPath,
   srcPathPrefix,
   srcFileName,
-}): Promise<srcMetadata> => {
+}): Promise<sourceMetadata> => {
   const { resolve, join } = (await import('path')).default;
   const imageSrcPath = resolve(
     join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),
@@ -23,7 +23,5 @@ export const getMetadataStats = async ({
 };
 
 export function rgbToHex(red, green, blue) {
-  return `#${(blue | (green << 8) | (red << 16) | (1 << 24))
-    .toString(16)
-    .slice(1)}`;
+  return `#${(blue | (green << 8) | (red << 16) | (1 << 24)).toString(16).slice(1)}`;
 }

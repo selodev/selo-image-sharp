@@ -1,25 +1,20 @@
-import { calculateImageSizes } from './calculate-image-sizes';
-import { getHtmlImageSizesAttribute, getHtmlImageSrcsetAttribute } from './generate-attributes';
+import { getSrcsetAttribute, getSizesAttribute } from './generate-attributes';
 //import { transformImage } from './transform-image';
 import { imageOptions, ImageOptions } from '..';
-
+import getCalculatedDimensions from '../dimensions';
 export const generateImageData = async (options: ImageOptions = imageOptions) => {
   const {
     resizeOptions: { width, height, layout },
     inputOptions: { srcPath, srcFileName },
   } = options;
+
   const {
-    sourceImageDimensions,
+    sourceDimensions,
     requestedDimensions,
-    calculatedDimensions,
-  } = await calculateImageSizes(options.resizeOptions, options.inputOptions);
+    layoutDimensions,
+  } = await getCalculatedDimensions(options);
 
-  console.log(calculateImageSizes);
-
-
-  const htmlImageSrcsetAttribute = getHtmlImageSrcsetAttribute(calculatedDimensions);
-
-  const htmlImageSizesAttribute = getHtmlImageSizesAttribute(sourceImageDimensions.width, layout);
+  console.log(layoutDimensions);
 
   const imageProps = {
     layout,
@@ -28,15 +23,15 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
     images: {
       fallback: {
         src: srcPath + '/' + srcFileName,
-        srcset: htmlImageSrcsetAttribute,
-        sizes: htmlImageSizesAttribute,
+        srcset: getSrcsetAttribute([sourceDimensions]),
+        sizes: getSizesAttribute(sourceDimensions.width, layout),
       },
       sources: [],
     },
     width,
     height,
   };
-  calculatedDimensions.forEach(dimension => imageProps.images.sources.push({ src: '' }));
+  layoutDimensions.forEach(dimension => imageProps.images.sources.push({ src: '' }));
   switch (layout) {
     case `fixed`:
       imageProps.width = requestedDimensions.width;
@@ -45,12 +40,13 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
 
     case `fullWidth`:
       imageProps.width = 1;
-      imageProps.height = 1 / sourceImageDimensions.aspectRatio;
+      imageProps.height = 1 / sourceDimensions.aspectRatio;
       break;
 
     case `constrained`:
-      imageProps.width = width || sourceImageDimensions.width || 1;
-      imageProps.height = (imageProps.width || 1) / sourceImageDimensions.aspectRatio;
+      imageProps.width = width || sourceDimensions.width || 1;
+      imageProps.height = (imageProps.width || 1) / sourceDimensions.aspectRatio;
   }
+  console.log(imageProps);
   return imageProps;
 };
