@@ -5,22 +5,17 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { HTMLImageAttributes, ImageOptions, Source } from "./utils/models";
+import { ImageOptions, Source } from "./utils/models";
 export namespace Components {
     interface SeloImage {
         "alt"?: string;
-        "height"?: any;
-        "layout": any;
         "sizes"?: string;
         "sources": Array<Source>;
         "src"?: string;
         "srcset"?: string;
-        "styles"?: any;
         "type": string;
-        "width"?: any;
     }
     interface SeloImageSharp {
-        "imageAttributes": HTMLImageAttributes;
         "options": ImageOptions | any;
     }
 }
@@ -45,30 +40,25 @@ declare global {
 declare namespace LocalJSX {
     interface SeloImage {
         "alt"?: string;
-        "height"?: any;
-        "layout"?: any;
-        /**
-          * Emitted when the img fails to load
-         */
-        "onIonError"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the image has finished loading
          */
-        "onIonImgDidLoad"?: (event: CustomEvent<void>) => void;
+        "onImgDidLoad"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the img fails to load
+         */
+        "onImgError"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the img src has been set
          */
-        "onIonImgWillLoad"?: (event: CustomEvent<void>) => void;
+        "onImgWillLoad"?: (event: CustomEvent<void>) => void;
         "sizes"?: string;
         "sources"?: Array<Source>;
         "src"?: string;
         "srcset"?: string;
-        "styles"?: any;
         "type"?: string;
-        "width"?: any;
     }
     interface SeloImageSharp {
-        "imageAttributes"?: HTMLImageAttributes;
         "options"?: ImageOptions | any;
     }
     interface IntrinsicElements {

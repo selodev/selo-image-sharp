@@ -1,4 +1,4 @@
 import { imageOptions } from './plugin-options';
 import { ImageOptions } from './models';
-
-export { imageOptions, ImageOptions };
+import { generateImageData } from './image-data/generate-image-data';
+export { imageOptions, ImageOptions, generateImageData };

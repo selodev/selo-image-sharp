@@ -18,7 +18,6 @@ export const getMetadataStats = async ({
   const dominantColor = dominant
     ? rgbToHex(dominant.r, dominant.g, dominant.b)
     : `#000000`;
-  console.log(width, height, format);
   return { width, height, format, dominantColor };
 };
 

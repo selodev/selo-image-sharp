@@ -19,7 +19,6 @@ export const resizeFormatImageToFile = async ({
       srcFileName,
       sourceMetadata: { width: metadataWidth, height: metadataHeight },
     } = inputOptions;
-    console.log(srcPath, srcPathPrefix, srcFileName);
 
     const imageSrcPath = resolve(
       join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),
@@ -31,7 +30,6 @@ export const resizeFormatImageToFile = async ({
     );
     const absoluteDest = resolve(join(imageDestPath, destFileName));
     if (fs.existsSync(absoluteDest)) {
-      console.log('File exists ', imageSrcPath);
       return 'File exists ' + imageSrcPath;
     }
     if (!fs.existsSync(imageDestPath)) {

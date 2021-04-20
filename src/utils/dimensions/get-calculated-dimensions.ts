@@ -51,7 +51,6 @@ export const getCalculatedDimensions = async (options: ImageOptions) => {
       layout,
     }),
   );
-  console.log('calculatedDimensions', layoutDimensions);
 
   return { sourceDimensions, requestedDimensions, layoutDimensions };
 };
