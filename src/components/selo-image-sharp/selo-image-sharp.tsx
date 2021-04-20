@@ -16,7 +16,7 @@ export class SeloImageSharp {
     height: 400,
   };
   @State() imageProps: ImageProps;
-  @Prop({ mutable: true }) options: ImageOptions | any = !Build.isBrowser
+  @Prop({ mutable: true }) options: ImageOptions | any = Build.isBrowser
     ? {}
     : imageOptions;
 
@@ -32,15 +32,21 @@ export class SeloImageSharp {
   }
 
   render() {
+    const {
+      images: {
+        fallback: { src, srcset, sizes },
+      },
+    } = this.imageProps;
     return (
       <Host>
-        <selo-image src={this?.imageProps?.images?.fallback?.src}>
+        <selo-image src={src}>
           {this?.imageProps &&
-            this?.imageProps?.images?.sources?.map(({ srcset, type, sizes }) => (
-              <source type={type} srcSet={srcset} sizes={sizes} />
+            this?.imageProps?.images?.sources?.map(({ srcset, type }) => (
+              <source type={type} srcSet={srcset} />
             ))}
+          {srcset && <source srcSet={srcset} sizes={sizes}></source>}
+          <slot></slot>
         </selo-image>
-        <slot></slot>
       </Host>
     );
   }
