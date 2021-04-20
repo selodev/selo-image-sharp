@@ -19,7 +19,7 @@ import { Source } from '../../utils/models';
 export class SeloImage {
   private io?: IntersectionObserver;
   @Element() el!: HTMLElement;
-  @State() shoudLoad?: boolean;
+  @State() shouldLoad?: boolean;
   @State() loadError?: () => void;
   @Prop() src?: string;
   @Prop() alt?: string;
@@ -77,7 +77,7 @@ export class SeloImage {
 
   private load() {
     this.loadError = this.onError;
-    this.shoudLoad = true;
+    this.shouldLoad = true;
     this.imgWillLoad.emit();
   }
 
@@ -98,20 +98,20 @@ export class SeloImage {
 
             {this.sources &&
               this.sources.map(({ type, srcset, sizes }) => (
-                <source type={type} srcSet={this.shoudLoad && srcset} sizes={sizes} />
+                <source type={type} srcSet={this.shouldLoad && srcset} sizes={sizes} />
               ))}
 
             {this.srcset && (
               <source
                 type={this.type}
-                srcSet={this.shoudLoad && this.srcset}
+                srcSet={this.shouldLoad && this.srcset}
                 sizes={this.sizes}
               />
             )}
 
             <img
               decoding="async"
-              src={this.shoudLoad && this.src}
+              src={this.shouldLoad && this.src}
               alt={this.alt}
               onLoad={this.onLoad}
               onError={this.loadError}
@@ -121,7 +121,7 @@ export class SeloImage {
         ) : (
           <img
             decoding="async"
-            src={this.shoudLoad && this.src}
+            src={this.shouldLoad && this.src}
             alt={this.alt}
             onLoad={this.onLoad}
             onError={this.loadError}
