@@ -14,6 +14,7 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
     resizeOptions: { width, layout },
     inputOptions: { srcPath, srcFileName },
   } = options;
+  console.log(layout);
   const {
     sourceDimensions,
     requestedDimensions,
@@ -23,6 +24,7 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
   const { imagesForProccessing } = generateGetTransformations(options, layoutDimensions);
   console.log(imagesForProccessing);
   if (!Build.isBrowser) {
+    console.log(Build);
     const { processTransformations } = await import(
       '../transformations/process-tranformations'
     );
@@ -40,6 +42,7 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
         src: (srcPath + '/' + srcFileName) as string,
         srcset: getSrcsetAttribute(imageSizes[primaryFormat]),
         sizes: sizesAttribute,
+        type: `image/${primaryFormat}`,
       },
       sources: [],
     },

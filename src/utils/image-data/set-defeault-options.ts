@@ -3,6 +3,7 @@ import {
   DEFAULT_BREAKPOINTS,
   DEFAULT_PIXEL_DENSITIES,
   SUPPORTED_FORMATS,
+  SUPPORTED_LAYOUTS,
 } from '../constants';
 import { getMetadataStats } from './get-metadata-stats';
 
@@ -25,6 +26,12 @@ export const checkSetDefaultOptions = async (options: ImageOptions = imageOption
       );
     }
   }
+  if (!SUPPORTED_LAYOUTS.has(layout)) {
+    throw new Error(
+      `Invalid value ${layout}" provided for prop "layout". Defaulting to "constrained". 
+      Valid values are "fixed", "fullWidth" or "constrained".`,
+    );
+  }
 
   const { srcPath, srcPathPrefix, srcFileName } = inputOptions;
   let { sourceMetadata } = inputOptions;
@@ -37,7 +44,6 @@ export const checkSetDefaultOptions = async (options: ImageOptions = imageOption
   pixelDensities ??= DEFAULT_PIXEL_DENSITIES;
   breakpoints ?? DEFAULT_BREAKPOINTS;
   layout ??= 'constrained';
-
   return {
     ...options,
     resizeOptions: { ...resizeOptions, formats, pixelDensities, breakpoints, layout },

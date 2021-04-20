@@ -1,4 +1,4 @@
-import { ImageFormat } from './models';
+import { ImageFormat, Layout } from './models';
 export const DEFAULT_PIXEL_DENSITIES = [1, 1.5, 2];
 export const DEFAULT_BREAKPOINTS = [320, 576, 768, 1200];
 export const EVERY_BREAKPOINT = [
@@ -20,4 +20,9 @@ export const SUPPORTED_FORMATS: Set<ImageFormat> = new Set([
   'png',
   'webp',
   'avif',
+]);
+export const SUPPORTED_LAYOUTS: Set<Layout> = new Set([
+  `fixed`,
+  `fullWidth`,
+  `constrained`,
 ]);

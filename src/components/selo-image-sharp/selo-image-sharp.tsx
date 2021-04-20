@@ -31,19 +31,74 @@ export class SeloImageSharp {
 
   render() {
     const {
+      layout,
       images: {
-        fallback: { src, srcset, sizes },
+        fallback: { type, src, srcset, sizes },
+        sources,
       },
+      width,
+      height,
     } = this.imageProps;
-
+    console.log(width, height, layout);
     return (
       <Host>
-        <selo-image src={src}>
-          {this?.imageProps &&
-            this?.imageProps?.images?.sources?.map(({ srcset, type, sizes }) => (
-              <source type={type} srcSet={srcset} sizes={sizes} />
-            ))}
-          {srcset && <source srcSet={srcset} sizes={sizes}></source>}
+        <div>
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+          <p>LOrem</p>
+          <br />
+
+          <p>LOrem</p>
+          <br />
+        </div>
+        <selo-image
+          src={src}
+          srcset={srcset}
+          sizes={sizes}
+          sources={sources}
+          width={width}
+          height={height}
+          layout={layout}
+          type={type}
+        >
           <slot></slot>
         </selo-image>
       </Host>

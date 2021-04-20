@@ -1,4 +1,15 @@
-import { Component, Host, h, Element, Prop, State, Watch, EventEmitter, Event, Build } from '@stencil/core';
+import {
+  Component,
+  Host,
+  h,
+  Element,
+  Prop,
+  State,
+  Watch,
+  EventEmitter,
+  Event,
+} from '@stencil/core';
+import { Source } from '../../utils/models';
 
 @Component({
   tag: 'selo-image',
@@ -8,10 +19,18 @@ import { Component, Host, h, Element, Prop, State, Watch, EventEmitter, Event, B
 export class SeloImage {
   private io?: IntersectionObserver;
   @Element() el!: HTMLElement;
-  @State() loadSrc?: string;
+  @State() shoudLoad?: boolean = false;
   @State() loadError?: () => void;
-  @Prop() alt?: string;
   @Prop() src?: string;
+  @Prop() alt?: string;
+  @Prop() type: string;
+  @Prop() srcset?: string;
+  @Prop() sizes?: string;
+  @Prop() width?: any;
+  @Prop() height?: any;
+  @Prop() styles?: any;
+  @Prop() sources: Array<Source>;
+  @Prop() layout;
 
   @Watch('src')
   srcChanged() {
@@ -61,7 +80,7 @@ export class SeloImage {
 
   private load() {
     this.loadError = this.onError;
-    this.loadSrc = this.src;
+    this.shoudLoad = true;
     this.ionImgWillLoad.emit();
   }
 
@@ -77,11 +96,22 @@ export class SeloImage {
     return (
       <Host>
         <picture>
-          <slot></slot>
+          {this.sources.map(({ type, srcset, sizes }) => (
+            <source type={type} srcSet={this.shoudLoad && srcset} sizes={sizes} />
+          ))}
+          {this.srcset && (
+            <source
+              type={this.type}
+              srcSet={this.shoudLoad && this.srcset}
+              sizes={this.sizes}
+            />
+          )}
           <img
             decoding="async"
-            src={Build.isBrowser ? this.loadSrc : this.src}
+            src={this.shoudLoad && this.src}
             alt={this.alt}
+            //width={this.width}
+            //height={this.height}
             onLoad={this.onLoad}
             onError={this.loadError}
             part="image"

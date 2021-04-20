@@ -7,10 +7,18 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type     | Default     |
-| -------- | --------- | ----------- | -------- | ----------- |
-| `alt`    | `alt`     |             | `string` | `undefined` |
-| `src`    | `src`     |             | `string` | `undefined` |
+| Property  | Attribute | Description | Type       | Default     |
+| --------- | --------- | ----------- | ---------- | ----------- |
+| `alt`     | `alt`     |             | `string`   | `undefined` |
+| `height`  | `height`  |             | `any`      | `undefined` |
+| `layout`  | `layout`  |             | `any`      | `undefined` |
+| `sizes`   | `sizes`   |             | `string`   | `undefined` |
+| `sources` | --        |             | `Source[]` | `undefined` |
+| `src`     | `src`     |             | `string`   | `undefined` |
+| `srcset`  | `srcset`  |             | `string`   | `undefined` |
+| `styles`  | `styles`  |             | `any`      | `undefined` |
+| `type`    | `type`    |             | `string`   | `undefined` |
+| `width`   | `width`   |             | `any`      | `undefined` |
 
 
 ## Events

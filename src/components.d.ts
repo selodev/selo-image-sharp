@@ -5,11 +5,19 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { HTMLImageAttributes, ImageOptions } from "./utils/models";
+import { HTMLImageAttributes, ImageOptions, Source } from "./utils/models";
 export namespace Components {
     interface SeloImage {
         "alt"?: string;
+        "height"?: any;
+        "layout": any;
+        "sizes"?: string;
+        "sources": Array<Source>;
         "src"?: string;
+        "srcset"?: string;
+        "styles"?: any;
+        "type": string;
+        "width"?: any;
     }
     interface SeloImageSharp {
         "imageAttributes": HTMLImageAttributes;
@@ -37,6 +45,8 @@ declare global {
 declare namespace LocalJSX {
     interface SeloImage {
         "alt"?: string;
+        "height"?: any;
+        "layout"?: any;
         /**
           * Emitted when the img fails to load
          */
@@ -49,7 +59,13 @@ declare namespace LocalJSX {
           * Emitted when the img src has been set
          */
         "onIonImgWillLoad"?: (event: CustomEvent<void>) => void;
+        "sizes"?: string;
+        "sources"?: Array<Source>;
         "src"?: string;
+        "srcset"?: string;
+        "styles"?: any;
+        "type"?: string;
+        "width"?: any;
     }
     interface SeloImageSharp {
         "imageAttributes"?: HTMLImageAttributes;

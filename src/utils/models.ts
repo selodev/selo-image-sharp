@@ -28,12 +28,14 @@ export type Layout = 'fixed' | 'fullWidth' | 'constrained';
 export type ImageFormat = 'jpg' | 'png' | 'webp' | 'avif';
 //type Optional<T> = { [P in keyof T]?: T[P] };
 export type ImageSize = { src: string; width: string; type: string; layout: string };
+
+export type Source = { type: string; srcset: string; sizes: string };
 export interface ImageProps {
   layout: string;
   placeholder: undefined;
   images: {
-    fallback: { src: string; srcset: string; sizes: string };
-    sources: Array<{ srcset: string; sizes: string; type: string }>;
+    fallback: { type: string; src: string; srcset: string; sizes: string };
+    sources: Array<Source>;
   };
   width: number;
   height: number;
