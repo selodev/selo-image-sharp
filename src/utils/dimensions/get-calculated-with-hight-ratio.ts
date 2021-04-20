@@ -13,7 +13,6 @@ export const calculateWithHieghtRatio = ({
   fluidWidth,
   fixedWidth,
 }: ResizingOptions & { sourceMetadata: SourceMetadata }): CalculatedDimension => {
-  console.log('wid', width, height, sourceWidth);
   // Calculate the eventual width/height of the image.
   aspectRatio = sourceWidth / sourceHeight;
   if (aspectRatio) {

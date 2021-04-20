@@ -19,7 +19,7 @@ export const imageOptions: ImageOptions = {
     pixelDensities: [1, 1.5, 2],
     width: 600,
     height: 800,
-    layout: 'fullWidth',
+    layout: 'constrained',
     fluidWidth: 800,
     fixedWidth: 800,
     aspectRatio: 4 / 3,
