@@ -1,4 +1,3 @@
-import { DEFAULT_FIXED_WIDTH, DEFAULT_FLUID_WIDTH } from '../constants';
 import { getDimensionsAspectRatio } from './get-dimensions-aspect-ratio';
 import { CalculatedDimension, ResizingOptions, SourceMetadata } from '../models';
 
@@ -9,9 +8,6 @@ export const calculateWithHieghtRatio = ({
   height,
   aspectRatio,
   fit,
-  layout,
-  fluidWidth,
-  fixedWidth,
 }: ResizingOptions & { sourceMetadata: SourceMetadata }): CalculatedDimension => {
   // Calculate the eventual width/height of the image.
   aspectRatio = sourceWidth / sourceHeight;
@@ -35,18 +31,7 @@ export const calculateWithHieghtRatio = ({
     }));
   }
   // If Neither width or height were passed in, use default size
-  let defaultWith: number;
-  if (layout) {
-    defaultWith =
-      layout == 'fullWidth'
-        ? fluidWidth || DEFAULT_FLUID_WIDTH
-        : layout == 'fixed'
-        ? fixedWidth || DEFAULT_FIXED_WIDTH
-        : sourceWidth;
-  } else {
-    defaultWith = sourceWidth;
-  }
-  width = width ?? (height ? Math.round(height * aspectRatio) : defaultWith);
+  width = width ?? (height ? Math.round(height * aspectRatio) : sourceWidth);
   height = height ?? Math.round(width / aspectRatio);
 
   const isActualImageSmallerThanRequested = sourceWidth < width || sourceHeight < height;

@@ -1,4 +1,4 @@
-import { Component, Host, h, Build, Prop, Watch, State } from '@stencil/core';
+import { Component, Host, h, Prop, Watch, State } from '@stencil/core';
 import { generateImageData } from '../../utils/image-data/generate-image-data';
 import { HTMLImageAttributes, ImageOptions, ImageProps } from '../../utils/models';
 import { imageOptions } from '../../utils/plugin-options';
@@ -16,9 +16,7 @@ export class SeloImageSharp {
     height: 400,
   };
   @State() imageProps: ImageProps;
-  @Prop({ mutable: true }) options: ImageOptions | any = Build.isBrowser
-    ? {}
-    : imageOptions;
+  @Prop({ mutable: true }) options: ImageOptions | any = imageOptions;
 
   async componentWillLoad() {
     this.imageProps = await generateImageData(this.options);
@@ -37,12 +35,13 @@ export class SeloImageSharp {
         fallback: { src, srcset, sizes },
       },
     } = this.imageProps;
+
     return (
       <Host>
         <selo-image src={src}>
           {this?.imageProps &&
-            this?.imageProps?.images?.sources?.map(({ srcset, type }) => (
-              <source type={type} srcSet={srcset} />
+            this?.imageProps?.images?.sources?.map(({ srcset, type, sizes }) => (
+              <source type={type} srcSet={srcset} sizes={sizes} />
             ))}
           {srcset && <source srcSet={srcset} sizes={sizes}></source>}
           <slot></slot>

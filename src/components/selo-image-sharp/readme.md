@@ -10,7 +10,7 @@
 | Property          | Attribute | Description | Type                  | Default                                                                                                                         |
 | ----------------- | --------- | ----------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `imageAttributes` | --        |             | `HTMLImageAttributes` | `{     src: 'assets/images/lucas-benjamin-wQLAGv4_OYs-unsplash.jpg',     alt: 'unsplash',     width: 400,     height: 400,   }` |
-| `options`         | `options` |             | `any`                 | `Build.isBrowser     ? {}     : imageOptions`                                                                                   |
+| `options`         | `options` |             | `any`                 | `imageOptions`                                                                                                                  |
 
 
 ## Dependencies

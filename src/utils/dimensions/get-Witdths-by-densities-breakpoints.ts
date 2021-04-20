@@ -7,9 +7,10 @@ export const getWidthsByDensitisOrBreakpoints = ({
   pixelDensities,
   sourceMetadata,
 }): number[] => {
+
   let widths: number[] = [];
 
-  if (breakpoints?.length > 0 && layout != 'fixed') {
+  if ((breakpoints?.length > 0 && layout == 'constained') || layout == 'fullWidth') {
     widths = breakpoints.filter(breakpoint => breakpoint <= sourceMetadata.width);
     // If a larger breakpoint has been filtered-out, add the actual image width instead
     if (widths.length < breakpoints.length && !widths.includes(sourceMetadata.width)) {
@@ -19,7 +20,7 @@ export const getWidthsByDensitisOrBreakpoints = ({
     if (layout === `constrained` && !widths.includes(width)) {
       widths.push(width);
     }
-  } else if (layout == 'fixed' || layout == 'constrained') {
+  } else if (layout === 'fixed') {
     // Sort, dedupe and ensure there's a 1
     const densities = dedupeAndSortDensities(pixelDensities);
     widths = densities.map(density => Math.round(density * width));
@@ -27,5 +28,6 @@ export const getWidthsByDensitisOrBreakpoints = ({
   }
 
   widths = widths.sort(sortNumeric);
+  
   return widths;
 };

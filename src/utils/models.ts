@@ -67,8 +67,7 @@ export interface ResizingOptions extends ResizeOptions {
   layout?: Layout;
   formats?: Array<ImageFormat> | Set<ImageFormat>;
   format?: ImageFormat;
-  fluidWidth?: number;
-  fixedWidth?: number;
+  //cropFocus: 'entropy' | 'attention';
 }
 export interface inputOptions {
   srcPath?: string;

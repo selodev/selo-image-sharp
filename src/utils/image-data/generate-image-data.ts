@@ -6,7 +6,7 @@ import { getCalculatedDimensions } from '../dimensions/get-calculated-dimensions
 import { generateGetTransformations } from '../transformations/generate-get-transformations';
 import { getImageProps } from './generate-responsive-images';
 import { ImageProps } from '../models';
-//import { processTransformations } from '../transformations/process-tranformations';
+import { Build } from '@stencil/core';
 export const generateImageData = async (options: ImageOptions = imageOptions) => {
   options = await checkSetDefaultOptions(options);
   console.log('options', options);
@@ -22,10 +22,15 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
 
   const { imagesForProccessing } = generateGetTransformations(options, layoutDimensions);
   console.log(imagesForProccessing);
-  //await processTransformations(imagesForProccessing);
+  if (!Build.isBrowser) {
+    const { processTransformations } = await import(
+      '../transformations/process-tranformations'
+    );
+    await processTransformations(imagesForProccessing);
+  }
   const [_, primaryFormat] = srcFileName.split('.');
   const imageSizes = getImageProps(options, layoutDimensions);
-  const sizesAttribute = getSizesAttribute(sourceDimensions.width, layout);
+  const sizesAttribute = getSizesAttribute(requestedDimensions.width, layout);
   const imageProps: ImageProps = {
     layout,
     placeholder: undefined,
@@ -41,7 +46,6 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
     width: sourceDimensions.width,
     height: sourceDimensions.height,
   };
-  console.log('pr', primaryFormat);
   for (let key in imageSizes) {
     if (key !== primaryFormat) {
       imageProps.images.sources.push({

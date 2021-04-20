@@ -1,12 +1,16 @@
 import { imageOptions, ImageOptions } from '..';
-import { SUPPORTED_FORMATS } from '../constants';
+import {
+  DEFAULT_BREAKPOINTS,
+  DEFAULT_PIXEL_DENSITIES,
+  SUPPORTED_FORMATS,
+} from '../constants';
 import { getMetadataStats } from './get-metadata-stats';
 
 export const checkSetDefaultOptions = async (options: ImageOptions = imageOptions) => {
-  checkSetGetDimensions(options);
+  checkGetDimensions(options);
   const { resizeOptions, inputOptions } = options;
   // Output Options
-  let { formats } = resizeOptions;
+  let { formats, pixelDensities, breakpoints, layout } = resizeOptions;
   formats = formats ? new Set(formats) : SUPPORTED_FORMATS;
   if (!formats.size) throw new Error("Formats can't be empty!");
   if (formats.has(`jpg`) && formats.has(`png`)) {
@@ -30,13 +34,17 @@ export const checkSetDefaultOptions = async (options: ImageOptions = imageOption
     srcFileName,
   });
 
+  pixelDensities ??= DEFAULT_PIXEL_DENSITIES;
+  breakpoints ?? DEFAULT_BREAKPOINTS;
+  layout ??= 'constrained';
+
   return {
     ...options,
-    resizeOptions: { ...resizeOptions, formats },
+    resizeOptions: { ...resizeOptions, formats, pixelDensities, breakpoints, layout },
     inputOptions: { ...inputOptions, sourceMetadata },
   };
 };
-export const checkSetGetDimensions = async (options: ImageOptions) => {
+export const checkGetDimensions = async (options: ImageOptions) => {
   const {
     resizeOptions: { width, height },
   } = options;
