@@ -42,53 +42,6 @@ export class SeloImageSharp {
     console.log(width, height, layout);
     return (
       <Host>
-        <div>
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-          <p>LOrem</p>
-          <br />
-
-          <p>LOrem</p>
-          <br />
-        </div>
         <selo-image
           src={src}
           srcset={srcset}

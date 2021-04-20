@@ -96,6 +96,7 @@ export class SeloImage {
     return (
       <Host>
         <picture>
+          <slot></slot>
           {this.sources.map(({ type, srcset, sizes }) => (
             <source type={type} srcSet={this.shoudLoad && srcset} sizes={sizes} />
           ))}
