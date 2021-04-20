@@ -1,9 +1,4 @@
-interface DimensionAspectRatio {
-  sourceMetadata?: any;
-  width: number;
-  height?: number;
-  fit?: string;
-}
+import { DimensionAspectRatio } from '../models';
 
 export const getDimensionsAspectRatio = ({
   sourceMetadata,

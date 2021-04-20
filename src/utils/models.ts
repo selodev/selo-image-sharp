@@ -23,19 +23,16 @@ export interface SourceMetadata {
   format: string;
   dominantColor?: string;
 }
-export interface HTMLImageAttributes {
-  // The <img> sizes attribute, passed to the img tag.
-  src?: string;
-  alt?: string;
-  width?: number;
-  height?: number;
-  sizes?: string;
-  srcset?: string;
-}
 export interface CalculatedDimension {
   width: number;
   height: number;
   aspectRatio: number;
+}
+export interface DimensionAspectRatio {
+  sourceMetadata?: any;
+  width: number;
+  height?: number;
+  fit?: string;
 }
 export interface ResizingOptions extends ResizeOptions {
   aspectRatio?: number;
