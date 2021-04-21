@@ -5,7 +5,7 @@ import { ImageOptions } from '..';
 
 export const getCalculatedDimensions = async (options: ImageOptions) => {
   const {
-    inputOptions: { sourceMetadata },
+    sourceOptions: { sourceMetadata },
     resizeOptions,
   } = options;
 

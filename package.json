@@ -1,7 +1,7 @@
 {
   "name": "selo-img-sharp",
   "version": "0.0.1",
-  "description": "Stencil Component Starter",
+  "description": "Build time sharp image webcomponent",
   "author": {
     "name": "Selahattin Toprak",
     "email": "selahattin47usa@hotmail.com",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "url": "https://github.com/selodev/selo-img-sharp",
-    "type": "Javascript"
+    "type": "Typescript"
   },
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",

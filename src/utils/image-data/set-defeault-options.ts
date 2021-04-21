@@ -9,7 +9,7 @@ import { getMetadataStats } from './get-metadata-stats';
 
 export const checkSetDefaultOptions = async (options: ImageOptions = imageOptions) => {
   checkGetDimensions(options);
-  const { resizeOptions, inputOptions } = options;
+  const { resizeOptions, sourceOptions } = options;
   // Output Options
   let { formats, pixelDensities, breakpoints, layout } = resizeOptions;
   formats = formats ? new Set(formats) : SUPPORTED_FORMATS;
@@ -33,8 +33,8 @@ export const checkSetDefaultOptions = async (options: ImageOptions = imageOption
     );
   }
 
-  const { srcPath, srcPathPrefix, srcFileName } = inputOptions;
-  let { sourceMetadata } = inputOptions;
+  const { srcPath, srcPathPrefix, srcFileName } = sourceOptions;
+  let { sourceMetadata } = sourceOptions;
   sourceMetadata ??= await getMetadataStats({
     srcPathPrefix,
     srcPath,
@@ -47,7 +47,7 @@ export const checkSetDefaultOptions = async (options: ImageOptions = imageOption
   return {
     ...options,
     resizeOptions: { ...resizeOptions, formats, pixelDensities, breakpoints, layout },
-    inputOptions: { ...inputOptions, sourceMetadata },
+    sourceOptions: { ...sourceOptions, sourceMetadata },
   };
 };
 

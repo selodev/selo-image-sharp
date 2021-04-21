@@ -7,10 +7,10 @@ export const generateGetTransformations = (
   sizes: CalculatedDimension[],
 ) => {
   const {
-    inputOptions,
-    inputOptions: { srcFileName },
-    outputOptions,
-    outputOptions: { destFileName },
+    sourceOptions,
+    sourceOptions: { srcFileName },
+    destinationOptions,
+    destinationOptions: { destFileName },
     resizeOptions: { formats, layout },
   } = options;
   // Output Options
@@ -18,9 +18,9 @@ export const generateGetTransformations = (
   const imagesForProccessing: any[] = Array.from(formats)
     .map(format =>
       sizes.map(({ width, height }) => ({
-        inputOptions,
-        outputOptions: {
-          ...outputOptions,
+        sourceOptions,
+        destinationOptions: {
+          ...destinationOptions,
           destFileName: formatGetFileName({
             src: destFileName || srcFileName,
             width,

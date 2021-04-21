@@ -21,7 +21,6 @@ export interface SourceMetadata {
   width: number;
   height: number;
   format: string;
-  dominantColor?: string;
 }
 export interface CalculatedDimension {
   width: number;
@@ -35,6 +34,7 @@ export interface DimensionAspectRatio {
   fit?: string;
 }
 export interface ResizingOptions extends ResizeOptions {
+  dominantColor?: string;
   aspectRatio?: number;
   // Output widths to generate for full width images.
   breakpoints?: Array<number>;
@@ -45,21 +45,23 @@ export interface ResizingOptions extends ResizeOptions {
   format?: ImageFormat;
   //cropFocus: 'entropy' | 'attention';
 }
-export interface inputOptions {
+/** Passing @baseUrl will fecth remote image and cteate it, at the fileName and sourcePath specified. */
+export interface SourceOptions {
+  remoteUrl?: string;
   srcPath?: string;
   srcPathPrefix?: string;
   srcFileName?: string;
   sourceMetadata?: SourceMetadata;
 }
-export interface outputOptions {
+export interface DestinationOptions {
   destPath?: string;
   destPathPrefix?: string;
   digestDirPrefix?: string;
   destFileName?: string;
 }
 export interface ImageOptions {
-  inputOptions?: inputOptions;
-  outputOptions?: outputOptions;
+  sourceOptions?: SourceOptions;
+  destinationOptions?: DestinationOptions;
   // Options to pass to sharp to control cropping and other image manipulations.
   resizeOptions?: ResizingOptions;
   // Options to pass to sharp when images.

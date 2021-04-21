@@ -2,18 +2,19 @@ import { ImageOptions } from '.';
 
 export const imageOptions: ImageOptions = {
   // Options to pass to sharp for input
-  inputOptions: {
+  sourceOptions: {
+    remoteUrl: 'https://isquadrepairsandiego.com/images/NEWLOGO.png',
     srcPath: 'assets/images',
     srcPathPrefix: 'src',
-    srcFileName: 'lucas-benjamin-wQLAGv4_OYs-unsplash.jpg',
+    srcFileName: 'new-logo.png',
     sourceMetadata: { width: 6720, height: 4420, format: 'jpg' },
   },
   // Options to pass to sharp for output
-  outputOptions: {
+  destinationOptions: {
     destPath: 'assets/images',
     destPathPrefix: 'src',
     digestDirPrefix: 'formats',
-    destFileName: 'lucas-benjamin-wQLAGv4_OYs-unsplash',
+    destFileName: 'new-logo',
   },
   // Options to pass to sharp to control cropping and other image manipulations.
   resizeOptions: {

@@ -1,9 +1,10 @@
 import { Sharp } from 'sharp';
 import { ImageOptions } from '../models';
+import { getCreateSourceDestinationPaths } from './get-source-destination-paths';
 
 export const resizeFormatImageToFile = async ({
-  inputOptions,
-  outputOptions,
+  sourceOptions,
+  destinationOptions,
   resizeOptions,
   jpgOptions,
   pngOptions,
@@ -11,32 +12,22 @@ export const resizeFormatImageToFile = async ({
   avifOptions,
 }: ImageOptions) => {
   try {
-    const { default: fs } = await import('fs');
-    const { resolve, join } = (await import('path')).default;
-    const {
-      srcPath,
-      srcPathPrefix,
-      srcFileName,
-      sourceMetadata: { width: metadataWidth, height: metadataHeight },
-    } = inputOptions;
+    const { absoluteImageSrc, absoluteImageDest } = await getCreateSourceDestinationPaths(
+      {
+        sourceOptions,
+        destinationOptions,
+        resizeOptions,
+      },
+    );
 
-    const imageSrcPath = resolve(
-      join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),
-    );
-    const { destPath, destPathPrefix, digestDirPrefix, destFileName } = outputOptions;
-    let { width, height, fit, format } = resizeOptions;
-    const imageDestPath = resolve(
-      join(destPathPrefix, ...destPath.split('/'), digestDirPrefix, format),
-    );
-    const absoluteDest = resolve(join(imageDestPath, destFileName));
-    if (fs.existsSync(absoluteDest)) {
-      return 'File exists ' + imageSrcPath;
-    }
-    if (!fs.existsSync(imageDestPath)) {
-      fs.mkdirSync(imageDestPath, { recursive: true });
-    }
     const { default: sharp } = await import('sharp');
-    const pipeline: Sharp = sharp(imageSrcPath);
+    const pipeline: Sharp = sharp(absoluteImageSrc);
+
+    const {
+      sourceMetadata: { width: metadataWidth, height: metadataHeight },
+    } = sourceOptions;
+    let { width, height, fit, format } = resizeOptions;
+
     if (metadataWidth && metadataHeight) {
       width = width && metadataWidth >= width ? width : null;
       height = height && metadataHeight >= height ? height : null;
@@ -56,7 +47,8 @@ export const resizeFormatImageToFile = async ({
     } else {
       throw new Error('Image format is not supported.');
     }
-    return await pipeline.toFile(absoluteDest);
+
+    return await pipeline.toFile(absoluteImageDest);
   } catch (error) {
     throw new Error(error);
   }

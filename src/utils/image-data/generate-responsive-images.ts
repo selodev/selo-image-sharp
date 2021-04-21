@@ -4,8 +4,8 @@ import { formatGetFileName } from './format-get-filename';
 
 export const getImageProps = (options: ImageOptions, sizes: CalculatedDimension[]) => {
   const {
-    inputOptions: { srcFileName },
-    outputOptions: { destPath, digestDirPrefix, destFileName },
+    sourceOptions: { srcFileName },
+    destinationOptions: { destPath, digestDirPrefix, destFileName },
     resizeOptions: { formats, layout },
   } = options;
 

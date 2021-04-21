@@ -5,7 +5,7 @@ export const getMetadataStats = async ({
   srcPath,
   srcPathPrefix,
   srcFileName,
-}): Promise<SourceMetadata> => {
+}): Promise<SourceMetadata & { dominantColor: string }> => {
   const { resolve, join } = (await import('path')).default;
   const imageSrcPath = resolve(
     join(srcPathPrefix, ...srcPath.split('/'), `${srcFileName}`),
