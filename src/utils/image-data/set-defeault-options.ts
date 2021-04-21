@@ -50,6 +50,7 @@ export const checkSetDefaultOptions = async (options: ImageOptions = imageOption
     inputOptions: { ...inputOptions, sourceMetadata },
   };
 };
+
 export const checkGetDimensions = async (options: ImageOptions) => {
   const {
     resizeOptions: { width, height },

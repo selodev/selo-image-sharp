@@ -1,4 +1,4 @@
-export const getImageInformation = ({ src, width, height, format }) => {
+export const formatGetFileName = ({ src, width, height, format }) => {
   const file = src.split('/').pop();
   const [fileName] = file.split('.');
   const srcPath = src.replace(`${file}`, '');

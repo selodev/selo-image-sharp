@@ -1,6 +1,6 @@
 import { ImageOptions } from '..';
 import { CalculatedDimension } from '../models';
-import { prepareImageInformation } from './prepare-image-metadata';
+import { formatGetFileName } from './format-get-filename';
 
 export const getImageProps = (options: ImageOptions, sizes: CalculatedDimension[]) => {
   const {
@@ -13,7 +13,7 @@ export const getImageProps = (options: ImageOptions, sizes: CalculatedDimension[
 
   Array.from(formats).map(format => {
     const transformationsToImageProps = sizes.map(({ width, height }) => {
-      const formattedDestFileName = prepareImageInformation({
+      const formattedDestFileName = formatGetFileName({
         src: destFileName || srcFileName,
         width,
         height,

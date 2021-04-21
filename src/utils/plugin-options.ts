@@ -1,12 +1,14 @@
 import { ImageOptions } from '.';
 
 export const imageOptions: ImageOptions = {
+  // Options to pass to sharp for input
   inputOptions: {
     srcPath: 'assets/images',
     srcPathPrefix: 'src',
     srcFileName: 'lucas-benjamin-wQLAGv4_OYs-unsplash.jpg',
     sourceMetadata: { width: 6720, height: 4420, format: 'jpg' },
   },
+  // Options to pass to sharp for output
   outputOptions: {
     destPath: 'assets/images',
     destPathPrefix: 'src',
@@ -15,11 +17,11 @@ export const imageOptions: ImageOptions = {
   },
   // Options to pass to sharp to control cropping and other image manipulations.
   resizeOptions: {
-    breakpoints: [320, 654, 768, 1024, 1366, 1600, 1920, 2048, 2560, 3440, 3840, 4096],
+    breakpoints: [320, 576, 768, 1200],
     pixelDensities: [1, 1.5, 2],
-    width: 600,
-    height: 800,
-    layout: 'fixed',
+    width: 800,
+    height: 600,
+    layout: 'constrained',
     fit: 'cover',
     aspectRatio: 4 / 3,
     formats: ['jpg', 'avif', 'webp'],

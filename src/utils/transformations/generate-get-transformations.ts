@@ -1,5 +1,5 @@
 import { ImageOptions } from '..';
-import { prepareImageInformation } from '../image-data/prepare-image-metadata';
+import { formatGetFileName } from '../image-data/format-get-filename';
 import { CalculatedDimension } from '../models';
 
 export const generateGetTransformations = (
@@ -21,7 +21,7 @@ export const generateGetTransformations = (
         inputOptions,
         outputOptions: {
           ...outputOptions,
-          destFileName: prepareImageInformation({
+          destFileName: formatGetFileName({
             src: destFileName || srcFileName,
             width,
             height,
