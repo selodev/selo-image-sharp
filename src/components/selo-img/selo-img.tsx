@@ -12,8 +12,8 @@ import {
 import { Source } from '../../utils/models';
 
 @Component({
-  tag: 'selo-image',
-  styleUrl: 'selo-image.css',
+  tag: 'selo-img',
+  styleUrl: 'selo-img.css',
   shadow: true,
 })
 export class SeloImage {
@@ -32,7 +32,7 @@ export class SeloImage {
   srcChanged() {
     this.addIO();
   }
-  
+
   /** Emitted when the img src has been set */
   @Event() imgWillLoad!: EventEmitter<void>;
   /** Emitted when the image has finished loading */

@@ -1,6 +1,6 @@
 {
-  "name": "selo-image-sharp",
-  "version": "0.0.8",
+  "name": "selo-img-sharp",
+  "version": "0.0.1",
   "description": "Stencil Component Starter",
   "author": {
     "name": "Selahattin Toprak",
@@ -8,7 +8,7 @@
     "url": "https://selo.dev"
   },
   "repository": {
-    "url": "https://github.com/selodev/selo-image-sharp",
+    "url": "https://github.com/selodev/selo-img-sharp",
     "type": "Javascript"
   },
   "main": "dist/index.cjs.js",
@@ -18,7 +18,7 @@
   "types": "dist/custom-elements/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/selo-image-sharp/selo-image-sharp.esm.js",
+  "unpkg": "dist/selo-img-sharp/selo-img-sharp.esm.js",
   "files": [
     "dist/",
     "loader/"

@@ -1,4 +1,4 @@
-# selo-image-sharp
+# selo-img-sharp
 
 
 
@@ -16,13 +16,13 @@
 
 ### Depends on
 
-- [selo-image](../selo-image)
+- [selo-img](../selo-img)
 
 ### Graph
 ```mermaid
 graph TD;
-  selo-image-sharp --> selo-image
-  style selo-image-sharp fill:#f9f,stroke:#333,stroke-width:4px
+  selo-img-sharp --> selo-img
+  style selo-img-sharp fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

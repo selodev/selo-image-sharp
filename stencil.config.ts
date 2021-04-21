@@ -4,7 +4,7 @@ import nodePolyfills from 'rollup-plugin-node-polyfills';
 import { externalModules } from './rollup.plugins';
 
 export const config: Config = {
-  namespace: 'selo-image-sharp',
+  namespace: 'selo-img-sharp',
   taskQueue: 'async',
   outputTargets: [
     {

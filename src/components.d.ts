@@ -7,7 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ImageOptions, Source } from "./utils/models";
 export namespace Components {
-    interface SeloImage {
+    interface SeloImg {
         "alt"?: string;
         "sizes"?: string;
         "sources": Array<Source>;
@@ -15,30 +15,30 @@ export namespace Components {
         "srcset"?: string;
         "type": string;
     }
-    interface SeloImageSharp {
+    interface SeloImgSharp {
         "options": ImageOptions | any;
     }
 }
 declare global {
-    interface HTMLSeloImageElement extends Components.SeloImage, HTMLStencilElement {
+    interface HTMLSeloImgElement extends Components.SeloImg, HTMLStencilElement {
     }
-    var HTMLSeloImageElement: {
-        prototype: HTMLSeloImageElement;
-        new (): HTMLSeloImageElement;
+    var HTMLSeloImgElement: {
+        prototype: HTMLSeloImgElement;
+        new (): HTMLSeloImgElement;
     };
-    interface HTMLSeloImageSharpElement extends Components.SeloImageSharp, HTMLStencilElement {
+    interface HTMLSeloImgSharpElement extends Components.SeloImgSharp, HTMLStencilElement {
     }
-    var HTMLSeloImageSharpElement: {
-        prototype: HTMLSeloImageSharpElement;
-        new (): HTMLSeloImageSharpElement;
+    var HTMLSeloImgSharpElement: {
+        prototype: HTMLSeloImgSharpElement;
+        new (): HTMLSeloImgSharpElement;
     };
     interface HTMLElementTagNameMap {
-        "selo-image": HTMLSeloImageElement;
-        "selo-image-sharp": HTMLSeloImageSharpElement;
+        "selo-img": HTMLSeloImgElement;
+        "selo-img-sharp": HTMLSeloImgSharpElement;
     }
 }
 declare namespace LocalJSX {
-    interface SeloImage {
+    interface SeloImg {
         "alt"?: string;
         /**
           * Emitted when the image has finished loading
@@ -58,20 +58,20 @@ declare namespace LocalJSX {
         "srcset"?: string;
         "type"?: string;
     }
-    interface SeloImageSharp {
+    interface SeloImgSharp {
         "options"?: ImageOptions | any;
     }
     interface IntrinsicElements {
-        "selo-image": SeloImage;
-        "selo-image-sharp": SeloImageSharp;
+        "selo-img": SeloImg;
+        "selo-img-sharp": SeloImgSharp;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "selo-image": LocalJSX.SeloImage & JSXBase.HTMLAttributes<HTMLSeloImageElement>;
-            "selo-image-sharp": LocalJSX.SeloImageSharp & JSXBase.HTMLAttributes<HTMLSeloImageSharpElement>;
+            "selo-img": LocalJSX.SeloImg & JSXBase.HTMLAttributes<HTMLSeloImgElement>;
+            "selo-img-sharp": LocalJSX.SeloImgSharp & JSXBase.HTMLAttributes<HTMLSeloImgSharpElement>;
         }
     }
 }

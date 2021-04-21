@@ -4,8 +4,8 @@ import { ImageOptions, ImageProps } from '../../utils/models';
 import { imageOptions } from '../../utils/plugin-options';
 
 @Component({
-  tag: 'selo-image-sharp',
-  styleUrl: 'selo-image-sharp.css',
+  tag: 'selo-img-sharp',
+  styleUrl: 'selo-img-sharp.css',
   shadow: true,
 })
 export class SeloImageSharp {
@@ -26,9 +26,9 @@ export class SeloImageSharp {
 
     return (
       <Host>
-        <selo-image src={src} srcset={srcset} sizes={sizes} sources={sources} type={type}>
+        <selo-img src={src} srcset={srcset} sizes={sizes} sources={sources} type={type}>
           <slot></slot>
-        </selo-image>
+        </selo-img>
       </Host>
     );
   }

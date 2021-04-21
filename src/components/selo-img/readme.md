@@ -1,4 +1,4 @@
-# selo-image
+# selo-img
 
 
 
@@ -10,24 +10,20 @@
 | Property  | Attribute | Description | Type       | Default     |
 | --------- | --------- | ----------- | ---------- | ----------- |
 | `alt`     | `alt`     |             | `string`   | `undefined` |
-| `height`  | `height`  |             | `any`      | `undefined` |
-| `layout`  | `layout`  |             | `any`      | `undefined` |
 | `sizes`   | `sizes`   |             | `string`   | `undefined` |
 | `sources` | --        |             | `Source[]` | `undefined` |
 | `src`     | `src`     |             | `string`   | `undefined` |
 | `srcset`  | `srcset`  |             | `string`   | `undefined` |
-| `styles`  | `styles`  |             | `any`      | `undefined` |
 | `type`    | `type`    |             | `string`   | `undefined` |
-| `width`   | `width`   |             | `any`      | `undefined` |
 
 
 ## Events
 
-| Event            | Description                                 | Type                |
-| ---------------- | ------------------------------------------- | ------------------- |
-| `ionError`       | Emitted when the img fails to load          | `CustomEvent<void>` |
-| `ionImgDidLoad`  | Emitted when the image has finished loading | `CustomEvent<void>` |
-| `ionImgWillLoad` | Emitted when the img src has been set       | `CustomEvent<void>` |
+| Event         | Description                                 | Type                |
+| ------------- | ------------------------------------------- | ------------------- |
+| `imgDidLoad`  | Emitted when the image has finished loading | `CustomEvent<void>` |
+| `imgError`    | Emitted when the img fails to load          | `CustomEvent<void>` |
+| `imgWillLoad` | Emitted when the img src has been set       | `CustomEvent<void>` |
 
 
 ## Shadow Parts
@@ -41,13 +37,13 @@
 
 ### Used by
 
- - [selo-image-sharp](../selo-image-sharp)
+ - [selo-img-sharp](../selo-img-sharp)
 
 ### Graph
 ```mermaid
 graph TD;
-  selo-image-sharp --> selo-image
-  style selo-image fill:#f9f,stroke:#333,stroke-width:4px
+  selo-img-sharp --> selo-img
+  style selo-img fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------
