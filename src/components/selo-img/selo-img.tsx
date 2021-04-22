@@ -14,7 +14,7 @@ import { Source } from '../../utils/models';
 @Component({
   tag: 'selo-img',
   styleUrl: 'selo-img.css',
-  shadow: true,
+  shadow: false,
 })
 export class SeloImage {
   private io?: IntersectionObserver;

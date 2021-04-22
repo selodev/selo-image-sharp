@@ -1,20 +1,28 @@
 import { getSrcsetAttribute, getSizesAttribute } from './generate-attributes';
-import { imageOptions, ImageOptions } from '..';
+import { ImageOptions, joinPaths } from '..';
 import { checkSetDefaultOptions } from './set-defeault-options';
 import { getCalculatedDimensions } from '../dimensions/get-calculated-dimensions';
-//import { generateGetTransformations } from '../transformations/generate-get-transformations';
-import { getImageProps } from './generate-responsive-images';
+import { generateGetTransformations } from '../transformations/generate-get-transformations';
+import { getImageSizes } from './get-image-sizes';
 import { ImageProps } from '../models';
 import { Build } from '@stencil/core';
 import { fetchCreateRemoteImage } from '../remote/fetch-create-remote-image';
 
-export const generateImageData = async (options: ImageOptions = imageOptions) => {
+export const generateImageData = async (options: ImageOptions) => {
+  const {
+    sourceOptions,
+    sourceOptions: { remoteUrl },
+  } = options;
+
+  if (!Build.isBrowser && remoteUrl) {
+    await fetchCreateRemoteImage(sourceOptions);
+  }
+
   options = await checkSetDefaultOptions(options);
 
   const {
     resizeOptions: { width, layout },
-    sourceOptions,
-    sourceOptions: { remoteUrl, srcPath, srcFileName },
+    sourceOptions: { srcPath, srcFileName },
   } = options;
 
   const {
@@ -24,31 +32,28 @@ export const generateImageData = async (options: ImageOptions = imageOptions) =>
   } = await getCalculatedDimensions(options);
 
   if (!Build.isBrowser) {
-    if (remoteUrl) {
-      await fetchCreateRemoteImage(sourceOptions);
-    }
-    /*     const { imagesForProccessing } = generateGetTransformations(
+    const { imagesForProccessing } = generateGetTransformations(
       options,
       layoutDimensions,
     );
     const { processTransformations } = await import(
       '../transformations/process-tranformations'
     );
-    await processTransformations(imagesForProccessing); */
+    await processTransformations(imagesForProccessing);
   }
 
   const [_, primaryFormat] = srcFileName.split('.');
-  console.log(primaryFormat);
-  const imageSizes = getImageProps(options, layoutDimensions);
+  const imageSizes = getImageSizes(options, layoutDimensions);
+  console.log('imagesizes', imageSizes, srcFileName,primaryFormat);
   const sizesAttribute = getSizesAttribute(requestedDimensions.width, layout);
-  console.log(imageSizes, imageSizes[primaryFormat]);
+
   const imageProps: ImageProps = {
     layout,
     placeholder: undefined,
     //backgroundColor,
     images: {
       fallback: {
-        src: (srcPath + '/' + srcFileName) as string,
+        src: joinPaths([srcPath, srcFileName], '/'),
         srcset: getSrcsetAttribute(imageSizes[primaryFormat]),
         sizes: sizesAttribute,
         type: `image/${primaryFormat}`,

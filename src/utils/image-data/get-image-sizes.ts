@@ -1,8 +1,8 @@
-import { ImageOptions } from '..';
+import { ImageOptions, joinPaths } from '..';
 import { CalculatedDimension } from '../models';
 import { formatGetFileName } from './format-get-filename';
 
-export const getImageProps = (options: ImageOptions, sizes: CalculatedDimension[]) => {
+export const getImageSizes = (options: ImageOptions, sizes: CalculatedDimension[]) => {
   const {
     sourceOptions: { srcFileName },
     destinationOptions: { destPath, digestDirPrefix, destFileName },
@@ -19,9 +19,8 @@ export const getImageProps = (options: ImageOptions, sizes: CalculatedDimension[
         height,
         format,
       }).formattedFileName;
-
       return {
-        src: `${destPath}/${digestDirPrefix}/${format}/${formattedDestFileName}`,
+        src: joinPaths([destPath, digestDirPrefix, format, formattedDestFileName]),
         width,
         type: `image/${format}`,
         layout,
@@ -30,5 +29,6 @@ export const getImageProps = (options: ImageOptions, sizes: CalculatedDimension[
 
     imageSizes[format] = transformationsToImageProps;
   });
+
   return imageSizes;
 };

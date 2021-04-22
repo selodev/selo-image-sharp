@@ -51,6 +51,7 @@ export interface SourceOptions {
   srcPath?: string;
   srcPathPrefix?: string;
   srcFileName?: string;
+  /** Use source metada for remote images only such as CDN. */
   sourceMetadata?: SourceMetadata;
 }
 export interface DestinationOptions {

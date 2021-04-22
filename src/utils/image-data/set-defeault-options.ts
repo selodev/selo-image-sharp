@@ -1,4 +1,4 @@
-import { imageOptions, ImageOptions } from '..';
+import { ImageOptions } from '..';
 import {
   DEFAULT_BREAKPOINTS,
   DEFAULT_PIXEL_DENSITIES,
@@ -7,16 +7,20 @@ import {
 } from '../constants';
 import { getMetadataStats } from './get-metadata-stats';
 
-export const checkSetDefaultOptions = async (options: ImageOptions = imageOptions) => {
+export const checkSetDefaultOptions = async (options: ImageOptions) => {
   checkGetDimensions(options);
   const { resizeOptions, sourceOptions } = options;
+  const { srcPath, srcPathPrefix, srcFileName } = sourceOptions;
+
   // Output Options
-  let { formats, pixelDensities, breakpoints, layout } = resizeOptions;
+  let { formats, pixelDensities, breakpoints, layout, fit } = resizeOptions;
   formats = formats ? new Set(formats) : SUPPORTED_FORMATS;
   if (!formats.size) throw new Error("Formats can't be empty!");
   if (formats.has(`jpg`) && formats.has(`png`)) {
-    throw new Error(`Specifying both "jpg" and "png" formats is not
-    supported, PLease remove either one!`);
+    const fileFormat = srcFileName.includes('png') ? 'png' : 'jpg';
+    fileFormat == 'png' ? formats.delete('jpg') : formats.delete('png');
+    console.warn(`Specifying both "jpg" and "png" formats is not
+    supported, Only ${fileFormat} is used instead.`);
   }
   for (let format of formats) {
     if (!SUPPORTED_FORMATS.has(format)) {
@@ -33,7 +37,6 @@ export const checkSetDefaultOptions = async (options: ImageOptions = imageOption
     );
   }
 
-  const { srcPath, srcPathPrefix, srcFileName } = sourceOptions;
   let { sourceMetadata } = sourceOptions;
   sourceMetadata ??= await getMetadataStats({
     srcPathPrefix,
@@ -44,9 +47,17 @@ export const checkSetDefaultOptions = async (options: ImageOptions = imageOption
   pixelDensities ??= DEFAULT_PIXEL_DENSITIES;
   breakpoints ?? DEFAULT_BREAKPOINTS;
   layout ??= 'constrained';
+  fit ??= 'cover';
   return {
     ...options,
-    resizeOptions: { ...resizeOptions, formats, pixelDensities, breakpoints, layout },
+    resizeOptions: {
+      ...resizeOptions,
+      formats,
+      pixelDensities,
+      breakpoints,
+      layout,
+      fit,
+    },
     sourceOptions: { ...sourceOptions, sourceMetadata },
   };
 };

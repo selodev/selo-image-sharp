@@ -11,7 +11,7 @@ export const getCreateSourcePath = async (
   const absoluteImageSrc = resolve(join(imageSrcPath, srcFileName));
 
   if (fs.existsSync(absoluteImageSrc)) {
-    throw new Error('File exists ' + absoluteImageSrc);
+    throw 'File exists ' + absoluteImageSrc;
   }
   if (!fs.existsSync(imageSrcPath)) {
     fs.mkdirSync(imageSrcPath, { recursive: true });

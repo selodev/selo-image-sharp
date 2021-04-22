@@ -12,8 +12,75 @@
     <script nomodule src="/build/selo-img-sharp.js"></script>
   </head>
   <body>
-    <selo-img-sharp
-      src="/assets/images/lucas-benjamin-wQLAGv4_OYs-unsplash.jpg"
-    ></selo-img-sharp>
+    <selo-img-sharp src="assets/images/NEWLOGO.png"> </selo-img-sharp>
+   <!-- <script>
+      (async () => {
+        /**
+         * Joins 2 paths together and makes sure there aren't any duplicate seperators
+         * @param parts the parts of the url to join. eg: ['http://google.com/', '/my-custom/path/']
+         * @param separator The separator for the path, defaults to '/'
+         * @returns {string} The combined path
+         */
+        function joinPaths(parts, separator) {
+          return parts
+            .map(function (part) {
+              return part.trim().replace(/(^[\/]*|[\/]*$)/g, '');
+            })
+            .join(separator || '/');
+        }
+        await customElements.whenDefined('selo-img-sharp');
+        const seloImgSharpElement = document.querySelector('selo-img-sharp');
+        async function imageOptionsBuilder(src) {
+          let options = {
+            // Options to pass to sharp for input
+            sourceOptions: {
+              remoteUrl: 'https://isquadrepairsandiego.com/images',
+              srcPath: 'assets/images',
+              srcPathPrefix: 'src',
+              // Filename without the format.
+              srcFileName: src.split('/').pop(),
+              sourceMetadata: { width: 6720, height: 4420, format: 'jpg' },
+            },
+            // Options to pass to sharp for output
+            destinationOptions: {
+              destPath: 'assets/images',
+              destPathPrefix: 'src',
+              digestDirPrefix: 'formats',
+              // Filename without the format.
+              destFileName: src.split('/').pop().split('.')[0],
+            },
+            // Options to pass to sharp to control cropping and other image manipulations.
+            resizeOptions: {
+              breakpoints: [320, 576, 768, 1200],
+              pixelDensities: [1, 1.5, 2],
+              width: 800,
+              height: 600,
+              layout: 'constrained',
+              fit: 'cover',
+              aspectRatio: 4 / 3,
+              formats: ['jpg', 'avif', 'webp'],
+            },
+            // Options to pass to sharp when images.
+            jpgOptions: { quality: 75, mozjpeg: true },
+            pngOptions: { quality: 75, compressionLevel: 9 },
+            webpOptions: { quality: 75, reductionEffort: 6 },
+            avifOptions: { quality: 65 },
+          };
+
+          let {
+            sourceOptions,
+            sourceOptions: { remoteUrl, srcPath },
+          } = options;
+          remoteUrl = joinPaths([remoteUrl, src.replace(srcPath, '')]);
+          options = { ...options, sourceOptions: { ...sourceOptions, remoteUrl } };
+          console.log('options', options);
+
+          return options;
+        }
+        const options = await imageOptionsBuilder('images/NEWLOGO.png');
+
+        seloImgSharpElement.options = options;
+      })();
+    </script>-->
   </body>
 </html>

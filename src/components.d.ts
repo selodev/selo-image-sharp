@@ -16,7 +16,9 @@ export namespace Components {
         "type": string;
     }
     interface SeloImgSharp {
-        "options": ImageOptions | any;
+        "alt": string;
+        "options": ImageOptions;
+        "src": string;
     }
 }
 declare global {
@@ -59,7 +61,9 @@ declare namespace LocalJSX {
         "type"?: string;
     }
     interface SeloImgSharp {
-        "options"?: ImageOptions | any;
+        "alt"?: string;
+        "options"?: ImageOptions;
+        "src"?: string;
     }
     interface IntrinsicElements {
         "selo-img": SeloImg;

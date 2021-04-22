@@ -7,9 +7,11 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type  | Default        |
-| --------- | --------- | ----------- | ----- | -------------- |
-| `options` | `options` |             | `any` | `imageOptions` |
+| Property  | Attribute | Description | Type           | Default                       |
+| --------- | --------- | ----------- | -------------- | ----------------------------- |
+| `alt`     | `alt`     |             | `string`       | `undefined`                   |
+| `options` | --        |             | `ImageOptions` | `undefined`                   |
+| `src`     | `src`     |             | `string`       | `'assets/images/NEWLOGO.png'` |
 
 
 ## Dependencies
