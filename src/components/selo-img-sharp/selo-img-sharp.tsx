@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, Host, h, Prop, State, Build } from '@stencil/core';
 import { imageOptionsBuilder } from '../../utils';
 import { generateImageData } from '../../utils/image-data/generate-image-data';
 import { ImageOptions, ImageProps } from '../../utils/models';
@@ -16,7 +16,7 @@ export class SeloImageSharp {
 
   async componentWillLoad() {
     this.options = await imageOptionsBuilder(this.src);
-    if (this.options) {
+    if (this.options && !Build.isBrowser) {
       this.imageProps = await generateImageData(this.options);
     } else {
       throw new Error('Image options object is required.');

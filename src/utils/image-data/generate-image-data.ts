@@ -14,7 +14,7 @@ export const generateImageData = async (options: ImageOptions) => {
     sourceOptions: { remoteUrl },
   } = options;
 
-  if (!Build.isBrowser && remoteUrl) {
+  if (remoteUrl) {
     await fetchCreateRemoteImage(sourceOptions);
   }
 
@@ -44,7 +44,7 @@ export const generateImageData = async (options: ImageOptions) => {
 
   const [_, primaryFormat] = srcFileName.split('.');
   const imageSizes = getImageSizes(options, layoutDimensions);
-  console.log('imagesizes', imageSizes, srcFileName,primaryFormat);
+  console.log('imagesizes', imageSizes, srcFileName, primaryFormat);
   const sizesAttribute = getSizesAttribute(requestedDimensions.width, layout);
 
   const imageProps: ImageProps = {

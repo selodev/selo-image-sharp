@@ -8,6 +8,7 @@ export const imageOptionsBuilder = async (src: string): Promise<ImageOptions> =>
       srcPath: 'assets/images',
       srcPathPrefix: 'src',
       srcFileName: src.split('/').pop(),
+      //sourceMetadata: { width: 800, height: 600, format: null },
     },
     // Options to pass to sharp for output
     destinationOptions: {
@@ -22,18 +23,18 @@ export const imageOptionsBuilder = async (src: string): Promise<ImageOptions> =>
       breakpoints: [320, 576, 768, 1200],
       pixelDensities: [1, 1.5, 2],
       // width and hight acts as maxWidth and maxHieght when used with `constrained`
-      width: 800,
+      //width: 800,
       //height: 600,
       layout: 'constrained',
       fit: 'cover',
-      aspectRatio: 4 / 3,
+      //aspectRatio: 4 / 3,
       formats: ['jpg', 'png', 'avif', 'webp'],
     },
     // Options to pass to sharp when images.
     jpgOptions: { quality: 75, mozjpeg: true },
     pngOptions: { quality: 75, compressionLevel: 9 },
     webpOptions: { quality: 75, reductionEffort: 6 },
-    avifOptions: { quality: 65 },
+    avifOptions: { quality: 75 },
   };
 
   let {
