@@ -6,6 +6,8 @@ import { externalModules } from './rollup.plugins';
 export const config: Config = {
   namespace: 'selo-img-sharp',
   taskQueue: 'async',
+  allowInlineScripts: true,
+  hashFileNames: false,
   outputTargets: [
     {
       type: 'dist',
@@ -14,6 +16,8 @@ export const config: Config = {
     },
     {
       type: 'dist-custom-elements-bundle',
+      externalRuntime: true,
+      //inlineDynamicImports: true,
     },
     {
       type: 'docs-readme',
@@ -21,8 +25,9 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers,
-      baseUrl: 'http://test.com',
+      baseUrl: 'http://localhost:4444',
       prerenderConfig: './prerender.config.ts',
+      polyfills: true,
     },
   ],
   rollupPlugins: {
@@ -32,7 +37,7 @@ export const config: Config = {
       nodePolyfills(),
     ],
   },
-  nodeResolve: { preferBuiltins: true, browser: true },
+  nodeResolve: { preferBuiltins: true, browser: true, extensions: ['.js', '.json'] },
   extras: { dynamicImportShim: true, shadowDomShim: true },
   devServer: { openBrowser: false, port: 4444, logRequests: true },
 };

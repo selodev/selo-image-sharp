@@ -45,11 +45,11 @@ export const resizeFormatImageToFile = async ({
     } else if (format == 'webp') {
       pipeline.webp({ ...webpOptions });
     } else {
-      throw new Error('Image format is not supported.');
+      throw 'Image format is not supported.';
     }
 
     return await pipeline.toFile(absoluteImageDest);
   } catch (error) {
-    throw new Error(error);
+    console.log(error);
   }
 };

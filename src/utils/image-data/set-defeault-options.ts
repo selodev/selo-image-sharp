@@ -1,3 +1,4 @@
+import { Build } from '@stencil/core';
 import { ImageOptions } from '..';
 import {
   DEFAULT_BREAKPOINTS,
@@ -38,11 +39,12 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
   }
 
   let { sourceMetadata } = sourceOptions;
+  if(!Build.isBrowser){
   sourceMetadata ??= await getMetadataStats({
     srcPathPrefix,
     srcPath,
     srcFileName,
-  });
+  })}
 
   pixelDensities ??= DEFAULT_PIXEL_DENSITIES;
   breakpoints ?? DEFAULT_BREAKPOINTS;

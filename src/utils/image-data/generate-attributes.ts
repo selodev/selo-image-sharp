@@ -21,4 +21,4 @@ export const getSizesAttribute = (width: number, layout: Layout): string | undef
 };
 
 export const getSrcsetAttribute = (images: Array<any>): string =>
-  images.map(image => `${image.src} ${image.width}w`).join(`,\n`);
+  images.map(image => `${image.src} ${image.width}w`).join(',');

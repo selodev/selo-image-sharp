@@ -19,7 +19,7 @@ import { Source } from '../../utils/models';
 export class SeloImage {
   private io?: IntersectionObserver;
   @Element() el!: HTMLElement;
-  @State() shouldLoad?: boolean;
+  @State() shouldLoad?: boolean = true;
   @State() loadError?: () => void;
   @Prop() src?: string;
   @Prop() alt?: string;
@@ -92,26 +92,31 @@ export class SeloImage {
   render() {
     return (
       <Host>
-        {this.srcset ? (
+        {this?.srcset ? (
           <picture>
             <slot></slot>
 
-            {this.sources &&
+            {this.sources.length &&
               this.sources.map(({ type, srcset, sizes }) => (
-                <source type={type} srcSet={this.shouldLoad && srcset} sizes={sizes} />
+                <source
+                  type={type}
+                  srcSet={this.shouldLoad ? srcset : null}
+                  sizes={sizes}
+                />
               ))}
 
             {this.srcset && (
               <source
                 type={this.type}
-                srcSet={this.shouldLoad && this.srcset}
+                srcSet={this.shouldLoad ? this.srcset : null}
                 sizes={this.sizes}
               />
             )}
 
             <img
               decoding="async"
-              src={this.shouldLoad && this.src}
+              src={this.shouldLoad ? this.src : null}
+              srcset={this.shouldLoad ? this.srcset : null}
               alt={this.alt}
               onLoad={this.onLoad}
               onError={this.loadError}

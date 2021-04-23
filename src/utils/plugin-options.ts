@@ -5,14 +5,14 @@ export const imageOptionsBuilder = async (src: string): Promise<ImageOptions> =>
     // Options to pass to sharp for input
     sourceOptions: {
       remoteUrl: 'https://isquadrepairsandiego.com/images',
-      srcPath: 'assets/images',
+      srcPath: '/assets/images',
       srcPathPrefix: 'src',
       srcFileName: src.split('/').pop(),
-      //sourceMetadata: { width: 800, height: 600, format: null },
+      //sourceMetadata: { width: 800, height: 150, format: "png" },
     },
     // Options to pass to sharp for output
     destinationOptions: {
-      destPath: 'assets/images',
+      destPath: '/assets/images',
       destPathPrefix: 'src',
       digestDirPrefix: 'formats',
       // Destination file name without format

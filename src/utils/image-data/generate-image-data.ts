@@ -3,8 +3,8 @@ import { ImageOptions, joinPaths } from '..';
 import { checkSetDefaultOptions } from './set-defeault-options';
 import { getCalculatedDimensions } from '../dimensions/get-calculated-dimensions';
 import { generateGetTransformations } from '../transformations/generate-get-transformations';
-import { getImageSizes } from './get-image-sizes';
-import { ImageProps } from '../models';
+import { generateImageSources } from './get-image-sources';
+import { ImageProps, ImageSources } from '../models';
 import { Build } from '@stencil/core';
 import { fetchCreateRemoteImage } from '../remote/fetch-create-remote-image';
 
@@ -14,12 +14,11 @@ export const generateImageData = async (options: ImageOptions) => {
     sourceOptions: { remoteUrl },
   } = options;
 
-  if (remoteUrl) {
+  if (remoteUrl && !Build.isBrowser) {
     await fetchCreateRemoteImage(sourceOptions);
   }
 
   options = await checkSetDefaultOptions(options);
-
   const {
     resizeOptions: { width, layout },
     sourceOptions: { srcPath, srcFileName },
@@ -43,8 +42,7 @@ export const generateImageData = async (options: ImageOptions) => {
   }
 
   const [_, primaryFormat] = srcFileName.split('.');
-  const imageSizes = getImageSizes(options, layoutDimensions);
-  console.log('imagesizes', imageSizes, srcFileName, primaryFormat);
+  const imageSources: ImageSources = generateImageSources(options, layoutDimensions);
   const sizesAttribute = getSizesAttribute(requestedDimensions.width, layout);
 
   const imageProps: ImageProps = {
@@ -54,7 +52,7 @@ export const generateImageData = async (options: ImageOptions) => {
     images: {
       fallback: {
         src: joinPaths([srcPath, srcFileName], '/'),
-        srcset: getSrcsetAttribute(imageSizes[primaryFormat]),
+        srcset: getSrcsetAttribute(await Promise.all(imageSources[primaryFormat])),
         sizes: sizesAttribute,
         type: `image/${primaryFormat}`,
       },
@@ -64,10 +62,12 @@ export const generateImageData = async (options: ImageOptions) => {
     height: 0,
   };
 
-  for (let key in imageSizes) {
+  for (let key in imageSources) {
     if (key !== primaryFormat) {
+      const imageSourcesByFormat = await Promise.all(imageSources[key]);
+      console.log(imageSourcesByFormat)
       imageProps.images.sources.push({
-        srcset: getSrcsetAttribute(imageSizes[key]),
+        srcset: getSrcsetAttribute(imageSourcesByFormat),
         sizes: sizesAttribute,
         type: `image/${key}`,
       });

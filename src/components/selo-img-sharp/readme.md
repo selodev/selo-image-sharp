@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type           | Default                       |
-| --------- | --------- | ----------- | -------------- | ----------------------------- |
-| `alt`     | `alt`     |             | `string`       | `undefined`                   |
-| `options` | --        |             | `ImageOptions` | `undefined`                   |
-| `src`     | `src`     |             | `string`       | `'assets/images/NEWLOGO.png'` |
+| Property  | Attribute | Description | Type           | Default                        |
+| --------- | --------- | ----------- | -------------- | ------------------------------ |
+| `alt`     | `alt`     |             | `string`       | `undefined`                    |
+| `options` | --        |             | `ImageOptions` | `undefined`                    |
+| `src`     | `src`     |             | `string`       | `'/assets/images/NEWLOGO.png'` |
 
 
 ## Dependencies

@@ -5,18 +5,30 @@ import { AvifOptions, JpegOptions, PngOptions, ResizeOptions, WebpOptions } from
 export type Fit = 'cover' | 'fill' | 'inside' | 'outside' | 'contain';
 export type Layout = 'fixed' | 'fullWidth' | 'constrained';
 export type ImageFormat = 'jpg' | 'png' | 'webp' | 'avif';
-export type ImageSize = { src: string; width: string; type: string; layout: string };
-export type Source = { type: string; srcset: string; sizes: string };
+
+export interface ImageSources {
+  [format: string]: Promise<ImageSource>[];
+}
+export type ImageSource = { src: string; width: number; type: string };
+
 export interface ImageProps {
   layout: string;
   placeholder: undefined;
   images: {
-    fallback: { type: string; src: string; srcset: string; sizes: string };
+    fallback: Image;
     sources: Array<Source>;
   };
   width: number;
   height: number;
 }
+export type Source = { type: string; srcset: string; sizes: string };
+export interface Image {
+  type: string;
+  src: string;
+  srcset: string;
+  sizes: string;
+}
+
 export interface SourceMetadata {
   width: number;
   height: number;
