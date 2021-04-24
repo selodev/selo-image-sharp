@@ -1,34 +1,31 @@
-import { getSrcsetAttribute, getSizesAttribute } from './generate-attributes';
-import { ImageOptions, joinPaths } from '..';
+import { ImageOptions } from '..';
 import { checkSetDefaultOptions } from './set-defeault-options';
 import { getCalculatedDimensions } from '../dimensions/get-calculated-dimensions';
 import { generateGetTransformations } from '../transformations/generate-get-transformations';
-import { generateImageSources } from './get-image-sources';
-import { ImageProps, ImageSources } from '../models';
 import { Build } from '@stencil/core';
-import { fetchCreateRemoteImage } from '../remote/fetch-create-remote-image';
+import { fetchWriteRemoteImage } from '../remote/fetch-write-remote-image-to-file';
+import { generateImageProps } from './generate-image-props';
+import { generateImageSources } from './get-image-sources';
+import { ImageSources } from '../models';
 
 export const generateImageData = async (options: ImageOptions) => {
-  const {
+  options = await checkSetDefaultOptions(options);
+
+  let {
     sourceOptions,
     sourceOptions: { remoteUrl },
+    resizeOptions,
   } = options;
 
-  if (remoteUrl && !Build.isBrowser) {
-    await fetchCreateRemoteImage(sourceOptions);
+  if (!Build.isBrowser) {
+    if (remoteUrl) await fetchWriteRemoteImage(sourceOptions);
   }
-
-  options = await checkSetDefaultOptions(options);
-  const {
-    resizeOptions: { width, layout },
-    sourceOptions: { srcPath, srcFileName },
-  } = options;
 
   const {
     sourceDimensions,
     requestedDimensions,
     layoutDimensions,
-  } = await getCalculatedDimensions(options);
+  } = await getCalculatedDimensions({ sourceOptions, resizeOptions });
 
   if (!Build.isBrowser) {
     const { imagesForProccessing } = generateGetTransformations(
@@ -40,55 +37,14 @@ export const generateImageData = async (options: ImageOptions) => {
     );
     await processTransformations(imagesForProccessing);
   }
-
-  const [_, primaryFormat] = srcFileName.split('.');
   const imageSources: ImageSources = generateImageSources(options, layoutDimensions);
-  const sizesAttribute = getSizesAttribute(requestedDimensions.width, layout);
 
-  const imageProps: ImageProps = {
-    layout,
-    placeholder: undefined,
-    //backgroundColor,
-    images: {
-      fallback: {
-        src: joinPaths([srcPath, srcFileName], '/'),
-        srcset: getSrcsetAttribute(await Promise.all(imageSources[primaryFormat])),
-        sizes: sizesAttribute,
-        type: `image/${primaryFormat}`,
-      },
-      sources: [],
+  return await generateImageProps(
+    options,
+    {
+      sourceDimensions,
+      requestedDimensions,
     },
-    width: 0,
-    height: 0,
-  };
-
-  for (let key in imageSources) {
-    if (key !== primaryFormat) {
-      const imageSourcesByFormat = await Promise.all(imageSources[key]);
-      console.log(imageSourcesByFormat)
-      imageProps.images.sources.push({
-        srcset: getSrcsetAttribute(imageSourcesByFormat),
-        sizes: sizesAttribute,
-        type: `image/${key}`,
-      });
-    }
-  }
-
-  switch (layout) {
-    case `fixed`:
-      imageProps.width = requestedDimensions.width;
-      imageProps.height = requestedDimensions.height;
-      break;
-
-    case `fullWidth`:
-      imageProps.width = 1;
-      imageProps.height = 1 / sourceDimensions.aspectRatio;
-      break;
-
-    case `constrained`:
-      imageProps.width = width || sourceDimensions.width || 1;
-      imageProps.height = 1 / sourceDimensions.aspectRatio;
-  }
-
-  return imageProps;
+    imageSources,
+  );
 };

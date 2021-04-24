@@ -19,19 +19,11 @@ export const resizeFormatImageToFile = async ({
         resizeOptions,
       },
     );
-
     const { default: sharp } = await import('sharp');
     const pipeline: Sharp = sharp(absoluteImageSrc);
 
-    const {
-      sourceMetadata: { width: metadataWidth, height: metadataHeight },
-    } = sourceOptions;
     let { width, height, fit, format } = resizeOptions;
 
-    if (metadataWidth && metadataHeight) {
-      width = width && metadataWidth >= width ? width : null;
-      height = height && metadataHeight >= height ? height : null;
-    }
     if (width || height) {
       pipeline.resize(width, height, { fit });
     }

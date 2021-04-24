@@ -4,7 +4,7 @@ import { CalculatedDimension } from '../models';
 
 export const generateGetTransformations = (
   options: ImageOptions,
-  sizes: CalculatedDimension[],
+  dimensions: CalculatedDimension[],
 ) => {
   const {
     sourceOptions,
@@ -17,7 +17,7 @@ export const generateGetTransformations = (
 
   const imagesForProccessing: any[] = Array.from(formats)
     .map(format =>
-      sizes.map(({ width, height }) => ({
+      dimensions.map(({ width, height }) => ({
         sourceOptions,
         destinationOptions: {
           ...destinationOptions,

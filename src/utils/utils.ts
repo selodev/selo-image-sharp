@@ -9,7 +9,7 @@ export const dedupeAndSortDensities = (values: Array<number>): Array<number> =>
  * @param separator The separator for the path, defaults to '/'
  * @returns {string} The combined path
  */
-export function joinPaths(parts: string[], separator?: string) {
+export function joinPaths(parts: string[], separator?: string): string {
   return parts
     .map(function (part) {
       return part.trim().replace(/(^[\/]*|[\/]*$)/g, '');

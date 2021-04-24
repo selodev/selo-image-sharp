@@ -1,3 +1,4 @@
+import { Build } from '@stencil/core';
 import { ImageOptions, joinPaths } from '..';
 import { CalculatedDimension, ImageSource, ImageSources } from '../models';
 import { createHashFromFile } from './create-hash-from-file';
@@ -24,7 +25,9 @@ export const generateImageSources = (
           format,
         }).formattedFileName;
         const src = joinPaths([destPath, digestDirPrefix, format, formattedDestFileName]);
-        const hash = await createHashFromFile(joinPaths([destPathPrefix, src], '/'), 10);
+        const hash = !Build.isBrowser
+          ? await createHashFromFile(joinPaths([destPathPrefix, src], '/'), 10)
+          : '';
         return {
           src: `${src}?v=${hash}`,
           width,

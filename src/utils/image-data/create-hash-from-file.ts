@@ -3,9 +3,9 @@ export const createHashFromFile = async (
   length: number,
 ): Promise<any> => {
   const hash = await new Promise(async resolve => {
-    const { default: crypto } = await import('crypto');
+    const { createHash } = await import('crypto');
     const fs = (await import('fs')).default;
-    const hash = crypto.createHash('sha1');
+    const hash = createHash('sha1');
     fs.createReadStream(absoluteFilePath)
       .on('data', data => hash.update(data))
       .on('end', () => {

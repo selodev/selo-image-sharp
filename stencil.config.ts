@@ -1,6 +1,6 @@
 import { Config } from '@stencil/core';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
-
+import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 import { externalModules } from './rollup.plugins';
 
 export const config: Config = {
@@ -37,7 +37,11 @@ export const config: Config = {
       nodePolyfills(),
     ],
   },
-  nodeResolve: { preferBuiltins: true, browser: true, extensions: ['.js', '.json'] },
+  nodeResolve: {
+    preferBuiltins: true,
+    browser: true,
+    extensions: ['.ts', '.js', '.json'],
+  },
   extras: { dynamicImportShim: true, shadowDomShim: true },
   devServer: { openBrowser: false, port: 4444, logRequests: true },
 };

@@ -27,6 +27,7 @@ export interface Image {
   src: string;
   srcset: string;
   sizes: string;
+  sourceMetadata: SourceMetadata;
 }
 
 export interface SourceMetadata {
@@ -46,7 +47,6 @@ export interface DimensionAspectRatio {
   fit?: string;
 }
 export interface ResizingOptions extends ResizeOptions {
-  dominantColor?: string;
   aspectRatio?: number;
   // Output widths to generate for full width images.
   breakpoints?: Array<number>;
@@ -65,6 +65,7 @@ export interface SourceOptions {
   srcFileName?: string;
   /** Use source metada for remote images only such as CDN. */
   sourceMetadata?: SourceMetadata;
+  sourceMetadataDigestDir: string;
 }
 export interface DestinationOptions {
   destPath?: string;

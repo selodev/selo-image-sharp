@@ -7,14 +7,15 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type       | Default     |
-| --------- | --------- | ----------- | ---------- | ----------- |
-| `alt`     | `alt`     |             | `string`   | `undefined` |
-| `sizes`   | `sizes`   |             | `string`   | `undefined` |
-| `sources` | --        |             | `Source[]` | `undefined` |
-| `src`     | `src`     |             | `string`   | `undefined` |
-| `srcset`  | `srcset`  |             | `string`   | `undefined` |
-| `type`    | `type`    |             | `string`   | `undefined` |
+| Property  | Attribute | Description | Type                          | Default     |
+| --------- | --------- | ----------- | ----------------------------- | ----------- |
+| `alt`     | `alt`     |             | `string`                      | `undefined` |
+| `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `undefined` |
+| `sizes`   | `sizes`   |             | `string`                      | `undefined` |
+| `sources` | --        |             | `Source[]`                    | `undefined` |
+| `src`     | `src`     |             | `string`                      | `undefined` |
+| `srcset`  | `srcset`  |             | `string`                      | `undefined` |
+| `type`    | `type`    |             | `string`                      | `undefined` |
 
 
 ## Events

@@ -24,7 +24,7 @@
     "loader/"
   ],
   "scripts": {
-    "rmiprerender": "rm -rf www dist src/assets/images/formats loader & stencil build --prerender",
+    "rmiprerender": "rm -rf www dist src/assets/images/formats src/assets/images/source-metadata loader & stencil build --prerender",
     "prerender": "rm -rf www dist loader & stencil build --prerender",
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
@@ -37,10 +37,13 @@
     "@stencil/core": "^2.0.1",
     "@types/node": "^14.14.37",
     "@types/sharp": "^0.28.0",
+    "@web/dev-server-rollup": "^0.3.3",
     "sharp": "^0.28.1"
   },
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-dynamic-import-vars": "^1.1.1",
+    "@rollup/plugin-json": "^4.1.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "serve": "^11.3.2"
   }

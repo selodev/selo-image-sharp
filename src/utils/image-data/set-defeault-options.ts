@@ -1,4 +1,3 @@
-import { Build } from '@stencil/core';
 import { ImageOptions } from '..';
 import {
   DEFAULT_BREAKPOINTS,
@@ -6,15 +5,15 @@ import {
   SUPPORTED_FORMATS,
   SUPPORTED_LAYOUTS,
 } from '../constants';
-import { getMetadataStats } from './get-metadata-stats';
+import { getWriteMetadataToFile } from '../meta-data/get-write-metadata-to-file';
 
 export const checkSetDefaultOptions = async (options: ImageOptions) => {
-  checkGetDimensions(options);
   const { resizeOptions, sourceOptions } = options;
-  const { srcPath, srcPathPrefix, srcFileName } = sourceOptions;
 
   // Output Options
-  let { formats, pixelDensities, breakpoints, layout, fit } = resizeOptions;
+  let { srcFileName, sourceMetadata } = sourceOptions;
+  let { formats, layout, fit, breakpoints, pixelDensities } = resizeOptions;
+
   formats = formats ? new Set(formats) : SUPPORTED_FORMATS;
   if (!formats.size) throw new Error("Formats can't be empty!");
   if (formats.has(`jpg`) && formats.has(`png`)) {
@@ -38,49 +37,26 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
     );
   }
 
-  let { sourceMetadata } = sourceOptions;
-  if(!Build.isBrowser){
-  sourceMetadata ??= await getMetadataStats({
-    srcPathPrefix,
-    srcPath,
-    srcFileName,
-  })}
+  sourceMetadata ??= await getWriteMetadataToFile(options);
+  console.log('sourceMetadata in potion', sourceMetadata);
 
   pixelDensities ??= DEFAULT_PIXEL_DENSITIES;
   breakpoints ?? DEFAULT_BREAKPOINTS;
   layout ??= 'constrained';
   fit ??= 'cover';
+
   return {
     ...options,
+    sourceOptions: { ...sourceOptions, sourceMetadata },
     resizeOptions: {
       ...resizeOptions,
       formats,
-      pixelDensities,
-      breakpoints,
       layout,
       fit,
+      pixelDensities,
+      breakpoints,
     },
-    sourceOptions: { ...sourceOptions, sourceMetadata },
   };
-};
-
-export const checkGetDimensions = async (options: ImageOptions) => {
-  const {
-    resizeOptions: { width, height },
-  } = options;
-  // check that all dimensions provided are positive
-  const userDimensions = { width, height };
-  const negativeDimensions = Object.entries(userDimensions).filter(
-    ([_, size]) => typeof size === `number` && size < 1,
-  );
-  if (negativeDimensions.length) {
-    throw new Error(
-      `Specified dimensions for images must be positive numbers (> 0). 
-          Problem dimensions you have are ${negativeDimensions
-            .map(dimension => dimension.join(`: `))
-            .join(`, `)}`,
-    );
-  }
 };
 
 /* export const checkSharpTransformOptions = (sharpTransformOptions, file) => {

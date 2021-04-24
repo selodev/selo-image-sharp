@@ -5,10 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ImageOptions, Source } from "./utils/models";
+import { ImageOptions, Source, SourceMetadata } from "./utils/models";
 export namespace Components {
+    interface AppTestingWrapper {
+    }
+    interface LazyLoader {
+    }
     interface SeloImg {
         "alt"?: string;
+        "loading": 'auto' | 'lazy' | 'eager';
         "sizes"?: string;
         "sources": Array<Source>;
         "src"?: string;
@@ -17,11 +22,27 @@ export namespace Components {
     }
     interface SeloImgSharp {
         "alt": string;
+        "loading": 'auto' | 'lazy' | 'eager';
+        "nativeLoading": boolean;
         "options": ImageOptions;
+        "shouldLoad": boolean;
+        "sourceMetadata": SourceMetadata;
         "src": string;
     }
 }
 declare global {
+    interface HTMLAppTestingWrapperElement extends Components.AppTestingWrapper, HTMLStencilElement {
+    }
+    var HTMLAppTestingWrapperElement: {
+        prototype: HTMLAppTestingWrapperElement;
+        new (): HTMLAppTestingWrapperElement;
+    };
+    interface HTMLLazyLoaderElement extends Components.LazyLoader, HTMLStencilElement {
+    }
+    var HTMLLazyLoaderElement: {
+        prototype: HTMLLazyLoaderElement;
+        new (): HTMLLazyLoaderElement;
+    };
     interface HTMLSeloImgElement extends Components.SeloImg, HTMLStencilElement {
     }
     var HTMLSeloImgElement: {
@@ -35,13 +56,36 @@ declare global {
         new (): HTMLSeloImgSharpElement;
     };
     interface HTMLElementTagNameMap {
+        "app-testing-wrapper": HTMLAppTestingWrapperElement;
+        "lazy-loader": HTMLLazyLoaderElement;
         "selo-img": HTMLSeloImgElement;
         "selo-img-sharp": HTMLSeloImgSharpElement;
     }
 }
 declare namespace LocalJSX {
+    interface AppTestingWrapper {
+    }
+    interface LazyLoader {
+        /**
+          * Emitted when the LazyLoader fails to load
+         */
+        "onLazyLoaderDidDissconnect"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the LazyLoader has finished loading
+         */
+        "onLazyLoaderDidLoad"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the LazyLoader fails to load
+         */
+        "onLazyLoaderOnSlotChange"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the Lazyloader shouldLoad has been set
+         */
+        "onLazyLoaderWillLoad"?: (event: CustomEvent<void>) => void;
+    }
     interface SeloImg {
         "alt"?: string;
+        "loading"?: 'auto' | 'lazy' | 'eager';
         /**
           * Emitted when the image has finished loading
          */
@@ -62,10 +106,16 @@ declare namespace LocalJSX {
     }
     interface SeloImgSharp {
         "alt"?: string;
+        "loading"?: 'auto' | 'lazy' | 'eager';
+        "nativeLoading"?: boolean;
         "options"?: ImageOptions;
+        "shouldLoad"?: boolean;
+        "sourceMetadata"?: SourceMetadata;
         "src"?: string;
     }
     interface IntrinsicElements {
+        "app-testing-wrapper": AppTestingWrapper;
+        "lazy-loader": LazyLoader;
         "selo-img": SeloImg;
         "selo-img-sharp": SeloImgSharp;
     }
@@ -74,6 +124,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "app-testing-wrapper": LocalJSX.AppTestingWrapper & JSXBase.HTMLAttributes<HTMLAppTestingWrapperElement>;
+            "lazy-loader": LocalJSX.LazyLoader & JSXBase.HTMLAttributes<HTMLLazyLoaderElement>;
             "selo-img": LocalJSX.SeloImg & JSXBase.HTMLAttributes<HTMLSeloImgElement>;
             "selo-img-sharp": LocalJSX.SeloImgSharp & JSXBase.HTMLAttributes<HTMLSeloImgSharpElement>;
         }

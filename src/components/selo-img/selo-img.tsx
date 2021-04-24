@@ -2,7 +2,6 @@ import {
   Component,
   Host,
   h,
-  Element,
   Prop,
   State,
   Watch,
@@ -14,12 +13,10 @@ import { Source } from '../../utils/models';
 @Component({
   tag: 'selo-img',
   styleUrl: 'selo-img.css',
-  shadow: false,
+  shadow: true,
 })
 export class SeloImage {
-  private io?: IntersectionObserver;
-  @Element() el!: HTMLElement;
-  @State() shouldLoad?: boolean = true;
+  @Prop() loading: 'auto' | 'lazy' | 'eager';
   @State() loadError?: () => void;
   @Prop() src?: string;
   @Prop() alt?: string;
@@ -30,7 +27,7 @@ export class SeloImage {
 
   @Watch('src')
   srcChanged() {
-    this.addIO();
+    this.load();
   }
 
   /** Emitted when the img src has been set */
@@ -40,44 +37,12 @@ export class SeloImage {
   /** Emitted when the img fails to load */
   @Event() imgError!: EventEmitter<void>;
 
-  componentDidLoad() {
-    this.addIO();
-  }
-
-  private addIO() {
-    if (this.src === undefined) {
-      return;
-    }
-    if (
-      typeof (window as any) !== 'undefined' &&
-      'IntersectionObserver' in window &&
-      'IntersectionObserverEntry' in window &&
-      'isIntersecting' in window.IntersectionObserverEntry.prototype
-    ) {
-      this.removeIO();
-      this.io = new IntersectionObserver(data => {
-        if (data[0].isIntersecting) {
-          this.load();
-          this.removeIO();
-        }
-      });
-      this.io.observe(this.el);
-    } else {
-      // fall back to setTimeout for Safari and IE
-      setTimeout(() => this.load(), 200);
-    }
-  }
-
-  private removeIO() {
-    if (this.io) {
-      this.io.disconnect();
-      this.io = undefined;
-    }
+  componentWillLoad() {
+    this.load();
   }
 
   private load() {
     this.loadError = this.onError;
-    this.shouldLoad = true;
     this.imgWillLoad.emit();
   }
 
@@ -92,31 +57,23 @@ export class SeloImage {
   render() {
     return (
       <Host>
-        {this?.srcset ? (
+        {this?.sources?.length ? (
           <picture>
             <slot></slot>
 
             {this.sources.length &&
-              this.sources.map(({ type, srcset, sizes }) => (
-                <source
-                  type={type}
-                  srcSet={this.shouldLoad ? srcset : null}
-                  sizes={sizes}
-                />
+              this.sources.map(({ type, srcset, sizes }, index) => (
+                <source type={type} srcSet={srcset} sizes={sizes} key={index} />
               ))}
 
             {this.srcset && (
-              <source
-                type={this.type}
-                srcSet={this.shouldLoad ? this.srcset : null}
-                sizes={this.sizes}
-              />
+              <source type={this.type} srcSet={this.srcset} sizes={this.sizes} />
             )}
 
             <img
               decoding="async"
-              src={this.shouldLoad ? this.src : null}
-              srcset={this.shouldLoad ? this.srcset : null}
+              loading={this.loading}
+              src={this.src}
               alt={this.alt}
               onLoad={this.onLoad}
               onError={this.loadError}
@@ -126,7 +83,10 @@ export class SeloImage {
         ) : (
           <img
             decoding="async"
-            src={this.shouldLoad && this.src}
+            loading={this.loading}
+            src={this.src}
+            srcset={this.srcset}
+            sizes={this.sizes}
             alt={this.alt}
             onLoad={this.onLoad}
             onError={this.loadError}

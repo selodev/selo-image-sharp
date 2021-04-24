@@ -13,8 +13,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "jsx": "react",
-    "jsxFactory": "h"
+    "jsxFactory": "h",
+    "allowJs": true
   },
-  "include": ["src", "src/utils/resize-format-images.ts"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
