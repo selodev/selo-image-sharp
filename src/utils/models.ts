@@ -66,6 +66,7 @@ export interface SourceOptions {
   /** Use source metada for remote images only such as CDN. */
   sourceMetadata?: SourceMetadata;
   sourceMetadataDigestDir: string;
+  imagePropsDigestDir: string;
 }
 export interface DestinationOptions {
   destPath?: string;

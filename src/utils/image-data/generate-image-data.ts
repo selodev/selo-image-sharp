@@ -1,5 +1,5 @@
 import { ImageOptions } from '..';
-import { checkSetDefaultOptions } from './set-defeault-options';
+import { checkSetDefaultOptions } from './check-set-defeault-options';
 import { getCalculatedDimensions } from '../dimensions/get-calculated-dimensions';
 import { generateGetTransformations } from '../transformations/generate-get-transformations';
 import { Build } from '@stencil/core';
@@ -7,6 +7,7 @@ import { fetchWriteRemoteImage } from '../remote/fetch-write-remote-image-to-fil
 import { generateImageProps } from './generate-image-props';
 import { generateImageSources } from './get-image-sources';
 import { ImageSources } from '../models';
+//import { writeImagePropsToFile } from '../meta-data/write-image-props-to-file';
 
 export const generateImageData = async (options: ImageOptions) => {
   options = await checkSetDefaultOptions(options);
@@ -39,7 +40,7 @@ export const generateImageData = async (options: ImageOptions) => {
   }
   const imageSources: ImageSources = generateImageSources(options, layoutDimensions);
 
-  return await generateImageProps(
+  const imageProps = await generateImageProps(
     options,
     {
       sourceDimensions,
@@ -47,4 +48,8 @@ export const generateImageData = async (options: ImageOptions) => {
     },
     imageSources,
   );
+
+  //await writeImagePropsToFile(options, imageProps);
+
+  return imageProps;
 };

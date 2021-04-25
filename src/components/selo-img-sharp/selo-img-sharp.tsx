@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, Host, h, Prop, State, Build } from '@stencil/core';
 import { imageOptionsBuilder } from '../../utils';
 import { generateImageData } from '../../utils/image-data/generate-image-data';
 import { ImageOptions, ImageProps, SourceMetadata } from '../../utils/models';
@@ -19,32 +19,43 @@ export class SeloImageSharp {
   @State() imageProps: ImageProps;
   @Prop({ mutable: true }) options: ImageOptions;
 
-  async componentDidLoad() {
-    if ('loading' in HTMLImageElement.prototype && this.shouldLoad) {
-      console.log('isload');
-      // supported in browser
-      this.shouldLoad = false;
-      this.nativeLoading = true;
-    } else {
-      this.nativeLoading = false;
-      // fetch polyfill/third-party library
-    }
-    let options = await imageOptionsBuilder(this.src);
-    if (this.sourceMetadata) {
-      console.log('this.sourceMetadata', this.sourceMetadata);
-      options = {
-        ...options,
-        sourceOptions: { ...options?.sourceOptions, sourceMetadata: this.sourceMetadata },
-      };
-    }
-    this.options = options;
+  componentShouldUpdate(prev, newVal, propname) {
+    console.log('shouldupdate', prev, newVal, propname);
+    return prev != newVal;
+  }
+  async componentWillLoad() {
+    if (!Build.isBrowser) {
+      if ('loading' in HTMLImageElement.prototype && this.shouldLoad) {
+        console.log('isload');
+        // supported in browser
+        this.shouldLoad = false;
+        this.nativeLoading = true;
+      } else {
+        this.nativeLoading = false;
+        // fetch polyfill/third-party library
+      }
+      let options = await imageOptionsBuilder(this.src);
+      if (this.sourceMetadata) {
+        console.log('this.sourceMetadata', this.sourceMetadata);
+        options = {
+          ...options,
+          sourceOptions: {
+            ...options?.sourceOptions,
+            sourceMetadata: this.sourceMetadata,
+          },
+        };
+      }
+      this.options = options;
 
-    if (this.options) {
-      this.imageProps = await generateImageData(this.options);
-      this.sourceMetadata ??= this?.imageProps?.images?.fallback?.sourceMetadata;
-      console.log('sourceMetadata in component', this.sourceMetadata);
-    } else {
-      throw 'Image options object is required.';
+      if (this.options) {
+        this.imageProps = await generateImageData(this.options);
+        this.sourceMetadata ??= this?.imageProps?.images?.fallback?.sourceMetadata;
+        console.log('sourceMetadata in component', this.sourceMetadata);
+      } else {
+        throw 'Image options object is required.';
+      }
+    }else{
+      
     }
   }
   getImages(loading, imageProps) {
@@ -72,20 +83,13 @@ export class SeloImageSharp {
     console.log('sourceMetadata in render', this.sourceMetadata);
 
     console.log(this.shouldLoad, this.imageProps);
-    return (
+    return Build.isBrowser ? (
       <Host>
         {this.nativeLoading
           ? this.imageProps && this.getImages(this.loading, this.imageProps)
-          : this.imageProps && (
-              <lazy-loader
-                onLazyLoaderDidLoad={() => {
-                  this.shouldLoad = true;
-                }}
-              >
-                {this.shouldLoad && this.getImages(null, this.imageProps)}
-              </lazy-loader>
-            )}
+          : this.imageProps &&
+            this.shouldLoad && <div>{this.getImages(null, this.imageProps)}</div>}
       </Host>
-    );
+    ) : null;
   }
 }

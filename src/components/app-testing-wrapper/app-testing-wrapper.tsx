@@ -1,12 +1,13 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, State } from '@stencil/core';
 
 @Component({
   tag: 'app-testing-wrapper',
   styleUrl: 'app-testing-wrapper.css',
   shadow: false,
- // assetsDirs: ['assets'],
+  // assetsDirs: ['assets'],
 })
 export class AppTestingWrapper {
+  @State() shouldLoad;
   //onLazyLoaderDidLoad={() => (this.shouldLoad = true)}
   render() {
     return (
@@ -31,11 +32,15 @@ export class AppTestingWrapper {
         <br /> <p>Lorem</p>
         <br /> <p>Lorem</p>
         <br /> <p>Lorem</p>
-        <br /> <p>Lorem</p>
-        <br /> <p>Lorem</p>
-        <br /> <p>Lorem</p>
-        <br /> <p>Lorem</p>
-        <selo-img-sharp shouldLoad={true}></selo-img-sharp>
+        <lazy-loader
+          onLazyLoaderDidLoad={() => {
+            this.shouldLoad = true;
+          }}
+        >
+          {this.shouldLoad && (
+            <selo-img-sharp shouldLoad={this.shouldLoad}></selo-img-sharp>
+          )}
+        </lazy-loader>
         <slot></slot>
       </Host>
     );

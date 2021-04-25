@@ -38,7 +38,6 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
   }
 
   sourceMetadata ??= await getWriteMetadataToFile(options);
-  console.log('sourceMetadata in potion', sourceMetadata);
 
   pixelDensities ??= DEFAULT_PIXEL_DENSITIES;
   breakpoints ?? DEFAULT_BREAKPOINTS;

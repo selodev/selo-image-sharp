@@ -13,7 +13,6 @@ export const generateGetTransformations = (
     destinationOptions: { destFileName },
     resizeOptions: { formats, layout },
   } = options;
-  // Output Options
 
   const imagesForProccessing: any[] = Array.from(formats)
     .map(format =>

@@ -9,7 +9,8 @@ export const imageOptionsBuilder = async (src: string): Promise<ImageOptions> =>
       srcPathPrefix: 'src',
       srcFileName: src.split('/').pop(),
       sourceMetadataDigestDir: 'source-metadata',
-      //sourceMetadata: { width: 800, height: 150, format: "png" },
+      imagePropsDigestDir: 'image-props',
+      sourceMetadata: { width: 800, height: 150, format: 'png' },
     },
     // Options to pass to sharp for output
     destinationOptions: {
