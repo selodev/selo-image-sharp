@@ -1,0 +1,26 @@
+{
+  "layout": "constrained",
+  "images": {
+    "fallback": {
+      "src": "assets/images/NEWLOGO.png",
+      "srcset": "assets/images/formats/png/NEWLOGO-320x60.png?v=b1cb88cd03 320w, assets/images/formats/png/NEWLOGO-576x108.png?v=395d673204 576w, assets/images/formats/png/NEWLOGO-768x144.png?v=0c57cf7781 768w, assets/images/formats/png/NEWLOGO-800x150.png?v=7189e2b86e 800w, assets/images/formats/png/NEWLOGO-800x150.png?v=7189e2b86e 800w",
+      "sizes": "(min-width: 800px) 800px, 100vw",
+      "type": "image/png",
+      "sourceMetadata": { "width": 800, "height": 150, "format": "png" }
+    },
+    "sources": [
+      {
+        "srcset": "assets/images/formats/avif/NEWLOGO-320x60.avif?v=fd1d502841 320w, assets/images/formats/avif/NEWLOGO-576x108.avif?v=d132d8bce9 576w, assets/images/formats/avif/NEWLOGO-768x144.avif?v=ff1e29ef2a 768w, assets/images/formats/avif/NEWLOGO-800x150.avif?v=eda19ca008 800w, assets/images/formats/avif/NEWLOGO-800x150.avif?v=eda19ca008 800w",
+        "sizes": "(min-width: 800px) 800px, 100vw",
+        "type": "image/avif"
+      },
+      {
+        "srcset": "assets/images/formats/webp/NEWLOGO-320x60.webp?v=00d557c017 320w, assets/images/formats/webp/NEWLOGO-576x108.webp?v=cf1fcb9f00 576w, assets/images/formats/webp/NEWLOGO-768x144.webp?v=28fa801b4b 768w, assets/images/formats/webp/NEWLOGO-800x150.webp?v=be3a4a1c80 800w, assets/images/formats/webp/NEWLOGO-800x150.webp?v=be3a4a1c80 800w",
+        "sizes": "(min-width: 800px) 800px, 100vw",
+        "type": "image/webp"
+      }
+    ]
+  },
+  "width": 800,
+  "height": 0.1875
+}

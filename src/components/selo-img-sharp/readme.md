@@ -10,7 +10,7 @@
 | Property         | Attribute        | Description | Type                          | Default                        |
 | ---------------- | ---------------- | ----------- | ----------------------------- | ------------------------------ |
 | `alt`            | `alt`            |             | `string`                      | `undefined`                    |
-| `loading`        | `loading`        |             | `"auto" \| "eager" \| "lazy"` | `'lazy'`                       |
+| `loading`        | `loading`        |             | `"auto" \| "eager" \| "lazy"` | `undefined`                    |
 | `nativeLoading`  | `native-loading` |             | `boolean`                     | `undefined`                    |
 | `options`        | --               |             | `ImageOptions`                | `undefined`                    |
 | `shouldLoad`     | `should-load`    |             | `boolean`                     | `undefined`                    |

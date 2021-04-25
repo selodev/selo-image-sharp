@@ -10,7 +10,7 @@ import { ImageOptions, ImageProps, SourceMetadata } from '../../utils/models';
   assetsDirs: ['assets'],
 })
 export class SeloImageSharp {
-  @Prop() loading: 'auto' | 'lazy' | 'eager' = 'lazy';
+  @Prop() loading: 'auto' | 'lazy' | 'eager';
   @Prop() shouldLoad: boolean;
   @Prop() nativeLoading: boolean;
   @Prop() src: string = '/assets/images/NEWLOGO.png';
@@ -21,7 +21,6 @@ export class SeloImageSharp {
 
   componentShouldUpdate(prev, newVal, propname) {
     console.log('shouldupdate', prev, newVal, propname);
-    return prev != newVal;
   }
   async componentWillLoad() {
     if (!Build.isBrowser) {
@@ -54,8 +53,10 @@ export class SeloImageSharp {
       } else {
         throw 'Image options object is required.';
       }
-    }else{
-      
+    } else {
+      const res = await fetch('assets/images/image-props/NEWLOGO.json');
+      const imageProps = await res.json();
+      this.imageProps = imageProps;
     }
   }
   getImages(loading, imageProps) {
@@ -83,13 +84,13 @@ export class SeloImageSharp {
     console.log('sourceMetadata in render', this.sourceMetadata);
 
     console.log(this.shouldLoad, this.imageProps);
-    return Build.isBrowser ? (
+    return (
       <Host>
-        {this.nativeLoading
-          ? this.imageProps && this.getImages(this.loading, this.imageProps)
-          : this.imageProps &&
-            this.shouldLoad && <div>{this.getImages(null, this.imageProps)}</div>}
+        {this.imageProps &&
+          (this.nativeLoading && this.loading
+            ? this.getImages(this.loading, this.imageProps)
+            : this.getImages(null, this.imageProps))}
       </Host>
-    ) : null;
+    );
   }
 }
