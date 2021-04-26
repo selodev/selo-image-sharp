@@ -13,11 +13,10 @@ import { Source } from '../../utils/models';
 @Component({
   tag: 'selo-img',
   styleUrl: 'selo-img.css',
-  shadow: true,
+  shadow: false,
 })
 export class SeloImage {
   @Prop() loading: 'auto' | 'lazy' | 'eager';
-  @State() loadError?: () => void;
   @Prop() src?: string;
   @Prop() alt?: string;
   @Prop() type: string;
@@ -25,9 +24,11 @@ export class SeloImage {
   @Prop() sizes?: string;
   @Prop() sources: Array<Source>;
 
+  @State() loadError?: () => void;
+
   @Watch('src')
   srcChanged() {
-    this.load();
+    this.onWillload();
   }
 
   /** Emitted when the img src has been set */
@@ -38,10 +39,10 @@ export class SeloImage {
   @Event() imgError!: EventEmitter<void>;
 
   componentWillLoad() {
-    this.load();
+    this.onWillload();
   }
 
-  private load() {
+  private onWillload() {
     this.loadError = this.onError;
     this.imgWillLoad.emit();
   }
@@ -53,11 +54,17 @@ export class SeloImage {
   private onError = () => {
     this.imgError.emit();
   };
+  /**
+   * @slot top - add content to the top of the image.
+   * @slot bottom - add content to the bottom of the image.
+   */
 
   render() {
     return (
       <Host>
-        {this?.sources?.length ? (
+        <slot name="top"></slot>
+
+        {this.sources ? (
           <picture>
             <slot></slot>
 
@@ -93,6 +100,8 @@ export class SeloImage {
             part="image"
           />
         )}
+        
+        <slot name="bottom"></slot>
       </Host>
     );
   }

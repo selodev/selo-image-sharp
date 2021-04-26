@@ -5,29 +5,36 @@ import { AvifOptions, JpegOptions, PngOptions, ResizeOptions, WebpOptions } from
 export type Fit = 'cover' | 'fill' | 'inside' | 'outside' | 'contain';
 export type Layout = 'fixed' | 'fullWidth' | 'constrained';
 export type ImageFormat = 'jpg' | 'png' | 'webp' | 'avif';
-
+export interface SizerProps {
+  layout: Layout;
+  width: number;
+  height: number;
+}
 export interface ImageSources {
   [format: string]: Promise<ImageSource>[];
 }
 export type ImageSource = { src: string; width: number; type: string };
 
 export interface ImageProps {
-  layout: string;
+  layout: Layout;
   placeholder: undefined;
   images: {
     fallback: Image;
     sources: Array<Source>;
   };
-  width: number;
-  height: number;
+  presentation: {
+    width: number;
+    height: number;
+  };
 }
 export type Source = { type: string; srcset: string; sizes: string };
 export interface Image {
   type: string;
   src: string;
+  alt: string;
   srcset: string;
   sizes: string;
-  sourceMetadata: SourceMetadata;
+  // sourceMetadata: SourceMetadata;
 }
 
 export interface SourceMetadata {
@@ -59,6 +66,8 @@ export interface ResizingOptions extends ResizeOptions {
 }
 /** Passing @baseUrl will fecth remote image and cteate it, at the fileName and sourcePath specified. */
 export interface SourceOptions {
+  src: string;
+  alt: string;
   remoteUrl?: string;
   srcPath?: string;
   srcPathPrefix?: string;

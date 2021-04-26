@@ -1,95 +1,112 @@
 import { Component, Host, h, Prop, State, Build } from '@stencil/core';
-import { imageOptionsBuilder } from '../../utils';
+import { joinPaths } from '../../utils';
 import { generateImageData } from '../../utils/image-data/generate-image-data';
-import { ImageOptions, ImageProps, SourceMetadata } from '../../utils/models';
+import { ImageOptions, ImageProps } from '../../utils/models';
+import { Sizer } from '../Sizer/Sizer';
 
 @Component({
   tag: 'selo-img-sharp',
   styleUrl: 'selo-img-sharp.css',
-  shadow: true,
-  assetsDirs: ['assets'],
+  shadow: false,
 })
 export class SeloImageSharp {
-  @Prop() loading: 'auto' | 'lazy' | 'eager';
-  @Prop() shouldLoad: boolean;
-  @Prop() nativeLoading: boolean;
   @Prop() src: string = '/assets/images/NEWLOGO.png';
-  @Prop() alt: string;
-  @Prop({ mutable: true }) sourceMetadata: SourceMetadata;
-  @State() imageProps: ImageProps;
+  @Prop() alt?: string;
+  @Prop() loading?: 'auto' | 'lazy' | 'eager' = 'lazy';
   @Prop({ mutable: true }) options: ImageOptions;
 
-  componentShouldUpdate(prev, newVal, propname) {
-    console.log('shouldupdate', prev, newVal, propname);
-  }
-  async componentWillLoad() {
-    if (!Build.isBrowser) {
-      if ('loading' in HTMLImageElement.prototype && this.shouldLoad) {
-        console.log('isload');
-        // supported in browser
-        this.shouldLoad = false;
-        this.nativeLoading = true;
-      } else {
-        this.nativeLoading = false;
-        // fetch polyfill/third-party library
-      }
-      let options = await imageOptionsBuilder(this.src);
-      if (this.sourceMetadata) {
-        console.log('this.sourceMetadata', this.sourceMetadata);
-        options = {
-          ...options,
-          sourceOptions: {
-            ...options?.sourceOptions,
-            sourceMetadata: this.sourceMetadata,
-          },
-        };
-      }
-      this.options = options;
+  @State() isNativeLoading: boolean;
+  @State() shouldUseLazyLoader: boolean;
+  @State() imageProps: ImageProps;
 
+  async componentWillLoad() {
+    if ('loading' in HTMLImageElement.prototype && this.loading) {
+      console.log('isload');
+      // supported in browser
+      //this.isNativeLoading = true;
+      //await this.fetchImageProps();
+    } else {
+      this.isNativeLoading = false;
+      // fetch polyfill/third-party library
+    }
+    if (Build.isServer) {
+      await this.serverSideGenerateImageData();
+    }
+  }
+
+  async serverSideGenerateImageData() {
+    try {
       if (this.options) {
         this.imageProps = await generateImageData(this.options);
-        this.sourceMetadata ??= this?.imageProps?.images?.fallback?.sourceMetadata;
-        console.log('sourceMetadata in component', this.sourceMetadata);
       } else {
         throw 'Image options object is required.';
       }
-    } else {
-      const res = await fetch('assets/images/image-props/NEWLOGO.json');
-      const imageProps = await res.json();
-      this.imageProps = imageProps;
+    } catch (error) {
+      console.error(error);
     }
   }
-  getImages(loading, imageProps) {
+
+  async fetchImageProps() {
+    try {
+      const {
+        sourceOptions: { srcPath, srcFileName, imagePropsDigestDir },
+      } = this.options;
+      const imagePropsFileName = srcFileName.split('.')[0] + '.json';
+      const imagePropsFilePath = joinPaths([
+        srcPath,
+        imagePropsDigestDir,
+        imagePropsFileName,
+      ]);
+      const res = await fetch(imagePropsFilePath);
+      const imageProps = await res.json();
+      this.imageProps = imageProps;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  getImages(loading, imageProps: ImageProps) {
     const {
+      layout,
       images: {
-        fallback: { type, src, srcset, sizes },
+        fallback: { type, src, alt, srcset, sizes },
         sources,
       },
+      presentation: { width, height },
     } = imageProps;
     return (
-      <selo-img
-        loading={loading}
-        src={src}
-        alt={this.alt}
-        srcset={srcset}
-        sizes={sizes}
-        sources={sources}
-        type={type}
-      >
-        <slot></slot>
-      </selo-img>
+      <div>
+        <Sizer layout={layout} width={width} height={height} />
+        <selo-img
+          src={src}
+          alt={alt}
+          type={type}
+          loading={loading}
+          srcset={srcset}
+          sizes={sizes}
+          sources={sources}
+        />
+      </div>
     );
   }
-  render() {
-    console.log('sourceMetadata in render', this.sourceMetadata);
 
-    console.log(this.shouldLoad, this.imageProps);
+  render() {
+    console.log(this.shouldUseLazyLoader, this.imageProps);
     return (
       <Host>
-        {this.imageProps &&
-          (this.nativeLoading && this.loading
-            ? this.getImages(this.loading, this.imageProps)
-            : this.getImages(null, this.imageProps))}
+        {this.imageProps && this.isNativeLoading && this.loading ? (
+          this.getImages(this.loading, this.imageProps)
+        ) : (
+          <lazy-loader
+            onLazyLoaderDidLoad={async () => {
+              console.log('lazy should load');
+              await this.fetchImageProps();
+              this.shouldUseLazyLoader = true;
+            }}
+          >
+            {this.shouldUseLazyLoader && this.getImages(null, this.imageProps)}
+          </lazy-loader>
+        )}
       </Host>
     );
   }

@@ -5,19 +5,28 @@
 <!-- Auto Generated Below -->
 
 
+## Properties
+
+| Property  | Attribute | Description | Type                          | Default                        |
+| --------- | --------- | ----------- | ----------------------------- | ------------------------------ |
+| `alt`     | `alt`     |             | `string`                      | `'Logo Name'`                  |
+| `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `undefined`                    |
+| `src`     | `src`     |             | `string`                      | `'/assets/images/NEWLOGO.png'` |
+
+
 ## Dependencies
 
 ### Depends on
 
-- [lazy-loader](../lazy-loader)
 - [selo-img-sharp](../selo-img-sharp)
 
 ### Graph
 ```mermaid
 graph TD;
-  app-testing-wrapper --> lazy-loader
   app-testing-wrapper --> selo-img-sharp
-  selo-img-sharp --> selo-img
+  selo-img-sharp --> selo-picture
+  selo-img-sharp --> lazy-loader
+  selo-picture --> selo-img
   style app-testing-wrapper fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

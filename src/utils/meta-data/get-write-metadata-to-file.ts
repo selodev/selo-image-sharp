@@ -30,7 +30,7 @@ export const getWriteMetadataToFile = async (
     let sourceMetadata: SourceMetadata;
 
     if (fs.existsSync(absoluteSourceMetadataFilePath)) {
-      //console.log('File exists ' + absoluteSourceMetadataFilePath);
+      console.log('File exists ' + absoluteSourceMetadataFilePath);
       const rawData = fs.readFileSync(absoluteSourceMetadataFilePath, 'utf8');
       sourceMetadata = JSON.parse(rawData);
     } else {

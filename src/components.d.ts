@@ -5,9 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ImageOptions, Source, SourceMetadata } from "./utils/models";
+import { ImageOptions, Source } from "./utils/models";
 export namespace Components {
     interface AppTestingWrapper {
+        "alt": string;
+        "loading": 'auto' | 'lazy' | 'eager';
+        "src": string;
     }
     interface LazyLoader {
     }
@@ -21,12 +24,9 @@ export namespace Components {
         "type": string;
     }
     interface SeloImgSharp {
-        "alt": string;
-        "loading": 'auto' | 'lazy' | 'eager';
-        "nativeLoading": boolean;
+        "alt"?: string;
+        "loading"?: 'auto' | 'lazy' | 'eager';
         "options": ImageOptions;
-        "shouldLoad": boolean;
-        "sourceMetadata": SourceMetadata;
         "src": string;
     }
 }
@@ -64,6 +64,9 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AppTestingWrapper {
+        "alt"?: string;
+        "loading"?: 'auto' | 'lazy' | 'eager';
+        "src"?: string;
     }
     interface LazyLoader {
         /**
@@ -107,10 +110,7 @@ declare namespace LocalJSX {
     interface SeloImgSharp {
         "alt"?: string;
         "loading"?: 'auto' | 'lazy' | 'eager';
-        "nativeLoading"?: boolean;
         "options"?: ImageOptions;
-        "shouldLoad"?: boolean;
-        "sourceMetadata"?: SourceMetadata;
         "src"?: string;
     }
     interface IntrinsicElements {

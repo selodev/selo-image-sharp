@@ -1,4 +1,4 @@
-import { ImageOptions, joinPaths } from '..';
+import { ImageOptions } from '..';
 import { ImageProps, ImageSources } from '../models';
 import { getSizesAttribute, getSrcsetAttribute } from './generate-attributes';
 
@@ -10,7 +10,7 @@ export const generateImageProps = async (
   const { sourceDimensions, requestedDimensions } = calculatedDimensions;
   const {
     resizeOptions: { width, layout },
-    sourceOptions: { srcPath, srcFileName, sourceMetadata },
+    sourceOptions: { src, alt, srcFileName },
   } = options;
 
   const [_, primaryFormat] = srcFileName.split('.');
@@ -23,16 +23,18 @@ export const generateImageProps = async (
     //backgroundColor,
     images: {
       fallback: {
-        src: joinPaths([srcPath, srcFileName], '/'),
+        src,
+        alt,
         srcset: getSrcsetAttribute(await Promise.all(imageSources[primaryFormat])),
         sizes: sizesAttribute,
         type: `image/${primaryFormat}`,
-        sourceMetadata,
       },
       sources: [],
     },
-    width: 0,
-    height: 0,
+    presentation: {
+      width: 0,
+      height: 0,
+    },
   };
 
   for (let key in imageSources) {
@@ -48,18 +50,18 @@ export const generateImageProps = async (
 
   switch (layout) {
     case `fixed`:
-      imageProps.width = requestedDimensions.width;
-      imageProps.height = requestedDimensions.height;
+      imageProps.presentation.width = requestedDimensions.width;
+      imageProps.presentation.height = requestedDimensions.height;
       break;
 
     case `fullWidth`:
-      imageProps.width = 1;
-      imageProps.height = 1 / sourceDimensions.aspectRatio;
+      imageProps.presentation.width = 1;
+      imageProps.presentation.height = 1 / sourceDimensions.aspectRatio;
       break;
 
     case `constrained`:
-      imageProps.width = width || sourceDimensions.width || 1;
-      imageProps.height = 1 / sourceDimensions.aspectRatio;
+      imageProps.presentation.width = width || sourceDimensions.width || 1;
+      imageProps.presentation.height = 1 / sourceDimensions.aspectRatio;
   }
 
   return imageProps;

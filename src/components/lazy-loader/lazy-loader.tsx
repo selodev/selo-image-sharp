@@ -29,6 +29,7 @@ export class LazyLoader {
   @Event() lazyLoaderDidDissconnect!: EventEmitter<void>;
 
   componentWillLoad() {
+    console.log("in com will load lazy")
     this.addIO();
   }
 

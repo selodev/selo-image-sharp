@@ -19,12 +19,12 @@
 
 ### Used by
 
- - [app-testing-wrapper](../app-testing-wrapper)
+ - [selo-img-sharp](../selo-img-sharp)
 
 ### Graph
 ```mermaid
 graph TD;
-  app-testing-wrapper --> lazy-loader
+  selo-img-sharp --> lazy-loader
   style lazy-loader fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

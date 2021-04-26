@@ -1,16 +1,21 @@
-import { ImageOptions } from '.';
+import { ImageOptions } from '../../utils';
 
-export const imageOptionsBuilder = async (src: string): Promise<ImageOptions> => {
+export const imageOptionsBuilder = async (
+  src: string,
+  alt: string,
+): Promise<ImageOptions> => {
   let options: ImageOptions = {
     // Options to pass to sharp for input
     sourceOptions: {
+      src,
+      alt,
       remoteUrl: 'https://isquadrepairsandiego.com/images',
       srcPath: 'assets/images',
       srcPathPrefix: 'src',
       srcFileName: src.split('/').pop(),
       sourceMetadataDigestDir: 'source-metadata',
       imagePropsDigestDir: 'image-props',
-      sourceMetadata: { width: 800, height: 150, format: 'png' },
+      //sourceMetadata: { width: 800, height: 150, format: 'png' },
     },
     // Options to pass to sharp for output
     destinationOptions: {

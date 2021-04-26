@@ -24,9 +24,10 @@
     "loader/"
   ],
   "scripts": {
-    "rmiprerender": "rm -rf www dist src/assets/images/formats src/assets/images/source-metadata loader & stencil build --prerender",
+    "prermiprerender": "rm -rf www dist src/assets/images/formats src/assets/images/image-props src/assets/images/source-metadata loader",
+    "rmiprerender": "stencil build --prerender",
     "prerender": "rm -rf www dist loader & stencil build --prerender",
-    "build": "stencil build --docs",
+    "build": "rm -rf www dist loader & stencil build --docs",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
