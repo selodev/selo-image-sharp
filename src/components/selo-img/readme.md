@@ -12,6 +12,7 @@
 | `alt`     | `alt`     |             | `string`                      | `undefined` |
 | `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `undefined` |
 | `sizes`   | `sizes`   |             | `string`                      | `undefined` |
+| `sources` | --        |             | `Source[]`                    | `undefined` |
 | `src`     | `src`     |             | `string`                      | `undefined` |
 | `srcset`  | `srcset`  |             | `string`                      | `undefined` |
 | `type`    | `type`    |             | `string`                      | `undefined` |
@@ -37,12 +38,12 @@
 
 ### Used by
 
- - [selo-picture](../selo-picture)
+ - [selo-img-sharp](../selo-img-sharp)
 
 ### Graph
 ```mermaid
 graph TD;
-  selo-picture --> selo-img
+  selo-img-sharp --> selo-img
   style selo-img fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

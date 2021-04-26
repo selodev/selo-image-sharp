@@ -24,9 +24,8 @@
 ```mermaid
 graph TD;
   app-testing-wrapper --> selo-img-sharp
-  selo-img-sharp --> selo-picture
+  selo-img-sharp --> selo-img
   selo-img-sharp --> lazy-loader
-  selo-picture --> selo-img
   style app-testing-wrapper fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

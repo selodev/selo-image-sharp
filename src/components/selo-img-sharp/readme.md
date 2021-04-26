@@ -23,15 +23,14 @@
 
 ### Depends on
 
-- [selo-picture](../selo-picture)
+- [selo-img](../selo-img)
 - [lazy-loader](../lazy-loader)
 
 ### Graph
 ```mermaid
 graph TD;
-  selo-img-sharp --> selo-picture
+  selo-img-sharp --> selo-img
   selo-img-sharp --> lazy-loader
-  selo-picture --> selo-img
   app-testing-wrapper --> selo-img-sharp
   style selo-img-sharp fill:#f9f,stroke:#333,stroke-width:4px
 ```
