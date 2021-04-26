@@ -32,7 +32,7 @@ export const imageOptionsBuilder = async (
       // width and hight acts as maxWidth and maxHieght when used with `constrained`
       //width: 800,
       //height: 600,
-      layout: 'constrained',
+      layout: 'fullWidth',
       fit: 'cover',
       //aspectRatio: 4 / 3,
       formats: ['jpg', 'png', 'avif', 'webp'],

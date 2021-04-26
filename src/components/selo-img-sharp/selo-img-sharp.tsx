@@ -2,7 +2,6 @@ import { Component, Host, h, Prop, State, Build } from '@stencil/core';
 import { joinPaths } from '../../utils';
 import { generateImageData } from '../../utils/image-data/generate-image-data';
 import { ImageOptions, ImageProps } from '../../utils/models';
-import { Sizer } from '../Sizer/Sizer';
 
 @Component({
   tag: 'selo-img-sharp',
@@ -67,16 +66,13 @@ export class SeloImageSharp {
 
   getImages(loading, imageProps: ImageProps) {
     const {
-      layout,
       images: {
         fallback: { type, src, alt, srcset, sizes },
         sources,
       },
-      presentation: { width, height },
     } = imageProps;
     return (
       <div>
-        <Sizer layout={layout} width={width} height={height} />
         <selo-img
           src={src}
           alt={alt}

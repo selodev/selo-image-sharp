@@ -3,7 +3,9 @@ import { SizerProps } from '../../utils/models';
 
 export const Sizer: FunctionalComponent<SizerProps> = ({ layout, width, height }) => {
   if (layout === `fullWidth`) {
-    return <div aria-hidden style={{ paddingTop: `${(height / width) * 100}%` }} />;
+    return (
+      <div aria-hidden="true" style={{ paddingTop: `${(height / width) * 100}%` }} />
+    );
   }
   if (layout === `constrained`) {
     return (
