@@ -10,13 +10,14 @@ export const getWriteMetadataToFile = async (
     const { resolve, join } = (await import('path')).default;
 
     const {
-      sourceOptions: { srcPath, srcPathPrefix, srcFileName, sourceMetadataDigestDir },
+      sourceOptions: { srcPath, srcPathPrefix, srcFileName },
+      destinationOptions: {destPath,destPathPrefix, sourceMetadataDigestDir },
     } = options;
 
     const [sourceMetadataFileName] = srcFileName.split('.');
 
     const sourceMetadataPath = resolve(
-      join(srcPathPrefix, ...srcPath.split('/'), sourceMetadataDigestDir),
+      join(destPathPrefix, ...destPath.split('/'), sourceMetadataDigestDir),
     );
 
     const absoluteSourceMetadataFilePath = resolve(

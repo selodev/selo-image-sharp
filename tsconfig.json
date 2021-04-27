@@ -9,7 +9,7 @@
     //"strict": true,
     "moduleResolution": "node",
     "module": "esnext",
-    "target": "es2017",
+    "target": "ES2017",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "jsx": "react",

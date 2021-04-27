@@ -10,17 +10,15 @@ export const writeImagePropsToFile = async (
     const { resolve, join } = (await import('path')).default;
 
     const {
-      sourceOptions: { srcPath, srcPathPrefix, srcFileName, imagePropsDigestDir },
+      destinationOptions: { destPath, destPathPrefix, destFileName, imagePropsDigestDir },
     } = options;
 
-    const [imagePropsFileName] = srcFileName.split('.');
-
     const imagePropsPath = resolve(
-      join(srcPathPrefix, ...srcPath.split('/'), imagePropsDigestDir),
+      join(destPathPrefix, ...destPath.split('/'), imagePropsDigestDir),
     );
 
     const absoluteImagePropsFilePath = resolve(
-      join(imagePropsPath, imagePropsFileName + '.json'),
+      join(imagePropsPath, destFileName + '.json'),
     );
 
     if (!fs.existsSync(imagePropsPath)) {
@@ -34,7 +32,6 @@ export const writeImagePropsToFile = async (
     } else {
       fs.writeFileSync(absoluteImagePropsFilePath, JSON.stringify(imageProps));
     }
-    console.log('wr')
 
     return imageProps;
   } catch (error) {

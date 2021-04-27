@@ -15,6 +15,7 @@ export const generateImageSources = (
   } = options;
 
   const imageSources: ImageSources = {};
+
   Array.from(formats).forEach(format => {
     const transformationsToImageProps: Promise<ImageSource>[] = sizes.map(
       async ({ width, height }) => {
@@ -38,6 +39,5 @@ export const generateImageSources = (
 
     imageSources[format] = transformationsToImageProps;
   });
-
   return imageSources;
 };

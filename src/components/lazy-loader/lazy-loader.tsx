@@ -29,7 +29,6 @@ export class LazyLoader {
   @Event() lazyLoaderDidDissconnect!: EventEmitter<void>;
 
   componentWillLoad() {
-    console.log("in com will load lazy")
     this.addIO();
   }
 
@@ -44,7 +43,6 @@ export class LazyLoader {
       this.removeIO();
       this.io = new IntersectionObserver(data => {
         if (data[0].isIntersecting) {
-          console.log('load');
           this.load();
           this.removeIO();
         }
@@ -77,8 +75,7 @@ export class LazyLoader {
     this.lazyLoaderDidLoad.emit();
   };
 
-  private onSlotChange(event: Event) {
-    console.log(event);
+  private onSlotChange(_: Event) {
     this.lazyLoaderOnSlotChange.emit();
   }
 

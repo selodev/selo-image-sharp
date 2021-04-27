@@ -19,7 +19,7 @@ export const generateImageProps = async (
 
   const imageProps: ImageProps = {
     layout,
-    placeholder: undefined,
+    placeholder: 'undefined',
     //backgroundColor,
     images: {
       fallback: {

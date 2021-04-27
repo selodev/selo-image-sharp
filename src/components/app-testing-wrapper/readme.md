@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type                          | Default                        |
-| --------- | --------- | ----------- | ----------------------------- | ------------------------------ |
-| `alt`     | `alt`     |             | `string`                      | `'Logo Name'`                  |
-| `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `undefined`                    |
-| `src`     | `src`     |             | `string`                      | `'/assets/images/NEWLOGO.png'` |
+| Property  | Attribute | Description | Type                          | Default                                           |
+| --------- | --------- | ----------- | ----------------------------- | ------------------------------------------------- |
+| `alt`     | `alt`     |             | `string`                      | `'Logo Name'`                                     |
+| `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `undefined`                                       |
+| `src`     | `src`     |             | `string`                      | `'assets/images/2020/01/apple-iphone-xs-new.jpg'` |
 
 
 ## Dependencies

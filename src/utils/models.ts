@@ -17,7 +17,7 @@ export type ImageSource = { src: string; width: number; type: string };
 
 export interface ImageProps {
   layout: Layout;
-  placeholder: undefined;
+  placeholder: string;
   images: {
     fallback: Image;
     sources: Array<Source>;
@@ -74,14 +74,14 @@ export interface SourceOptions {
   srcFileName?: string;
   /** Use source metada for remote images only such as CDN. */
   sourceMetadata?: SourceMetadata;
-  sourceMetadataDigestDir: string;
-  imagePropsDigestDir: string;
 }
 export interface DestinationOptions {
   destPath?: string;
   destPathPrefix?: string;
   digestDirPrefix?: string;
   destFileName?: string;
+  sourceMetadataDigestDir: string;
+  imagePropsDigestDir: string;
 }
 export interface ImageOptions {
   sourceOptions?: SourceOptions;

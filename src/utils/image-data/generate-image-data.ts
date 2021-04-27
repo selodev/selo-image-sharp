@@ -10,6 +10,8 @@ import { ImageSources } from '../models';
 import { writeImagePropsToFile } from '../meta-data/write-image-props-to-file';
 
 export const generateImageData = async (options: ImageOptions) => {
+  if (!options) throw 'Image options object is required.';
+
   options = await checkSetDefaultOptions(options);
 
   let {

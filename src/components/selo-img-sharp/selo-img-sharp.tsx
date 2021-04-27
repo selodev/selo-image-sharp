@@ -1,6 +1,4 @@
-import { Component, Host, h, Prop, State, Build } from '@stencil/core';
-import { joinPaths } from '../../utils';
-import { generateImageData } from '../../utils/image-data/generate-image-data';
+import { Component, Host, h, Prop, State } from '@stencil/core';
 import { ImageOptions, ImageProps } from '../../utils/models';
 
 @Component({
@@ -12,53 +10,32 @@ export class SeloImageSharp {
   @Prop() src: string = '/assets/images/NEWLOGO.png';
   @Prop() alt?: string;
   @Prop() loading?: 'auto' | 'lazy' | 'eager' = 'lazy';
-  @Prop({ mutable: true }) options: ImageOptions;
 
   @State() isNativeLoading: boolean;
   @State() shouldUseLazyLoader: boolean;
   @State() imageProps: ImageProps;
+  @Prop() options: ImageOptions;
 
   async componentWillLoad() {
     if ('loading' in HTMLImageElement.prototype && this.loading) {
-      console.log('isload');
       // supported in browser
-      //this.isNativeLoading = true;
-      //await this.fetchImageProps();
+      this.isNativeLoading = false;
+      await this.fetchImageProps();
     } else {
       this.isNativeLoading = false;
       // fetch polyfill/third-party library
-    }
-    if (Build.isServer) {
-      await this.serverSideGenerateImageData();
-    }
-  }
-
-  async serverSideGenerateImageData() {
-    try {
-      if (this.options) {
-        this.imageProps = await generateImageData(this.options);
-      } else {
-        throw 'Image options object is required.';
-      }
-    } catch (error) {
-      console.error(error);
     }
   }
 
   async fetchImageProps() {
     try {
-      const {
-        sourceOptions: { srcPath, srcFileName, imagePropsDigestDir },
+      let {
+        destinationOptions: { destPath, destFileName, imagePropsDigestDir },
       } = this.options;
-      const imagePropsFileName = srcFileName.split('.')[0] + '.json';
-      const imagePropsFilePath = joinPaths([
-        srcPath,
-        imagePropsDigestDir,
-        imagePropsFileName,
-      ]);
-      const res = await fetch(imagePropsFilePath);
-      const imageProps = await res.json();
-      this.imageProps = imageProps;
+      const js = `${destPath}/${imagePropsDigestDir}/${destFileName}.json`;
+      const imagePropsResponse = await fetch(js);
+      const imagePropsData = await imagePropsResponse.json();
+      this.imageProps = imagePropsData;
     } catch (error) {
       console.log(error);
     }
@@ -87,22 +64,21 @@ export class SeloImageSharp {
   }
 
   render() {
-    console.log(this.shouldUseLazyLoader, this.imageProps);
     return (
       <Host>
-        {this.imageProps && this.isNativeLoading && this.loading ? (
-          this.getImages(this.loading, this.imageProps)
-        ) : (
-          <lazy-loader
-            onLazyLoaderDidLoad={async () => {
-              console.log('lazy should load');
-              await this.fetchImageProps();
-              this.shouldUseLazyLoader = true;
-            }}
-          >
-            {this.shouldUseLazyLoader && this.getImages(null, this.imageProps)}
-          </lazy-loader>
-        )}
+        {this.imageProps &&
+          (this.isNativeLoading && this.loading ? (
+            this.getImages(this.loading, this.imageProps)
+          ) : (
+            <lazy-loader
+              onLazyLoaderDidLoad={async () => {
+                await this.fetchImageProps();
+                this.shouldUseLazyLoader = true;
+              }}
+            >
+              {this.shouldUseLazyLoader && this.getImages(null, this.imageProps)}
+            </lazy-loader>
+          ))}
       </Host>
     );
   }

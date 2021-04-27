@@ -1,17 +1,16 @@
 import { Config } from '@stencil/core';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
-import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 import { externalModules } from './rollup.plugins';
+import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 
 export const config: Config = {
   namespace: 'selo-img-sharp',
   taskQueue: 'async',
-  allowInlineScripts: true,
-  hashFileNames: false,
   outputTargets: [
     {
       type: 'dist',
       esmLoaderPath: '../loader',
+      copy: [{ src: 'assets' }],
       //copy: [{ src: 'sharp-worker.js', warn: true }],
     },
     {
@@ -27,8 +26,16 @@ export const config: Config = {
       serviceWorker: null, // disable service workers,
       baseUrl: 'http://localhost:4444',
       prerenderConfig: './prerender.config.ts',
-      polyfills: true,
+      //polyfills: true,
+      copy: [{ src: 'assets' }],
     },
+  ],
+  plugins: [
+    dynamicImportVars({
+      warnOnError: true,
+      exclude: './src/**/locale.*.json',
+      include: './src/***',
+    }),
   ],
   rollupPlugins: {
     before: [...externalModules],
@@ -42,6 +49,6 @@ export const config: Config = {
     browser: true,
     //extensions: ['.ts', '.js', '.json'],
   },
-  //extras: { dynamicImportShim: true, shadowDomShim: true },
+  //extras: { dynamicImportShim: true, shadowDomShim: true, safari10: true },
   devServer: { openBrowser: false, port: 4444, logRequests: true },
 };
