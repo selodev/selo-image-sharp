@@ -14,7 +14,9 @@ export const fetchWriteRemoteImage = async (sourceOptions: SourceOptions) => {
     const arrayBuffer = await response.arrayBuffer();
 
     if (response.status !== 200) {
-      throw new Error('Looks like there was a problem. Status Code: ' + response.status);
+      throw new Error(
+        `Looks like there was a problem with ${remoteUrl}. Status Code:${response.status}`,
+      );
     }
 
     const { default: fs } = await import('fs');

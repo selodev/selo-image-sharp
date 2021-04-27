@@ -58,12 +58,14 @@ export class AppSeloImgSharpWrapper {
         <p>Lorem Impsum</p>
         <br />
         <p>Lorem Impsum</p>
-        <selo-img-sharp
-          src={this.src}
-          alt={this.alt}
-          loading={this.loading}
-          options={this.options}
-        ></selo-img-sharp>
+        {this.options && (
+          <selo-img-sharp
+            src={this.src}
+            alt={this.alt}
+            loading={this.loading}
+            options={this.options}
+          ></selo-img-sharp>
+        )}
         <slot></slot>
       </Host>
     );

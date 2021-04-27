@@ -7,19 +7,19 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type                          | Default                        |
-| --------- | --------- | ----------- | ----------------------------- | ------------------------------ |
-| `alt`     | `alt`     |             | `string`                      | `undefined`                    |
-| `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `'lazy'`                       |
-| `options` | --        |             | `ImageOptions`                | `undefined`                    |
-| `src`     | `src`     |             | `string`                      | `'/assets/images/NEWLOGO.png'` |
+| Property  | Attribute | Description | Type                          | Default     |
+| --------- | --------- | ----------- | ----------------------------- | ----------- |
+| `alt`     | `alt`     |             | `string`                      | `undefined` |
+| `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `'lazy'`    |
+| `options` | --        |             | `ImageOptions`                | `undefined` |
+| `src`     | `src`     |             | `string`                      | `undefined` |
 
 
 ## Dependencies
 
 ### Used by
 
- - [app-testing-wrapper](../app-testing-wrapper)
+ - [app-selo-img-sharp-wrapper](../app-selo-img-sharp-wrapper)
 
 ### Depends on
 
@@ -31,7 +31,7 @@
 graph TD;
   selo-img-sharp --> selo-img
   selo-img-sharp --> lazy-loader
-  app-testing-wrapper --> selo-img-sharp
+  app-selo-img-sharp-wrapper --> selo-img-sharp
   style selo-img-sharp fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

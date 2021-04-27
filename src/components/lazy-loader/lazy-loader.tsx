@@ -12,7 +12,7 @@ import {
 @Component({
   tag: 'lazy-loader',
   styleUrl: 'lazy-loader.css',
-  shadow: true,
+  shadow: false,
 })
 export class LazyLoader {
   private io?: IntersectionObserver;

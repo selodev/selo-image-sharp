@@ -23,10 +23,10 @@
 ### Graph
 ```mermaid
 graph TD;
-  app-testing-wrapper --> selo-img-sharp
+  app-selo-img-sharp-wrapper --> selo-img-sharp
   selo-img-sharp --> selo-img
   selo-img-sharp --> lazy-loader
-  style app-testing-wrapper fill:#f9f,stroke:#333,stroke-width:4px
+  style app-selo-img-sharp-wrapper fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

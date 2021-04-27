@@ -28,6 +28,7 @@ export class SeloImageSharp {
   }
 
   async fetchImageProps() {
+    console.log('ingf')
     try {
       let {
         destinationOptions: { destPath, destFileName, imagePropsDigestDir },

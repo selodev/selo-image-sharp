@@ -1,5 +1,5 @@
-import { imageOptionsBuilder } from './components/app-selo-img-sharp-wrapper/imega-options-builder';
+import { generateImageData } from './utils';
 
 export { Components, JSX } from './components';
 
-export { imageOptionsBuilder };
+export { generateImageData };
