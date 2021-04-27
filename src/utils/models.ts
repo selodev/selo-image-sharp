@@ -2,6 +2,7 @@ import { AvifOptions, JpegOptions, PngOptions, ResizeOptions, WebpOptions } from
 
 //type Optional<T> = { [P in keyof T]?: T[P] };
 
+export type Loading = 'auto' | 'lazy' | 'eager';
 export type Fit = 'cover' | 'fill' | 'inside' | 'outside' | 'contain';
 export type Layout = 'fixed' | 'fullWidth' | 'constrained';
 export type ImageFormat = 'jpg' | 'png' | 'webp' | 'avif';

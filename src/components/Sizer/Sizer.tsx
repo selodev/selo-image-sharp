@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from '@stencil/core';
 import { SizerProps } from '../../utils/models';
 
+// TODO
 export const Sizer: FunctionalComponent<SizerProps> = ({ layout, width, height }) => {
   if (layout === `fullWidth`) {
     return (

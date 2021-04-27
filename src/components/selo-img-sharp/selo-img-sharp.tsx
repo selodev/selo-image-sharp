@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
-import { ImageOptions, ImageProps } from '../../utils/models';
+import { ImageOptions, ImageProps, Loading } from '../../utils/models';
 
 @Component({
   tag: 'selo-img-sharp',
@@ -7,9 +7,9 @@ import { ImageOptions, ImageProps } from '../../utils/models';
   shadow: false,
 })
 export class SeloImageSharp {
-  @Prop() src: string = '/assets/images/NEWLOGO.png';
+  @Prop() src: string;
   @Prop() alt?: string;
-  @Prop() loading?: 'auto' | 'lazy' | 'eager' = 'lazy';
+  @Prop() loading?: Loading = 'lazy';
 
   @State() isNativeLoading: boolean;
   @State() shouldUseLazyLoader: boolean;
@@ -19,8 +19,8 @@ export class SeloImageSharp {
   async componentWillLoad() {
     if ('loading' in HTMLImageElement.prototype && this.loading) {
       // supported in browser
-      this.isNativeLoading = false;
       await this.fetchImageProps();
+      this.isNativeLoading = true;
     } else {
       this.isNativeLoading = false;
       // fetch polyfill/third-party library
@@ -41,7 +41,7 @@ export class SeloImageSharp {
     }
   }
 
-  getImages(loading, imageProps: ImageProps) {
+  getImages(loading: Loading, imageProps: ImageProps) {
     const {
       images: {
         fallback: { type, src, alt, srcset, sizes },

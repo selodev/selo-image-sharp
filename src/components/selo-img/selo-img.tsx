@@ -8,7 +8,7 @@ import {
   EventEmitter,
   Event,
 } from '@stencil/core';
-import { Source } from '../../utils/models';
+import { Loading, Source } from '../../utils/models';
 
 @Component({
   tag: 'selo-img',
@@ -16,7 +16,7 @@ import { Source } from '../../utils/models';
   shadow: false,
 })
 export class SeloImage {
-  @Prop() loading: 'auto' | 'lazy' | 'eager';
+  @Prop() loading: Loading;
   @Prop() src?: string;
   @Prop() alt?: string;
   @Prop() type: string;
@@ -100,7 +100,7 @@ export class SeloImage {
             part="image"
           />
         )}
-        
+
         <slot name="bottom"></slot>
       </Host>
     );

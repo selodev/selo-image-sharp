@@ -1,21 +1,22 @@
 import { Component, Host, h, State, Prop } from '@stencil/core';
 import { ImageOptions } from '../../utils';
+import { Loading } from '../../utils/models';
 
 @Component({
-  tag: 'app-testing-wrapper',
-  styleUrl: 'app-testing-wrapper.css',
+  tag: 'app-selo-img-sharp-wrapper',
+  styleUrl: 'app-selo-img-sharp-wrapper.css',
   shadow: false,
 })
-export class AppTestingWrapper {
+export class AppSeloImgSharpWrapper {
   @Prop() src: string = 'assets/images/2020/01/apple-iphone-xs-new.jpg';
   @Prop() alt: string = 'Logo Name';
-  @Prop() loading: 'auto' | 'lazy' | 'eager';
-  @State() options: Promise<ImageOptions> | any;
+  @Prop() loading: Loading;
+  @State() options: ImageOptions;
   //@Prop({ mutable: true }) options: ImageOptions | any;
 
   async componentWillLoad() {
     try {
-      const { imageOptionsBuilder } = await import('./plugin-options');
+      const { imageOptionsBuilder } = await import('./imega-options-builder');
       let options = await imageOptionsBuilder(this.src, this.alt);
       this.options = options;
     } catch (error) {
