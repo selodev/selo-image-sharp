@@ -96,7 +96,8 @@ export const imageOptionsBuilder = async (src: string, alt: string): Promise<any
     } = options;
     const file = src.split('/').pop();
     const [destFileName] = file.split('.');
-    destPath = destPath + src.replace(srcPath, '') + src.replace(`${file}`, '');
+
+    destPath = destPath + src.replace(srcPath, '').replace(`${file}`, '');
 
     return {
       destinationOptions: {

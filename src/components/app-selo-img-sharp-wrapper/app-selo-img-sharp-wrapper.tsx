@@ -5,7 +5,7 @@ import { Loading } from '../../utils/models';
 @Component({
   tag: 'app-selo-img-sharp-wrapper',
   styleUrl: 'app-selo-img-sharp-wrapper.css',
-  shadow: false,
+  shadow: true,
 })
 export class AppSeloImgSharpWrapper {
   @Prop() src: string = 'assets/images/2020/01/blocks-01.png'; //'assets/images/2020/01/apple-iphone-xs-new.jpg';
