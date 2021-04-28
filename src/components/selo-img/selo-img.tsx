@@ -10,10 +10,14 @@ import {
 } from '@stencil/core';
 import { Loading, Source } from '../../utils/models';
 
+/**
+ * @part image - The inner `img` element.
+ */
+
 @Component({
   tag: 'selo-img',
   styleUrl: 'selo-img.css',
-  shadow: false,
+  shadow: true,
 })
 export class SeloImage {
   @Prop() loading: Loading;
@@ -54,6 +58,7 @@ export class SeloImage {
   private onError = () => {
     this.imgError.emit();
   };
+
   /**
    * @slot top - add content to the top of the image.
    * @slot bottom - add content to the bottom of the image.

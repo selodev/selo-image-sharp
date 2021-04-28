@@ -29,9 +29,9 @@
 
 ## Shadow Parts
 
-| Part      | Description |
-| --------- | ----------- |
-| `"image"` |             |
+| Part      | Description              |
+| --------- | ------------------------ |
+| `"image"` | The inner `img` element. |
 
 
 ## Dependencies

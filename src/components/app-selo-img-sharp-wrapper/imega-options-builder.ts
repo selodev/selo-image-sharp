@@ -4,10 +4,10 @@ import { generateImageData, ImageOptions } from '../../utils';
 let options: ImageOptions = {
   // Options to pass to sharp for input
   sourceOptions: {
-    src: 'assets/images/',
+    src: 'assets/images',
     alt: '',
     remoteUrl: 'https://isquadrepairsandiego.com',
-    srcPath: '',
+    srcPath: 'assets/images',
     srcPathPrefix: 'src',
     srcFileName: '',
 
@@ -15,7 +15,7 @@ let options: ImageOptions = {
   },
   // Options to pass to sharp for output
   destinationOptions: {
-    destPath: 'assets/images',
+    destPath: 'assets/images-resized',
     destPathPrefix: 'src',
     digestDirPrefix: 'formats',
     // Destination file name without format
@@ -46,38 +46,57 @@ export const sharpImageOptionsBuilder = async (
   src: string,
   alt: string,
 ): Promise<ImageOptions> => {
-  const { parse } = (await import('path')).default;
-  const { dir: srcPath, base: srcFileName, name: destFileName } = parse(src);
+  try {
+    const { parse } = (await import('path')).default;
+    const { dir: urlSrcPath, base: urLSrcFileName, name: destFileName } = parse(src);
 
-  const { sourceOptions, destinationOptions } = options;
-  let {
-    sourceOptions: { remoteUrl },
-  } = options;
+    const { sourceOptions, destinationOptions } = options;
+    let {
+      destinationOptions: { destPath },
+      sourceOptions: { remoteUrl, srcPath },
+    } = options;
 
-  remoteUrl += src.replace('assets', '');
+    if (!urlSrcPath.includes(srcPath)) {
+      throw new Error(`${urlSrcPath} doesn't match ${srcPath} path.`);
+    }
 
-  let sharpOptions: ImageOptions = {
-    ...options,
-    sourceOptions: { ...sourceOptions, src, alt, srcPath, srcFileName, remoteUrl },
-    destinationOptions: {
-      ...destinationOptions,
-      destFileName,
-      destPath: srcPath,
-    },
-  };
+    remoteUrl += src.replace('assets', '');
+    const removedSrcPath = urlSrcPath.replace(srcPath, '');
+    destPath += removedSrcPath;
 
-  console.log(remoteUrl);
-  return sharpOptions;
+    let sharpOptions: ImageOptions = {
+      ...options,
+      sourceOptions: {
+        ...sourceOptions,
+        src,
+        alt,
+        srcPath: urlSrcPath,
+        srcFileName: urLSrcFileName,
+        remoteUrl,
+      },
+      destinationOptions: {
+        ...destinationOptions,
+        destPath,
+        destFileName,
+      },
+    };
+
+    console.log(remoteUrl);
+    return sharpOptions;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const imageOptionsBuilder = async (src: string, alt: string): Promise<any> => {
   if (Build.isBrowser) {
     let {
-      destinationOptions: { imagePropsDigestDir },
+      sourceOptions: { srcPath },
+      destinationOptions: { destPath, imagePropsDigestDir },
     } = options;
     const file = src.split('/').pop();
     const [destFileName] = file.split('.');
-    const destPath = src.replace(`${file}`, '');
+    destPath = destPath + src.replace(srcPath, '') + src.replace(`${file}`, '');
 
     return {
       destinationOptions: {

@@ -44,6 +44,7 @@ export const config: Config = {
       nodePolyfills(),
     ],
   },
+  enableCache:false,
   nodeResolve: {
     preferBuiltins: true,
     browser: true,

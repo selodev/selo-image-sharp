@@ -28,7 +28,7 @@ export class SeloImageSharp {
   }
 
   async fetchImageProps() {
-    console.log('ingf')
+    console.log('ingf');
     try {
       let {
         destinationOptions: { destPath, destFileName, imagePropsDigestDir },
@@ -42,7 +42,7 @@ export class SeloImageSharp {
     }
   }
 
-  getImages(loading: Loading, imageProps: ImageProps) {
+  renderImages(loading: Loading, imageProps: ImageProps) {
     const {
       images: {
         fallback: { type, src, alt, srcset, sizes },
@@ -50,36 +50,34 @@ export class SeloImageSharp {
       },
     } = imageProps;
     return (
-      <div>
-        <selo-img
-          src={src}
-          alt={alt}
-          type={type}
-          loading={loading}
-          srcset={srcset}
-          sizes={sizes}
-          sources={sources}
-        />
-      </div>
+      <selo-img
+        src={src}
+        alt={alt}
+        type={type}
+        loading={loading}
+        srcset={srcset}
+        sizes={sizes}
+        sources={sources}
+      />
     );
   }
 
   render() {
     return (
       <Host>
-        {this.imageProps &&
-          (this.isNativeLoading && this.loading ? (
-            this.getImages(this.loading, this.imageProps)
-          ) : (
-            <lazy-loader
-              onLazyLoaderDidLoad={async () => {
-                await this.fetchImageProps();
-                this.shouldUseLazyLoader = true;
-              }}
-            >
-              {this.shouldUseLazyLoader && this.getImages(null, this.imageProps)}
-            </lazy-loader>
-          ))}
+        {this.imageProps && this.isNativeLoading && this.loading ? (
+          this.renderImages(this.loading, this.imageProps)
+        ) : (
+          <lazy-loader
+            onLazyLoaderDidLoad={async () => {
+              console.log('on ;azy ld');
+              await this.fetchImageProps();
+              this.shouldUseLazyLoader = true;
+            }}
+          >
+            {this.shouldUseLazyLoader && this.renderImages(null, this.imageProps)}
+          </lazy-loader>
+        )}
       </Host>
     );
   }
