@@ -9,12 +9,12 @@ export const generateImageProps = async (
 ) => {
   const { sourceDimensions, requestedDimensions } = calculatedDimensions;
   const {
-    resizeOptions: { width, layout },
+    resizeOptions: { width, layout, format },
     sourceOptions: { src, alt, srcFileName },
   } = options;
 
-  const [_, primaryFormat] = srcFileName.split('.');
-
+  let [_, primaryFormat] = srcFileName.split('.');
+  primaryFormat = imageSources[primaryFormat] ? primaryFormat : format;
   const sizesAttribute = getSizesAttribute(requestedDimensions.width, layout);
 
   const imageProps: ImageProps = {

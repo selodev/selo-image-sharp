@@ -17,7 +17,7 @@ import { Loading, Source } from '../../utils/models';
 @Component({
   tag: 'selo-img',
   styleUrl: 'selo-img.css',
-  shadow: true,
+  shadow: false,
 })
 export class SeloImage {
   @Prop() loading: Loading;
@@ -38,7 +38,7 @@ export class SeloImage {
   /** Emitted when the img src has been set */
   @Event() imgWillLoad!: EventEmitter<void>;
   /** Emitted when the image has finished loading */
-  @Event() imgDidLoad!: EventEmitter<void>;
+  @Event({ bubbles: true, composed: true }) imgDidLoad!: EventEmitter<void>;
   /** Emitted when the img fails to load */
   @Event() imgError!: EventEmitter<void>;
 
@@ -51,8 +51,9 @@ export class SeloImage {
     this.imgWillLoad.emit();
   }
 
-  private onLoad = () => {
-    this.imgDidLoad.emit();
+  private onLoad = (...args) => {
+    const [event] = args;
+    this.imgDidLoad.emit(event);
   };
 
   private onError = () => {

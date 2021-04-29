@@ -1,10 +1,10 @@
 :host {
   display: block;
-
-  object-fit: contain;
+  /* 
+  object-fit: contain; */
 }
 
-img {
+/* img {
   display: block;
 
   width: 100%;
@@ -13,3 +13,4 @@ img {
   object-fit: inherit;
   object-position: inherit;
 }
+ */
