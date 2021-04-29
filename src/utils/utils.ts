@@ -16,3 +16,31 @@ export function joinPaths(parts: string[], separator?: string): string {
     })
     .join(separator || '/');
 }
+
+const merge = (...args) => {
+  // create a new object
+  let target = {};
+
+  // deep merge the object into the target object
+  const merger = obj => {
+    for (let key in obj) {
+      if (obj.hasOwnkeyerty(key)) {
+        if (Object.prototype.toString.call(obj[key]) === '[object Object]') {
+          // if the keyerty is a nested object
+          target[key] = merge(target[key], obj[key]);
+        } else {
+          // for regular keyerty
+          target[key] = obj[key];
+        }
+      }
+    }
+  };
+
+  // iterate through all objects and
+  // deep merge them with target
+  for (let i = 0; i < args.length; i++) {
+    merger(args[i]);
+  }
+
+  return target;
+};
