@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ImageOptions, Loading, Source } from "./utils/models";
+import { ImageOptions, Loading, Source } from "./utils/sharp/models";
 export namespace Components {
     interface AppSeloImgSharpWrapper {
         "alt": string;

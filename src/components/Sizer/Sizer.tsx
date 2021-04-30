@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from '@stencil/core';
-import { SizerProps } from '../../utils/models';
+import { SizerProps } from '../../utils/sharp/models';
 
 // TODO
 export const Sizer: FunctionalComponent<SizerProps> = ({ layout, width, height }) => {

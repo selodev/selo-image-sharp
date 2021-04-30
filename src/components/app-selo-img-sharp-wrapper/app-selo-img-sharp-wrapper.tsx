@@ -1,6 +1,6 @@
 import { Component, Host, h, State, Prop } from '@stencil/core';
-import { ImageOptions } from '../../utils';
-import { Loading } from '../../utils/models';
+import { ImageOptions } from '../../utils/sharp';
+import { Loading } from '../../utils/sharp/models';
 
 @Component({
   tag: 'app-selo-img-sharp-wrapper',
@@ -16,13 +16,14 @@ export class AppSeloImgSharpWrapper {
 
   async componentWillLoad() {
     try {
-      const { imageOptionsBuilder } = await import('./imega-options-builder');
+      const { imageOptionsBuilder } = await import('./img-options-builder');
       let options = await imageOptionsBuilder(this.src, this.alt);
       this.options = options;
     } catch (error) {
       console.error(error);
     }
   }
+
   render() {
     return (
       <Host>

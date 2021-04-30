@@ -1,7 +1,10 @@
-import { Build } from '@stencil/core';
+import { ImageOptions } from '../../utils/sharp';
+import { generateImageDataOptions } from '../../utils/image-options-builder/generate-image-optsions-data';
+import { ResizingOptions } from '../../utils/sharp/models';
+
 //import { generateImageData, ImageOptions } from '../../utils';
 let sourceOptions = {
-  src: 'assets/images',
+  src: '',
   alt: '',
   remoteUrl: 'https://isquadrepairsandiego.com',
   srcPath: 'assets/images',
@@ -19,7 +22,7 @@ let destinationOptions = {
   sourceMetadataDigestDir: 'source-metadata',
   imagePropsDigestDir: 'image-props',
 };
-let resizeOptions = {
+let resizeOptions: ResizingOptions = {
   breakpoints: [320, 576, 768, 1200],
   pixelDensities: [1, 1.5, 2],
   // width and hight acts as maxWidth and maxHieght when used with `constrained`
@@ -31,7 +34,7 @@ let resizeOptions = {
   formats: ['jpg', 'png', 'avif', 'webp'],
   format: 'jpg',
 };
-let options = {
+let options: ImageOptions = {
   // Options to pass to sharp for input
   sourceOptions,
   // Options to pass to sharp for output
@@ -46,24 +49,6 @@ let options = {
 };
 
 export const imageOptionsBuilder = async (src: string, alt: string): Promise<any> => {
-  if (Build.isBrowser) {
-    let { srcPath } = sourceOptions;
-    let { destPath, imagePropsDigestDir } = destinationOptions;
-    const file = src.split('/').pop();
-    const [destFileName] = file.split('.');
-    destPath = destPath + src.replace(srcPath, '').replace(`${file}`, '');
-
-    return {
-      destinationOptions: {
-        destPath,
-        destFileName,
-        imagePropsDigestDir,
-      },
-    };
-  } else if (Build.isServer) {
-    const { sharpImageOptionsBuilder } = await import('./sharp-image-options-builder');
-    const sharpOptions: any = await sharpImageOptionsBuilder(src, alt, options);
-    const { generateImageData } = await import('../../utils');
-    await generateImageData(sharpOptions);
-  }
+  const sharpImageOptions = { ...options, sourceOptions: { ...sourceOptions, src, alt } };
+  return generateImageDataOptions(sharpImageOptions);
 };

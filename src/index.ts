@@ -1,4 +1,4 @@
-import { generateImageData } from './utils';
+import { generateImageData } from './utils/sharp';
 
 export { Components, JSX } from './components';
 

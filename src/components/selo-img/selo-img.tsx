@@ -8,7 +8,7 @@ import {
   EventEmitter,
   Event,
 } from '@stencil/core';
-import { Loading, Source } from '../../utils/models';
+import { Loading, Source } from '../../utils/sharp/models';
 
 /**
  * @part image - The inner `img` element.

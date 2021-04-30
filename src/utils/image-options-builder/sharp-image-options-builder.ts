@@ -1,9 +1,12 @@
-export const sharpImageOptionsBuilder = async (src: string, alt: string, options) => {
+import { ImageOptions } from '../sharp';
+
+export const sharpImageOptionsBuilder = async (options: ImageOptions) => {
+  const {
+    sourceOptions: { src, alt },
+  } = options;
   try {
     const { parse } = (await import('path')).default;
-    const { dir: urlSrcPath, base: urLSrcFileName, name: destFileName } = parse(
-      src,
-    );
+    const { dir: urlSrcPath, base: urLSrcFileName, name: destFileName } = parse(src);
 
     const { sourceOptions, destinationOptions } = options;
     let {

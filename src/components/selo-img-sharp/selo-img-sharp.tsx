@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
-import { ImageOptions, ImageProps, Loading } from '../../utils/models';
+import { ImageOptions, ImageProps, Loading } from '../../utils/sharp/models';
 
 @Component({
   tag: 'selo-img-sharp',
