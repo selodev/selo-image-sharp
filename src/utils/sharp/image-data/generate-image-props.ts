@@ -9,14 +9,15 @@ export const generateImageProps = async (
 ) => {
   const { sourceDimensions, requestedDimensions } = calculatedDimensions;
   const {
-    resizeOptions: { width, layout, format },
-    sourceOptions: { src, alt, srcFileName },
+    resizeOptions: { width, layout, primaryFormat },
+    sourceOptions: { alt },
   } = options;
 
-  let [_, primaryFormat] = srcFileName.split('.');
-  primaryFormat = imageSources[primaryFormat] ? primaryFormat : format;
   const sizesAttribute = getSizesAttribute(requestedDimensions.width, layout);
 
+  const fallbackImage = await Promise.all(imageSources[primaryFormat]);
+  const src = fallbackImage[fallbackImage.length - 1].src;
+  
   const imageProps: ImageProps = {
     layout,
     placeholder: 'undefined',
@@ -25,7 +26,7 @@ export const generateImageProps = async (
       fallback: {
         src,
         alt,
-        srcset: getSrcsetAttribute(await Promise.all(imageSources[primaryFormat])),
+        srcset: getSrcsetAttribute(fallbackImage),
         sizes: sizesAttribute,
         type: `image/${primaryFormat}`,
       },

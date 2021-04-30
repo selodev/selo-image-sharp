@@ -31,8 +31,8 @@ let resizeOptions: ResizingOptions = {
   layout: 'constrained',
   fit: 'cover',
   //aspectRatio: 4 / 3,
-  formats: ['jpg', 'png', 'avif', 'webp'],
-  format: 'jpg',
+  formats: ['jpg', 'avif', 'webp'],
+  primaryFormat: 'jpg',
 };
 let options: ImageOptions = {
   // Options to pass to sharp for input

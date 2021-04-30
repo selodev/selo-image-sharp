@@ -62,7 +62,9 @@ export interface ResizingOptions extends ResizeOptions {
   pixelDensities?: Array<number>;
   layout?: Layout;
   formats?: Array<ImageFormat> | Set<ImageFormat>;
-  format?: ImageFormat;
+  primaryFormat?: ImageFormat;
+  format?: string;
+
   //cropFocus: 'entropy' | 'attention';
 }
 /** Passing @baseUrl will fecth remote image and cteate it, at the fileName and sourcePath specified. */
