@@ -42,6 +42,6 @@ export const resizeFormatImageToFile = async ({
 
     return await pipeline.toFile(absoluteImageDest);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

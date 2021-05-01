@@ -28,15 +28,16 @@ export const fetchWriteRemoteImage = async (sourceOptions: SourceOptions) => {
     }
 
     if (fs.existsSync(absoluteImageSrc)) {
-      throw 'File exists ' + absoluteImageSrc;
+      //throw 'File exists ' + absoluteImageSrc;
     } else {
-      await new Promise(resolve => {
+      return new Promise(resolve => {
         fs.writeFile(absoluteImageSrc, buffer, 'binary', data => {
+          //console.log(`Fetched ${remoteUrl}and saved it at ${imageSrcPath} `);
           resolve(data);
         });
       });
     }
   } catch (error) {
-    console.warn(error);
+    console.error(error);
   }
 };

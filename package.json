@@ -24,7 +24,7 @@
     "loader/"
   ],
   "scripts": {
-    "prermiprerender": "rm -rf www dist src/assets/images-resized loader",
+    "prermiprerender": "rm -rf www dist src/assets/images src/assets/images-resized loader",
     "rmiprerender": "stencil build --prerender",
     "prerender": "rm -rf www dist loader & stencil build --prerender",
     "build": "rm -rf www dist loader & stencil build --docs",

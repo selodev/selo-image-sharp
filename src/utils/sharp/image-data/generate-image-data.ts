@@ -12,17 +12,18 @@ import { writeImagePropsToFile } from '../meta-data/write-image-props-to-file';
 export const generateImageData = async (options: ImageOptions) => {
   if (!options) throw 'Image options object is required.';
 
-  options = await checkSetDefaultOptions(options);
-
   let {
-    sourceOptions,
+    sourceOptions: sourceOptionsOriginal,
     sourceOptions: { remoteUrl },
-    resizeOptions,
   } = options;
 
   if (!Build.isBrowser) {
-    if (remoteUrl) await fetchWriteRemoteImage(sourceOptions);
+    if (remoteUrl) await fetchWriteRemoteImage(sourceOptionsOriginal);
   }
+  
+  options = await checkSetDefaultOptions(options);
+
+  let { sourceOptions, resizeOptions } = options;
 
   const {
     sourceDimensions,

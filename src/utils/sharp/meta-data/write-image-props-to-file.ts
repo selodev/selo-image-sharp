@@ -35,6 +35,6 @@ export const writeImagePropsToFile = async (
 
     return imageProps;
   } catch (error) {
-    console.warn(error);
+    console.error(error);
   }
 };

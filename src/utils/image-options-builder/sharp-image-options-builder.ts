@@ -39,9 +39,8 @@ export const sharpImageOptionsBuilder = async (options: ImageOptions) => {
       },
     };
 
-    console.log(remoteUrl);
     return sharpOptions;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

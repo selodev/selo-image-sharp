@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type                          | Default                                 |
-| --------- | --------- | ----------- | ----------------------------- | --------------------------------------- |
-| `alt`     | `alt`     |             | `string`                      | `'Logo Name'`                           |
-| `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `undefined`                             |
-| `src`     | `src`     |             | `string`                      | `'assets/images/2020/01/blocks-01.png'` |
+| Property  | Attribute | Description | Type                          | Default                                              |
+| --------- | --------- | ----------- | ----------------------------- | ---------------------------------------------------- |
+| `alt`     | `alt`     |             | `string`                      | `'Logo Name'`                                        |
+| `loading` | `loading` |             | `"auto" \| "eager" \| "lazy"` | `undefined`                                          |
+| `src`     | `src`     |             | `string`                      | `'assets/images/2019/09/iPhone-6-Screen-Repair.png'` |
 
 
 ## Dependencies

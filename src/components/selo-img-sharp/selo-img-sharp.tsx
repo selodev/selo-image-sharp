@@ -1,4 +1,5 @@
 import { Component, Host, h, Prop, State } from '@stencil/core';
+import { joinPaths } from '../../utils/sharp';
 import { ImageOptions, ImageProps, Loading } from '../../utils/sharp/models';
 
 @Component({
@@ -28,17 +29,16 @@ export class SeloImageSharp {
   }
 
   async fetchImageProps() {
-    console.log('ingf');
     try {
       let {
         destinationOptions: { destPath, destFileName, imagePropsDigestDir },
       } = this.options;
-      const js = `${destPath}/${imagePropsDigestDir}/${destFileName}.json`;
+      const js = joinPaths([destPath, imagePropsDigestDir, destFileName], '/') + '.json';
       const imagePropsResponse = await fetch(js);
       const imagePropsData = await imagePropsResponse.json();
       this.imageProps = imagePropsData;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -70,7 +70,6 @@ export class SeloImageSharp {
         ) : (
           <lazy-loader
             onLazyLoaderDidLoad={async () => {
-              console.log('on ;azy ld');
               await this.fetchImageProps();
               this.shouldUseLazyLoader = true;
             }}

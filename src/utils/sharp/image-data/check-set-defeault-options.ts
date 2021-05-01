@@ -12,12 +12,22 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
 
   // Output Options
   let { sourceMetadata } = sourceOptions;
-  let { formats, layout, fit, breakpoints, pixelDensities } = resizeOptions;
+  let {
+    formats,
+    layout,
+    fit,
+    breakpoints,
+    pixelDensities,
+    primaryFormat,
+  } = resizeOptions;
 
   formats = formats ? new Set(formats) : SUPPORTED_FORMATS;
 
   if (!formats.size) throw new Error("Formats can't be empty!");
-
+  if (!primaryFormat || !SUPPORTED_FORMATS.has(primaryFormat)) {
+    throw new Error(`${primaryFormat} format is not included in resizing options`);
+  }
+  
   if (formats.has(`jpg`) && formats.has(`png`)) {
     throw new Error(`Specifying both "jpg" and "png" formats is not
     supported, Setting primaryFormat option is required.`);
@@ -31,7 +41,7 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
       );
     }
   }
-  
+
   if (!SUPPORTED_LAYOUTS.has(layout)) {
     throw new Error(
       `Invalid value ${layout}" provided for prop "layout". Defaulting to "constrained". 
