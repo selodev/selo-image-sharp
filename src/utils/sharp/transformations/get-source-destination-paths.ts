@@ -4,7 +4,9 @@ export const getCreateSourceDestinationPaths = async ({
   sourceOptions,
   destinationOptions,
   resizeOptions,
-}: ImageOptions): Promise<{ absoluteImageSrc: string; absoluteImageDest: string }> => {
+}: ImageOptions): Promise<
+  { absoluteImageSrc: string; absoluteImageDest: string } | string
+> => {
   const { resolve, join } = (await import('path')).default;
 
   const { srcPath, srcPathPrefix, srcFileName } = sourceOptions;
@@ -24,7 +26,7 @@ export const getCreateSourceDestinationPaths = async ({
   const { default: fs } = await import('fs');
 
   if (fs.existsSync(absoluteImageDest)) {
-    throw 'File exists ' + absoluteImageDest;
+    return 'file exists';
   }
 
   if (!fs.existsSync(imageDestPath)) {
