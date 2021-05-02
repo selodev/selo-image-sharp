@@ -1,4 +1,4 @@
-import { calculateWithHieghtRatio } from './get-calculated-with-hight-ratio';
+import { getCalculateWithHieghtRatio } from './get-calculated-with-hight-ratio';
 import { CalculatedDimension, ResizingOptions, SourceOptions } from '../models';
 import { getWidthsByDensitisOrBreakpoints } from './get-witdths-by-densities-breakpoints';
 import { checkDefaultOptions } from './check-default-options';
@@ -14,7 +14,7 @@ export const getCalculatedDimensions = async (options: {
     resizeOptions,
   } = options;
 
-  let {
+  const {
     width,
     height,
     fit,
@@ -26,7 +26,7 @@ export const getCalculatedDimensions = async (options: {
 
   const dimensionBy = (width || height) && width ? 'width' : 'height' || 'width';
 
-  let sourceDimensions: CalculatedDimension = calculateWithHieghtRatio({
+  let sourceDimensions: CalculatedDimension = getCalculateWithHieghtRatio({
     sourceMetadata,
     [dimensionBy]: sourceMetadata[dimensionBy],
     aspectRatio,
@@ -34,7 +34,7 @@ export const getCalculatedDimensions = async (options: {
     layout,
   });
 
-  const requestedDimensions: CalculatedDimension = calculateWithHieghtRatio({
+  const requestedDimensions: CalculatedDimension = getCalculateWithHieghtRatio({
     sourceMetadata,
     ...resizeOptions,
   });
@@ -48,14 +48,14 @@ export const getCalculatedDimensions = async (options: {
   });
 
   const layoutDimensions: Array<CalculatedDimension> = [...widths].map(sortedWidth =>
-    calculateWithHieghtRatio({
+    getCalculateWithHieghtRatio({
       sourceMetadata,
       width: sortedWidth,
+      height,
       aspectRatio,
       fit,
       layout,
     }),
   );
-
   return { sourceDimensions, requestedDimensions, layoutDimensions };
 };

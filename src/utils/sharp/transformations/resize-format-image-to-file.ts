@@ -1,6 +1,7 @@
 import { Sharp } from 'sharp';
 import { ImageOptions } from '../models';
 import { getCreateSourceDestinationPaths } from './get-source-destination-paths';
+import { getImageCropFocusType, getImageFitType } from './sharp-constants';
 
 export const resizeFormatImageToFile = async ({
   sourceOptions,
@@ -25,14 +26,16 @@ export const resizeFormatImageToFile = async ({
 
       let { width, height, fit, format, position } = resizeOptions;
 
-      if (width || height) {
-        pipeline.resize(width, height, { fit });
+      if (fit && typeof fit == 'string') {
+        ({ value: fit } = getImageFitType(sharp, fit.toUpperCase()));
       }
 
-      if (position == 'entropy') {
-        position = sharp.strategy.entropy;
-      } else if (position == 'attention') {
-        position = sharp.strategy.attention;
+      if (position && typeof position == 'string') {
+        ({ value: position } = getImageCropFocusType(sharp, position.toUpperCase()));
+      }
+
+      if (width || height) {
+        pipeline.resize(width, height, { fit, position });
       }
 
       if (format == 'jpg') {

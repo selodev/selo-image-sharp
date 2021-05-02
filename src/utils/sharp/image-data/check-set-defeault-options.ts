@@ -67,7 +67,7 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
   sourceMetadata ??= await getWriteMetadataToFile(options);
 
   pixelDensities ??= DEFAULT_PIXEL_DENSITIES;
-  breakpoints ?? DEFAULT_BREAKPOINTS;
+  breakpoints ??= DEFAULT_BREAKPOINTS;
   layout ??= 'constrained';
   fit ??= 'cover';
 

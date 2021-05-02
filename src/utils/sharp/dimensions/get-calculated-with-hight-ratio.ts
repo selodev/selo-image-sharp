@@ -1,7 +1,7 @@
 import { getDimensionsAspectRatio } from './get-dimensions-aspect-ratio';
 import { CalculatedDimension, ResizingOptions, SourceMetadata } from '../models';
 
-export const calculateWithHieghtRatio = ({
+export const getCalculateWithHieghtRatio = ({
   sourceMetadata,
   sourceMetadata: { width: sourceWidth, height: sourceHeight },
   width,
@@ -31,8 +31,8 @@ export const calculateWithHieghtRatio = ({
     }));
   }
   // If Neither width or height were passed in, use default size
-  width = width ?? (height ? Math.round(height * aspectRatio) : sourceWidth);
-  height = height ?? Math.round(width / aspectRatio);
+  width ??= height ? Math.round(height * aspectRatio) : sourceWidth;
+  height ??= Math.round(width / aspectRatio);
 
   const isActualImageSmallerThanRequested = sourceWidth < width || sourceHeight < height;
   // If the image is smaller than requested, warn the user that it's being processed as such

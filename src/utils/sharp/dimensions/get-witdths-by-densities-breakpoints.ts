@@ -15,15 +15,15 @@ export const getWidthsByDensitisOrBreakpoints = ({
     if (widths.length < breakpoints.length && !widths.includes(sourceMetadata.width)) {
       widths.push(sourceMetadata.width);
     }
-    // ensure that the size passed in is included in the final output
-    if (layout === `constrained` && !widths.includes(width)) {
-      widths.push(width);
-    }
   } else if (layout === 'fixed') {
     // Sort, dedupe and ensure there's a 1
     const densities = dedupeAndSortDensities(pixelDensities);
     widths = densities.map(density => Math.round(density * width));
     widths = widths.filter(size => size <= sourceMetadata.width);
+  }
+  // ensure that the size passed in is included in the final output
+  if (layout === `constrained` && !widths.includes(width)) {
+    widths.push(width);
   }
 
   widths = widths.sort(sortNumeric);
