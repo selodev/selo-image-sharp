@@ -20,6 +20,7 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
     pixelDensities,
     primaryFormat,
     position,
+    width,
   } = resizeOptions;
 
   formats = formats ? new Set(formats) : SUPPORTED_FORMATS;
@@ -28,7 +29,12 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
   if (!primaryFormat || !SUPPORTED_FORMATS.has(primaryFormat)) {
     throw new Error(`${primaryFormat} format is not included in resizing options`);
   }
-  
+  if (layout == 'fixed' && !width) {
+    throw new Error(
+      'When specifying layout as fixed, width must be provided in options.',
+    );
+  }
+
   if (
     (fit != 'cover' && position == 'entropy') ||
     (fit == 'cover' && position == 'attention')

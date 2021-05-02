@@ -27,38 +27,10 @@ export class AppSeloImgSharpWrapper {
   render() {
     return (
       <Host>
-        <br />
-        <p>Lorem ImpsumLorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
-        <br />
-        <p>Lorem Impsum</p>
+        {[].constructor(30).map((_: void) => (
+          <p>Lorem Impsum</p>
+        ))}
+
         {this.options && (
           <selo-img-sharp
             class="wrapper-img"

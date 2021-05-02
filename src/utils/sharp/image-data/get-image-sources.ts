@@ -6,7 +6,7 @@ import { formatGetFileName } from './format-get-filename';
 
 export const generateImageSources = (
   options: ImageOptions,
-  sizes: CalculatedDimension[],
+  layoutDimensions: CalculatedDimension[],
 ) => {
   const {
     sourceOptions: { srcFileName },
@@ -15,9 +15,8 @@ export const generateImageSources = (
   } = options;
 
   const imageSources: ImageSources = {};
-
   Array.from(formats).forEach(format => {
-    const transformationsToImageProps: Promise<ImageSource>[] = sizes.map(
+    const transformationsToImageProps: Promise<ImageSource>[] = layoutDimensions.map(
       async ({ width, height }) => {
         const formattedDestFileName = formatGetFileName({
           src: destFileName || srcFileName,
