@@ -16,8 +16,8 @@ export class AppSeloImgSharpWrapper {
 
   async componentWillLoad() {
     try {
-      const { imageOptionsBuilder } = await import('./image-options-builder');
-      let options = await imageOptionsBuilder(this.src, this.alt);
+      const { generateImageDataOptions } = await import('./generate-image-data-options');
+      let options = await generateImageDataOptions(this.src, this.alt);
       this.options = options;
     } catch (error) {
       console.error(error);

@@ -2,6 +2,9 @@ dist/
 www/
 loader/
 
+src/assets/images
+src/assets/images-resized
+
 *~
 *.sw[mnpcod]
 *.log
