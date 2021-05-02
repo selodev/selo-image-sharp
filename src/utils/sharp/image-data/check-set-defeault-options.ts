@@ -19,6 +19,7 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
     breakpoints,
     pixelDensities,
     primaryFormat,
+    position,
   } = resizeOptions;
 
   formats = formats ? new Set(formats) : SUPPORTED_FORMATS;
@@ -28,6 +29,14 @@ export const checkSetDefaultOptions = async (options: ImageOptions) => {
     throw new Error(`${primaryFormat} format is not included in resizing options`);
   }
   
+  if (
+    (fit != 'cover' && position == 'entropy') ||
+    (fit == 'cover' && position == 'attention')
+  ) {
+    throw new Error(`The fit strategy, COVER only will work when postion is
+    set to ENTROPY or ATTENTION.`);
+  }
+
   if (formats.has(`jpg`) && formats.has(`png`)) {
     throw new Error(`Specifying both "jpg" and "png" formats is not
     supported, Setting primaryFormat option is required.`);

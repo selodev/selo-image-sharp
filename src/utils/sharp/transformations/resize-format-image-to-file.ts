@@ -23,10 +23,16 @@ export const resizeFormatImageToFile = async ({
       const { default: sharp } = await import('sharp');
       const pipeline: Sharp = sharp(absoluteImageSrc);
 
-      let { width, height, fit, format } = resizeOptions;
+      let { width, height, fit, format, position } = resizeOptions;
 
       if (width || height) {
         pipeline.resize(width, height, { fit });
+      }
+
+      if (position == 'entropy') {
+        position = sharp.strategy.entropy;
+      } else if (position == 'attention') {
+        position = sharp.strategy.attention;
       }
 
       if (format == 'jpg') {
