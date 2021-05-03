@@ -26,8 +26,8 @@ let resizeOptions: ResizingOptions = {
   breakpoints: [],
   pixelDensities: [],
   // width and hight acts as maxWidth and maxHieght when used with `constrained`
-  width: 300,
-  height: 170,
+  width: 200,
+  height: 100,
   layout: 'fixed',
   fit: 'cover',
   position: 'north',
@@ -92,7 +92,7 @@ export const sharpImageOptionsBuilder = async (src, alt) => {
 
 export const generateImageDataOptions = async (src, alt): Promise<any> => {
   if (Build.isBrowser) {
-    let { srcPath, src } = sourceOptions;
+    let { srcPath } = sourceOptions;
     let { destPath, imagePropsDigestDir } = destinationOptions;
     const file = src.split('/').pop();
     const [destFileName] = file.split('.');

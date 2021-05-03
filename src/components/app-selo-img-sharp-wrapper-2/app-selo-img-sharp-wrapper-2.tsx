@@ -8,8 +8,8 @@ import { Loading } from '../../utils/sharp/models';
   shadow: false,
 })
 export class AppSeloImgSharpWrapper {
-  @Prop() src: string = 'assets/images/2019/09/iPhone-6-Screen-Repair.png'; //'assets/images/2020/01/apple-iphone-xs-new.jpg';
-  @Prop() alt: string = 'Logo Name';
+  @Prop() src: string; //'assets/images/2020/01/apple-iphone-xs-new.jpg';
+  @Prop() alt: string;
   @Prop() loading: Loading;
   @State() options: ImageOptions;
   //@Prop({ mutable: true }) options: ImageOptions | any;

@@ -92,7 +92,7 @@ export const sharpImageOptionsBuilder = async (src, alt) => {
 
 export const generateImageDataOptions = async (src, alt): Promise<any> => {
   if (Build.isBrowser) {
-    let { srcPath, src } = sourceOptions;
+    let { srcPath } = sourceOptions;
     let { destPath, imagePropsDigestDir } = destinationOptions;
     const file = src.split('/').pop();
     const [destFileName] = file.split('.');
