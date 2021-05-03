@@ -1,7 +1,7 @@
 // prerender.config.ts
 import { PrerenderConfig } from '@stencil/core';
 export const config: PrerenderConfig = {
-  crawlUrls: true,
+  crawlUrls: false,
   staticSite: false,
   entryUrls: ['/'],
   hydrateOptions: _url => {

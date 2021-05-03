@@ -27,11 +27,11 @@
 ### Graph
 ```mermaid
 graph TD;
-  app-selo-img-sharp-wrapper --> selo-img-sharp
+  app-selo-img-sharp-wrapper-2 --> selo-img-sharp
   selo-img-sharp --> selo-img
   selo-img-sharp --> lazy-loader
-  app-test --> app-selo-img-sharp-wrapper
-  style app-selo-img-sharp-wrapper fill:#f9f,stroke:#333,stroke-width:4px
+  app-test --> app-selo-img-sharp-wrapper-2
+  style app-selo-img-sharp-wrapper-2 fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

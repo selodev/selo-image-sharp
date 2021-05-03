@@ -20,6 +20,7 @@
 ### Used by
 
  - [app-selo-img-sharp-wrapper](../app-selo-img-sharp-wrapper)
+ - [app-selo-img-sharp-wrapper-2](../app-selo-img-sharp-wrapper-2)
 
 ### Depends on
 
@@ -32,6 +33,7 @@ graph TD;
   selo-img-sharp --> selo-img
   selo-img-sharp --> lazy-loader
   app-selo-img-sharp-wrapper --> selo-img-sharp
+  app-selo-img-sharp-wrapper-2 --> selo-img-sharp
   style selo-img-sharp fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

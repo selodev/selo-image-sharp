@@ -22,7 +22,7 @@ export const getWidthsByDensitisOrBreakpoints = ({
     widths = widths.filter(size => size <= sourceMetadata.width);
   }
   // ensure that the size passed in is included in the final output
-  if (layout === `constrained` && !widths.includes(width)) {
+  if (!widths.includes(width)) {
     widths.push(width);
   }
 

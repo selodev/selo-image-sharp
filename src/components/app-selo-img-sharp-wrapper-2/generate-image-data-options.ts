@@ -23,11 +23,11 @@ let destinationOptions = {
   imagePropsDigestDir: 'image-props',
 };
 let resizeOptions: ResizingOptions = {
-  breakpoints: [320, 576, 768, 1200],
-  pixelDensities: [1, 1.5, 2],
+  breakpoints: [],
+  pixelDensities: [],
   // width and hight acts as maxWidth and maxHieght when used with `constrained`
-  width: 145,
-  height: 145,
+  width: 300,
+  height: 170,
   layout: 'fixed',
   fit: 'cover',
   position: 'north',

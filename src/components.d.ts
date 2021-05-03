@@ -12,6 +12,13 @@ export namespace Components {
         "loading": Loading;
         "src": string;
     }
+    interface AppSeloImgSharpWrapper2 {
+        "alt": string;
+        "loading": Loading;
+        "src": string;
+    }
+    interface AppTest {
+    }
     interface LazyLoader {
     }
     interface SeloImg {
@@ -37,6 +44,18 @@ declare global {
         prototype: HTMLAppSeloImgSharpWrapperElement;
         new (): HTMLAppSeloImgSharpWrapperElement;
     };
+    interface HTMLAppSeloImgSharpWrapper2Element extends Components.AppSeloImgSharpWrapper2, HTMLStencilElement {
+    }
+    var HTMLAppSeloImgSharpWrapper2Element: {
+        prototype: HTMLAppSeloImgSharpWrapper2Element;
+        new (): HTMLAppSeloImgSharpWrapper2Element;
+    };
+    interface HTMLAppTestElement extends Components.AppTest, HTMLStencilElement {
+    }
+    var HTMLAppTestElement: {
+        prototype: HTMLAppTestElement;
+        new (): HTMLAppTestElement;
+    };
     interface HTMLLazyLoaderElement extends Components.LazyLoader, HTMLStencilElement {
     }
     var HTMLLazyLoaderElement: {
@@ -57,6 +76,8 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "app-selo-img-sharp-wrapper": HTMLAppSeloImgSharpWrapperElement;
+        "app-selo-img-sharp-wrapper-2": HTMLAppSeloImgSharpWrapper2Element;
+        "app-test": HTMLAppTestElement;
         "lazy-loader": HTMLLazyLoaderElement;
         "selo-img": HTMLSeloImgElement;
         "selo-img-sharp": HTMLSeloImgSharpElement;
@@ -67,6 +88,13 @@ declare namespace LocalJSX {
         "alt"?: string;
         "loading"?: Loading;
         "src"?: string;
+    }
+    interface AppSeloImgSharpWrapper2 {
+        "alt"?: string;
+        "loading"?: Loading;
+        "src"?: string;
+    }
+    interface AppTest {
     }
     interface LazyLoader {
         /**
@@ -115,6 +143,8 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "app-selo-img-sharp-wrapper": AppSeloImgSharpWrapper;
+        "app-selo-img-sharp-wrapper-2": AppSeloImgSharpWrapper2;
+        "app-test": AppTest;
         "lazy-loader": LazyLoader;
         "selo-img": SeloImg;
         "selo-img-sharp": SeloImgSharp;
@@ -125,6 +155,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-selo-img-sharp-wrapper": LocalJSX.AppSeloImgSharpWrapper & JSXBase.HTMLAttributes<HTMLAppSeloImgSharpWrapperElement>;
+            "app-selo-img-sharp-wrapper-2": LocalJSX.AppSeloImgSharpWrapper2 & JSXBase.HTMLAttributes<HTMLAppSeloImgSharpWrapper2Element>;
+            "app-test": LocalJSX.AppTest & JSXBase.HTMLAttributes<HTMLAppTestElement>;
             "lazy-loader": LocalJSX.LazyLoader & JSXBase.HTMLAttributes<HTMLLazyLoaderElement>;
             "selo-img": LocalJSX.SeloImg & JSXBase.HTMLAttributes<HTMLSeloImgElement>;
             "selo-img-sharp": LocalJSX.SeloImgSharp & JSXBase.HTMLAttributes<HTMLSeloImgSharpElement>;

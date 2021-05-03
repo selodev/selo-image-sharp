@@ -13,10 +13,10 @@ export const getCalculateWithHieghtRatio = ({
   aspectRatio = sourceWidth / sourceHeight;
   if (aspectRatio) {
     if (width && height) {
-      console.warn(
+      /* console.warn(
         `Specifying aspectRatio along with both width and height will cause 
             aspectRatio to be ignored.`,
-      );
+      ); */
     } else {
       aspectRatio = aspectRatio;
     }
