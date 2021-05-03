@@ -24,7 +24,7 @@ export const resizeFormatImageToFile = async ({
       const { default: sharp } = await import('sharp');
       const pipeline: Sharp = sharp(absoluteImageSrc);
 
-      let { width, height, fit, format, position } = resizeOptions;
+      let { width, height, fit, format, position, background } = resizeOptions;
 
       if (fit && typeof fit == 'string') {
         ({ value: fit } = getImageFitType(sharp, fit.toUpperCase()));
@@ -35,7 +35,7 @@ export const resizeFormatImageToFile = async ({
       }
 
       if (width || height) {
-        pipeline.resize(width, height, { fit, position });
+        pipeline.resize(width, height, { fit, position, background });
       }
 
       if (format == 'jpg') {

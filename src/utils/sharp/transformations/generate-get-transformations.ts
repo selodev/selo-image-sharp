@@ -11,7 +11,8 @@ export const generateGetTransformations = (
     sourceOptions: { srcFileName },
     destinationOptions,
     destinationOptions: { destFileName },
-    resizeOptions: { formats, layout, fit, position },
+    resizeOptions,
+    resizeOptions: { formats },
   } = options;
 
   const imagesForProccessing: any[] = Array.from(formats)
@@ -27,7 +28,7 @@ export const generateGetTransformations = (
             format,
           }).formattedFileName,
         },
-        resizeOptions: { width, height, format, layout, fit, position },
+        resizeOptions: { ...resizeOptions, width, height, format },
         [format + 'Options']: options[format + 'Options'],
       })),
     )
