@@ -7,14 +7,14 @@ let sourceOptions = {
   src: '',
   alt: '',
   remoteUrl: 'http://localhost:1313',
-  srcPath: 'assets/images',
+  srcPath: '/assets/images',
   srcPathPrefix: 'src',
   srcFileName: '',
 
   //sourceMetadata: { width: 800, height: 150, format: 'png' },
 };
 let destinationOptions = {
-  destPath: 'assets/images-resized',
+  destPath: '/assets/images-resized',
   destPathPrefix: 'src',
   digestDirPrefix: 'formats',
   // Destination file name without format
@@ -63,7 +63,7 @@ export const sharpImageOptionsBuilder = async (src, alt) => {
       throw new Error(`${urlSrcPath} doesn't match ${srcPath} path.`);
     }
 
-    remoteUrl += src.replace('assets', '');
+    remoteUrl += src.replace('assets/', '');
     const removedSrcPath = urlSrcPath.replace(srcPath, '');
     destPath += removedSrcPath;
 
