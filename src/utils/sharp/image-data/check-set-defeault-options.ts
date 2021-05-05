@@ -5,7 +5,7 @@ import {
   SUPPORTED_FORMATS,
   SUPPORTED_LAYOUTS,
 } from '../constants';
-import { getWriteMetadataToFile } from '../meta-data/get-write-metadata-to-file';
+import { getWriteMetadataToFile } from '../image-props-meta-data/get-write-metadata-to-file';
 
 export const checkSetDefaultOptions = async (options: ImageOptions) => {
   const { resizeOptions, sourceOptions } = options;

@@ -7,7 +7,7 @@ import { fetchWriteRemoteImage } from '../remote/fetch-write-remote-image-to-fil
 import { generateImageProps } from './generate-image-props';
 import { generateImageSources } from './get-image-sources';
 import { ImageSources } from '../models';
-import { writeImagePropsToFile } from '../meta-data/write-image-props-to-file';
+import { writeImagePropsToFile } from '../image-props-meta-data/write-image-props-to-file';
 
 export const generateImageData = async (options: ImageOptions) => {
   if (!options) throw 'Image options object is required.';
