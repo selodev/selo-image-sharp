@@ -50,8 +50,7 @@ const devices = [
   },
   {
     href: 'iphone-repair-san-diego/iphone-11-pro-repair',
-    src:
-      '/assets/images/iphone-11-pro-isquad-repair-iphone-repair-san-diego-1.png',
+    src: '/assets/images/iphone-11-pro-isquad-repair-iphone-repair-san-diego-1.png',
     alt: 'iphone 11 pro',
     figCaption: 'iPhone 11 Pro Repair',
   },
@@ -95,10 +94,10 @@ const devices = [
 export default () => (
   <ion-row>
     {devices.map(({ href, src, alt, figCaption }) => (
-      <ion-col key={src} sizeMd='3'>
+      <ion-col key={src} sizeMd="3">
         <figure>
           <a href={href}>
-            <app-selo-img-sharp-wrapper-2  src={src} alt={alt} />
+            <app-selo-img-sharp-wrapper-2 src={src} alt={alt} />
           </a>
           <figcaption>
             <strong>

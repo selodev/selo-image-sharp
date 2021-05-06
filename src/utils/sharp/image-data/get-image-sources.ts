@@ -24,7 +24,10 @@ export const generateImageSources = (
           height,
           format,
         }).formattedFileName;
-        const src = joinPaths([destPath, digestDirPrefix, format, formattedDestFileName]);
+        const src = joinPaths(
+          [destPath, digestDirPrefix, format, formattedDestFileName],
+          '/',
+        );
         const hash = !Build.isBrowser
           ? await createHashFromFile(joinPaths([destPathPrefix, src], '/'), 10)
           : '';
