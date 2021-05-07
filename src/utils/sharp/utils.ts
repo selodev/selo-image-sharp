@@ -10,11 +10,15 @@ export const dedupeAndSortDensities = (values: Array<number>): Array<number> =>
  * @returns {string} The combined path
  */
 export function joinPaths(parts: string[], separator?: string): string {
-  return parts
-    .map(function (part) {
-      return part.trim().replace(/(^[\/]*|[\/]*$)/g, '');
-    })
-    .join(separator || '/');
+  const prefix = parts[0].startsWith('/') ? '/' : '';
+  return (
+    prefix +
+    parts
+      .map(function (part) {
+        return part.trim().replace(/(^[\/]*|[\/]*$)/g, '');
+      })
+      .join(separator || '/')
+  );
 }
 
 const merge = (...args) => {

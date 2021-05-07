@@ -34,8 +34,10 @@ export class SeloImageSharp {
         destinationOptions: { destPath, destFileName, imagePropsDigestDir },
       } = this.options;
       const js = joinPaths([destPath, imagePropsDigestDir, destFileName], '/') + '.json';
+      console.log(js);
       const imagePropsResponse = await fetch(js);
       const imagePropsData = await imagePropsResponse.json();
+      console.log(destPath);
       this.imageProps = imagePropsData;
     } catch (error) {
       console.error(error);
